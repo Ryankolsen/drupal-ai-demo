@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Card single-directory component.
+ *
+ * Available props:
+ * - heading: string — the card title.
+ * - body: string — supporting text.
+ * - url: string — optional call-to-action link target.
+ * - cta: string — call-to-action label (requires url).
+ * - modifier: string — optional extra CSS class.
+ *
+ * Available slots:
+ * - content: arbitrary renderable content.
+ #}
+<article{{ attributes.addClass('gr-card', modifier ? 'gr-card--' ~ modifier) }}>
+  {% if heading %}
+    <h2 class="gr-card__heading">{{ heading }}</h2>
+  {% endif %}
+  {% if body %}
+    <p class="gr-card__body">{{ body }}</p>
+  {% endif %}
+  {% block content %}{% endblock %}
+  {% if url and cta %}
+    <a class="gr-card__cta" href="{{ url }}">{{ cta }}</a>
+  {% endif %}
+</article>

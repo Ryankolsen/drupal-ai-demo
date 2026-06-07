@@ -1,0 +1,31 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Card
+status: stable
+description: 'A simple content card demonstrating a single-directory component (SDC).'
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Heading
+      description: 'The card title.'
+    body:
+      type: string
+      title: Body
+      description: 'Supporting text shown under the heading.'
+    url:
+      type: string
+      title: URL
+      description: 'Optional link target for the call-to-action.'
+    cta:
+      type: string
+      title: 'Call to action'
+      description: 'Label for the call-to-action link. Requires url.'
+    modifier:
+      type: string
+      title: 'Modifier class'
+      description: 'Optional extra CSS class for variants.'
+slots:
+  content:
+    title: Content
+    description: 'Arbitrary renderable content shown in the body of the card.'

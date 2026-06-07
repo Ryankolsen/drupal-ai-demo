@@ -1,0 +1,38 @@
+# Composer-managed dependencies — restore with `ddev composer install`.
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+
+# Composer scaffold files (regenerated on install).
+/web/.csslintrc
+/web/.eslintignore
+/web/.eslintrc.json
+/web/.ht.router.php
+/web/.htaccess
+/web/INSTALL.txt
+/web/README.md
+/web/example.gitignore
+/web/index.php
+/web/robots.txt
+/web/update.php
+/web/web.config
+/web/sites/default/default.services.yml
+/web/sites/default/default.settings.php
+/web/autoload.php
+
+# Site-specific settings and generated files.
+/web/sites/*/settings.php
+/web/sites/*/settings.local.php
+/web/sites/*/services.yml
+/web/sites/*/files/
+/web/sites/*/private/
+/web/sites/simpletest/
+
+# OS / editor cruft.
+.DS_Store
+Thumbs.db
+*.swp
+.idea/

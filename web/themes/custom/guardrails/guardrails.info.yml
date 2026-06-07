@@ -1,0 +1,11 @@
+name: 'Guardrails Demo'
+type: theme
+description: 'SDC-driven demo theme (Olivero subtheme) for the "Guardrails, Not Guesswork" session.'
+core_version_requirement: ^11
+base theme: olivero
+# Regions are inherited from the Olivero base theme.
+# Single Directory Components live in the components/ directory and are
+# auto-discovered by Drupal core. Render one with, e.g.:
+#   {{ include('guardrails:card', { heading: 'Hello', body: 'World' }) }}
+libraries:
+  - guardrails/global
