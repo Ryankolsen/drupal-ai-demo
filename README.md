@@ -15,16 +15,45 @@ capture, and **Single Directory Components** — all behind project guardrails.
 - **Drush** for site install and config
 - Custom **`guardrails`** theme (Olivero subtheme) showcasing SDC
 
-## Getting started
+## Local URL
 
-Requires [DDEV](https://ddev.com/get-started/) and a Docker provider.
+Once started, the site is served at:
+
+- **https://drupal-ai-demo.ddev.site** — front end
+- **https://drupal-ai-demo.ddev.site/user/login** — admin login (`admin` / `admin`)
+
+## Running the app
+
+Requires [DDEV](https://ddev.com/get-started/) and a Docker provider
+(Docker Desktop or OrbStack).
+
+### Start an existing checkout
+
+If the site is already installed locally, just bring the containers up:
+
+```bash
+cd drupal-ai-demo
+ddev start            # start the containers
+ddev launch           # open https://drupal-ai-demo.ddev.site in your browser
+```
+
+Useful day-to-day commands:
+
+```bash
+ddev drush uli        # one-time admin login link
+ddev drush cr         # rebuild caches after theme/component changes
+ddev stop             # shut the containers down
+ddev describe         # URLs, ports, and service status
+```
+
+### First-time setup from a fresh clone
 
 ```bash
 git clone https://github.com/Ryankolsen/drupal-ai-demo.git
 cd drupal-ai-demo
 ddev start
-ddev composer install
-ddev drush site:install standard -y      # fresh DB
+ddev composer install                     # restore core/contrib/vendor
+ddev drush site:install standard -y       # fresh database
 ddev launch
 ```
 
