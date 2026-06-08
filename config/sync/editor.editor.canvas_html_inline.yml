@@ -1,0 +1,25 @@
+uuid: 636a78c3-09d9-4a70-96db-0c815d9dfbb9
+langcode: en
+status: false
+dependencies:
+  config:
+    - filter.format.canvas_html_inline
+  module:
+    - ckeditor5
+  enforced:
+    module:
+      - canvas
+_core:
+  default_config_hash: k6-GQJ2ApIMiXSTt58ZvZ-Qe-pK_Uc0iGFo-c8mfwjc
+format: canvas_html_inline
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - bold
+      - italic
+      - underline
+      - link
+  plugins: {  }
+image_upload:
+  status: false

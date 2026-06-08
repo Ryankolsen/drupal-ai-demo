@@ -1,0 +1,22 @@
+uuid: 9dee8d5d-0d6c-48a2-8803-97894f0efeec
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - guardrails
+_core:
+  default_config_hash: VhBzWb7lMRtIOg9G7VSw_0uopi-7zXeHq4vXqqV1HFE
+id: guardrails_breadcrumbs
+theme: guardrails
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: d8565976-05ef-4c33-bf6c-0c2030e4ca39
+langcode: en
+status: true
+dependencies:
+  theme:
+    - guardrails
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: guardrails_secondary_local_tasks
+theme: guardrails
+region: highlighted
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

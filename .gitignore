@@ -25,6 +25,10 @@
 
 # Site-specific settings and generated files.
 /web/sites/*/settings.php
+# ...but DO track the default settings.php so config_sync_directory (and other
+# committed config) is reproducible. Secrets live in the gitignored
+# settings.ddev.php / settings.local.php, not here.
+!/web/sites/default/settings.php
 /web/sites/*/settings.local.php
 /web/sites/*/services.yml
 /web/sites/*/files/

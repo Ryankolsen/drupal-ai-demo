@@ -1,0 +1,15 @@
+uuid: 00aea9bf-551d-451e-997d-b09b4343929a
+langcode: en
+status: true
+dependencies:
+  config:
+    - canvas.component.block.system_branding_block
+    - canvas.component.block.system_messages_block
+    - canvas.component.block.system_powered_by_block
+name: System
+configEntityTypeId: component
+weight: 0
+items:
+  - block.system_branding_block
+  - block.system_messages_block
+  - block.system_powered_by_block

@@ -1,0 +1,20 @@
+uuid: 7089c7cf-e3f6-4271-81f9-9afc5154b610
+langcode: en
+status: true
+dependencies:
+  theme:
+    - guardrails
+_core:
+  default_config_hash: 6aOgWsNTXjqrDm98TXSAjP6qd2nCijD1xw45MrnbK-Y
+id: guardrails_page_title
+theme: guardrails
+region: sidebar_first
+weight: -5
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

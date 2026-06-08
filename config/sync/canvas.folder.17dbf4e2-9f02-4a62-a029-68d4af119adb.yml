@@ -1,0 +1,13 @@
+uuid: 17dbf4e2-9f02-4a62-a029-68d4af119adb
+langcode: en
+status: true
+dependencies:
+  config:
+    - canvas.component.sdc.guardrails.card
+    - canvas.component.sdc.olivero.teaser
+name: Other
+configEntityTypeId: component
+weight: 0
+items:
+  - sdc.guardrails.card
+  - sdc.olivero.teaser

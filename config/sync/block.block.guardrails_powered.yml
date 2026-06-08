@@ -1,0 +1,22 @@
+uuid: 430375eb-86e8-4dad-a94e-5554c699e8bb
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - guardrails
+_core:
+  default_config_hash: eYL19CLDyinGTWYQfBD1DswWzglEotE_kHnHx3AxTXM
+id: guardrails_powered
+theme: guardrails
+region: sidebar_first
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

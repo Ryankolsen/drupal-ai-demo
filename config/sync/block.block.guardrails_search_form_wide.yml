@@ -1,0 +1,23 @@
+uuid: cb76321c-5c41-4deb-9283-0f2755152cd4
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - guardrails
+_core:
+  default_config_hash: pbbed0hdqGDF-_QWVVTWRAwgDIotFuAvWH5mWUZu0fA
+id: guardrails_search_form_wide
+theme: guardrails
+region: secondary_menu
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

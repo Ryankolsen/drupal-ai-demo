@@ -1,0 +1,22 @@
+uuid: 05889f7d-f9ec-43c2-a5f4-345734dc08bb
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - guardrails
+_core:
+  default_config_hash: VfPFqqxfkomud5CO8DUijw85QIl9GIxh_nIxLOYESxg
+id: guardrails_help
+theme: guardrails
+region: sidebar_first
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }
