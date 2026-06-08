@@ -9,22 +9,40 @@ props:
       type: string
       title: Heading
       description: 'The card title.'
+      examples:
+        - 'Build with confidence'
     body:
       type: string
       title: Body
       description: 'Supporting text shown under the heading.'
+      examples:
+        - 'A simple content card demonstrating a single-directory component in Drupal Canvas.'
     url:
       type: string
       title: URL
+      format: uri-reference
       description: 'Optional link target for the call-to-action.'
+      examples:
+        - '/about'
+        - 'https://www.drupal.org'
     cta:
       type: string
       title: 'Call to action'
       description: 'Label for the call-to-action link. Requires url.'
+      examples:
+        - 'Learn more'
     modifier:
       type: string
       title: 'Modifier class'
       description: 'Optional extra CSS class for variants.'
+      enum:
+        - ''
+        - accent
+      meta:enum:
+        '': '— Default —'
+        accent: Accent
+      examples:
+        - accent
 slots:
   content:
     title: Content
