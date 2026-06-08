@@ -23,7 +23,7 @@ The real deliverable of this project is a **starter set of reusable, shareable C
    ddev drush config:export -y    # alias: cex
    ```
    Config is committed to **`/config/sync`** at the repo root (version-controlled, outside the webroot). To reload committed config: `ddev drush config:import -y` (`cim`).
-   > ⚠️ **Setup prerequisite:** `config_sync_directory` must point at the committed `../config/sync`, *not* the default gitignored `sites/default/files/sync`. If `cex` writes into `web/sites/default/files/sync`, the config is **not** being committed — stop and fix the plumbing first.
+   > `config_sync_directory` is set to `../config/sync` in the committed `web/sites/default/settings.php`. Verify with `ddev drush ev "echo \Drupal\Core\Site\Settings::get('config_sync_directory');"` — it must print `../config/sync`, never `sites/default/files/sync` (that location is gitignored, so config there would not be committed).
 
 3. **Twig is presentational; logic lives in preprocess.** No querying, loading entities, or business logic in `.twig` files. Map data to variables in a `*_preprocess_*()` hook (theme or module), and let the template render. Templates should read like markup.
 
