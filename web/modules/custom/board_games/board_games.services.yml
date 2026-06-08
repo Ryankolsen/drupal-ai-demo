@@ -8,3 +8,12 @@ services:
       - '@logger.factory'
   # Allow the interface to be autowired (e.g. into the Drush command).
   Drupal\board_games\GameImporterInterface: '@board_games.importer'
+
+  # Dev-time fetch tool: produces the committed fixture from the BGG XML API.
+  # Not on the runtime seed path.
+  board_games.fetcher:
+    class: Drupal\board_games\BggFetcher
+    arguments:
+      - '@http_client'
+      - '@logger.factory'
+  Drupal\board_games\BggFetcherInterface: '@board_games.fetcher'

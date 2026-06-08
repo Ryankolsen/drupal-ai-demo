@@ -4,14 +4,25 @@
     "bgg_id": 13,
     "min_players": 3,
     "max_players": 4,
-    "play_time": 60,
+    "play_time": 120,
+    "min_age": 10,
     "complexity": "2.30",
     "rating": "7.10",
-    "description": "Trade, build, and settle the island of Catan. Collect and manage resources to expand your settlements and cities, racing rivals to ten victory points.",
-    "mechanics": ["Dice Rolling", "Set Collection", "Route/Network Building", "Hand Management"],
-    "categories": ["Strategy", "Family"],
-    "designers": ["Klaus Teuber"],
-    "publisher": "Kosmos",
+    "description": "Trade, build, and settle the island of Catan, racing rivals to ten victory points.",
+    "mechanics": [
+      "Dice Rolling",
+      "Set Collection",
+      "Route/Network Building",
+      "Trading"
+    ],
+    "categories": [
+      "Strategy",
+      "Family"
+    ],
+    "designers": [
+      "Klaus Teuber"
+    ],
+    "publisher": "KOSMOS",
     "image": "catan.png"
   },
   {
@@ -19,13 +30,23 @@
     "bgg_id": 9209,
     "min_players": 2,
     "max_players": 5,
-    "play_time": 45,
-    "complexity": "1.80",
+    "play_time": 60,
+    "min_age": 8,
+    "complexity": "1.84",
     "rating": "7.40",
-    "description": "Collect train cards to claim railway routes connecting cities across the map, completing destination tickets for the longest continuous routes.",
-    "mechanics": ["Set Collection", "Route/Network Building", "Hand Management"],
-    "categories": ["Family", "Strategy"],
-    "designers": ["Alan R. Moon"],
+    "description": "Collect train cards to claim railway routes connecting cities across the map.",
+    "mechanics": [
+      "Set Collection",
+      "Route/Network Building",
+      "Hand Management"
+    ],
+    "categories": [
+      "Family",
+      "Trains"
+    ],
+    "designers": [
+      "Alan R. Moon"
+    ],
     "publisher": "Days of Wonder",
     "image": "ticket-to-ride.png"
   },
@@ -35,12 +56,22 @@
     "min_players": 2,
     "max_players": 4,
     "play_time": 45,
-    "complexity": "2.40",
+    "min_age": 8,
+    "complexity": "2.41",
     "rating": "7.60",
-    "description": "Work together as a team of specialists to treat infections and discover cures before four deadly diseases overwhelm the world.",
-    "mechanics": ["Cooperative Play", "Hand Management", "Set Collection"],
-    "categories": ["Cooperative", "Strategy"],
-    "designers": ["Matt Leacock"],
+    "description": "Work as a team of specialists to cure four diseases before they overwhelm the world.",
+    "mechanics": [
+      "Cooperative Game",
+      "Hand Management",
+      "Set Collection",
+      "Action Points"
+    ],
+    "categories": [
+      "Medical"
+    ],
+    "designers": [
+      "Matt Leacock"
+    ],
     "publisher": "Z-Man Games",
     "image": "pandemic.png"
   },
@@ -50,13 +81,23 @@
     "min_players": 2,
     "max_players": 5,
     "play_time": 45,
+    "min_age": 7,
     "complexity": "1.90",
     "rating": "7.40",
-    "description": "Draw and place tiles to build a medieval landscape of cities, roads, and fields, deploying followers to score the features you complete.",
-    "mechanics": ["Tile Placement"],
-    "categories": ["Family", "Strategy"],
-    "designers": ["Klaus-Jürgen Wrede"],
-    "publisher": "Hans im Glück",
+    "description": "Draw and place tiles to build a medieval landscape, deploying followers to score features.",
+    "mechanics": [
+      "Tile Placement",
+      "Area Majority / Influence"
+    ],
+    "categories": [
+      "Medieval",
+      "City Building",
+      "Territory Building"
+    ],
+    "designers": [
+      "Klaus-Jurgen Wrede"
+    ],
+    "publisher": "Hans im Gluck",
     "image": "carcassonne.png"
   },
   {
@@ -65,13 +106,1226 @@
     "min_players": 2,
     "max_players": 4,
     "play_time": 45,
-    "complexity": "1.80",
+    "min_age": 8,
+    "complexity": "1.76",
     "rating": "7.80",
-    "description": "Draft colorful tiles to decorate the walls of the Royal Palace of Evora, planning placements to maximize points and deny your opponents.",
-    "mechanics": ["Tile Placement", "Set Collection"],
-    "categories": ["Abstract", "Family"],
-    "designers": ["Michael Kiesling"],
+    "description": "Draft colorful tiles to decorate the walls of the Royal Palace of Evora.",
+    "mechanics": [
+      "Tile Placement",
+      "Set Collection",
+      "Pattern Building",
+      "Drafting"
+    ],
+    "categories": [
+      "Abstract Strategy",
+      "Renaissance"
+    ],
+    "designers": [
+      "Michael Kiesling"
+    ],
     "publisher": "Plan B Games",
     "image": "azul.png"
+  },
+  {
+    "name": "Gloomhaven",
+    "bgg_id": 174430,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 120,
+    "min_age": 14,
+    "complexity": "3.90",
+    "rating": "8.60",
+    "description": "A campaign of tactical dungeon combat where your choices permanently alter the world.",
+    "mechanics": [
+      "Cooperative Game",
+      "Hand Management",
+      "Campaign / Battle Card Driven",
+      "Grid Movement",
+      "Variable Player Powers"
+    ],
+    "categories": [
+      "Adventure",
+      "Exploration",
+      "Fantasy",
+      "Fighting"
+    ],
+    "designers": [
+      "Isaac Childres"
+    ],
+    "publisher": "Cephalofair Games"
+  },
+  {
+    "name": "Terraforming Mars",
+    "bgg_id": 167791,
+    "min_players": 1,
+    "max_players": 5,
+    "play_time": 120,
+    "min_age": 12,
+    "complexity": "3.24",
+    "rating": "8.30",
+    "description": "Compete as corporations to make Mars habitable by raising oxygen, oceans and temperature.",
+    "mechanics": [
+      "Hand Management",
+      "Tile Placement",
+      "Drafting",
+      "Variable Player Powers",
+      "Engine Building"
+    ],
+    "categories": [
+      "Economic",
+      "Environmental",
+      "Science Fiction",
+      "Territory Building"
+    ],
+    "designers": [
+      "Jacob Fryxelius"
+    ],
+    "publisher": "FryxGames"
+  },
+  {
+    "name": "Scythe",
+    "bgg_id": 169786,
+    "min_players": 1,
+    "max_players": 5,
+    "play_time": 115,
+    "min_age": 14,
+    "complexity": "3.43",
+    "rating": "8.20",
+    "description": "Lead an alternate-1920s faction to claim territory and resources in war-torn Eastern Europe.",
+    "mechanics": [
+      "Area Majority / Influence",
+      "Variable Player Powers",
+      "Grid Movement",
+      "Engine Building"
+    ],
+    "categories": [
+      "Economic",
+      "Fighting",
+      "Science Fiction",
+      "Territory Building"
+    ],
+    "designers": [
+      "Jamey Stegmaier"
+    ],
+    "publisher": "Stonemaier Games"
+  },
+  {
+    "name": "Twilight Struggle",
+    "bgg_id": 12333,
+    "min_players": 2,
+    "max_players": 2,
+    "play_time": 180,
+    "min_age": 13,
+    "complexity": "3.58",
+    "rating": "8.20",
+    "description": "Relive the Cold War as the US and USSR vie for global influence across forty years.",
+    "mechanics": [
+      "Area Majority / Influence",
+      "Campaign / Battle Card Driven",
+      "Hand Management",
+      "Dice Rolling"
+    ],
+    "categories": [
+      "Modern Warfare",
+      "Political",
+      "Wargame"
+    ],
+    "designers": [
+      "Ananda Gupta",
+      "Jason Matthews"
+    ],
+    "publisher": "GMT Games"
+  },
+  {
+    "name": "Agricola",
+    "bgg_id": 31260,
+    "min_players": 1,
+    "max_players": 5,
+    "play_time": 120,
+    "min_age": 12,
+    "complexity": "3.63",
+    "rating": "7.90",
+    "description": "Grow a 17th-century farm, feeding your family while you plow, sow, build and raise livestock.",
+    "mechanics": [
+      "Worker Placement",
+      "Hand Management",
+      "Set Collection"
+    ],
+    "categories": [
+      "Animals",
+      "Economic",
+      "Farming"
+    ],
+    "designers": [
+      "Uwe Rosenberg"
+    ],
+    "publisher": "Lookout Games"
+  },
+  {
+    "name": "7 Wonders",
+    "bgg_id": 68448,
+    "min_players": 3,
+    "max_players": 7,
+    "play_time": 30,
+    "min_age": 10,
+    "complexity": "2.33",
+    "rating": "7.70",
+    "description": "Draft cards over three ages to build a wonder of the ancient world and a thriving city.",
+    "mechanics": [
+      "Drafting",
+      "Set Collection",
+      "Hand Management"
+    ],
+    "categories": [
+      "Ancient",
+      "Card Game",
+      "City Building"
+    ],
+    "designers": [
+      "Antoine Bauza"
+    ],
+    "publisher": "Repos Production"
+  },
+  {
+    "name": "Dominion",
+    "bgg_id": 36218,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 30,
+    "min_age": 13,
+    "complexity": "2.36",
+    "rating": "7.60",
+    "description": "Build the most efficient deck of actions, treasures and victory cards to rule the realm.",
+    "mechanics": [
+      "Deck Building",
+      "Hand Management"
+    ],
+    "categories": [
+      "Card Game",
+      "Medieval"
+    ],
+    "designers": [
+      "Donald X. Vaccarino"
+    ],
+    "publisher": "Rio Grande Games"
+  },
+  {
+    "name": "Codenames",
+    "bgg_id": 178900,
+    "min_players": 2,
+    "max_players": 8,
+    "play_time": 15,
+    "min_age": 14,
+    "complexity": "1.27",
+    "rating": "7.50",
+    "description": "Two spymasters give one-word clues to lead their teams to the right agents first.",
+    "mechanics": [
+      "Team-Based Game",
+      "Communication Limits",
+      "Memory"
+    ],
+    "categories": [
+      "Card Game",
+      "Deduction",
+      "Party Game",
+      "Word Game"
+    ],
+    "designers": [
+      "Vlaada Chvatil"
+    ],
+    "publisher": "Czech Games Edition"
+  },
+  {
+    "name": "The Castles of Burgundy",
+    "bgg_id": 84876,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 90,
+    "min_age": 12,
+    "complexity": "3.00",
+    "rating": "8.00",
+    "description": "Use dice to develop your princedom with farms, mines, ships and castles in medieval France.",
+    "mechanics": [
+      "Dice Rolling",
+      "Tile Placement",
+      "Set Collection"
+    ],
+    "categories": [
+      "Dice",
+      "Medieval",
+      "Territory Building"
+    ],
+    "designers": [
+      "Stefan Feld"
+    ],
+    "publisher": "Ravensburger"
+  },
+  {
+    "name": "Caverna: The Cave Farmers",
+    "bgg_id": 102794,
+    "min_players": 1,
+    "max_players": 7,
+    "play_time": 120,
+    "min_age": 12,
+    "complexity": "3.74",
+    "rating": "7.80",
+    "description": "Lead a family of dwarves furnishing a cave home and farming the forest valley outside.",
+    "mechanics": [
+      "Worker Placement",
+      "Tile Placement"
+    ],
+    "categories": [
+      "Animals",
+      "Economic",
+      "Farming",
+      "Fantasy"
+    ],
+    "designers": [
+      "Uwe Rosenberg"
+    ],
+    "publisher": "Lookout Games"
+  },
+  {
+    "name": "Power Grid",
+    "bgg_id": 2651,
+    "min_players": 2,
+    "max_players": 6,
+    "play_time": 120,
+    "min_age": 12,
+    "complexity": "3.30",
+    "rating": "7.80",
+    "description": "Buy power plants and resources to supply electricity to the most cities efficiently.",
+    "mechanics": [
+      "Auction/Bidding",
+      "Network and Route Building",
+      "Economic"
+    ],
+    "categories": [
+      "Economic",
+      "Industry / Manufacturing"
+    ],
+    "designers": [
+      "Friedemann Friese"
+    ],
+    "publisher": "Rio Grande Games"
+  },
+  {
+    "name": "Brass: Birmingham",
+    "bgg_id": 224517,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 120,
+    "min_age": 14,
+    "complexity": "3.91",
+    "rating": "8.60",
+    "description": "Build canals, rails and industries through the Industrial Revolution in Birmingham.",
+    "mechanics": [
+      "Network and Route Building",
+      "Hand Management",
+      "Income"
+    ],
+    "categories": [
+      "Economic",
+      "Industry / Manufacturing",
+      "Transportation"
+    ],
+    "designers": [
+      "Gavan Brown",
+      "Matt Tolman",
+      "Martin Wallace"
+    ],
+    "publisher": "Roxley"
+  },
+  {
+    "name": "Wingspan",
+    "bgg_id": 266192,
+    "min_players": 1,
+    "max_players": 5,
+    "play_time": 70,
+    "min_age": 10,
+    "complexity": "2.45",
+    "rating": "8.10",
+    "description": "Attract a thriving aviary of birds, each with cascading powers, to your wildlife preserves.",
+    "mechanics": [
+      "Engine Building",
+      "Hand Management",
+      "Set Collection",
+      "Dice Rolling"
+    ],
+    "categories": [
+      "Animals",
+      "Card Game",
+      "Educational"
+    ],
+    "designers": [
+      "Elizabeth Hargrave"
+    ],
+    "publisher": "Stonemaier Games"
+  },
+  {
+    "name": "Spirit Island",
+    "bgg_id": 162886,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 120,
+    "min_age": 13,
+    "complexity": "4.00",
+    "rating": "8.30",
+    "description": "Play powerful spirits defending an island from colonizing invaders.",
+    "mechanics": [
+      "Cooperative Game",
+      "Variable Player Powers",
+      "Hand Management",
+      "Area Majority / Influence"
+    ],
+    "categories": [
+      "Environmental",
+      "Fantasy",
+      "Fighting"
+    ],
+    "designers": [
+      "R. Eric Reuss"
+    ],
+    "publisher": "Greater Than Games"
+  },
+  {
+    "name": "Everdell",
+    "bgg_id": 199792,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 80,
+    "min_age": 13,
+    "complexity": "2.81",
+    "rating": "8.00",
+    "description": "Build a city of critters and constructions in a charming woodland over four seasons.",
+    "mechanics": [
+      "Worker Placement",
+      "Hand Management",
+      "Engine Building",
+      "Drafting"
+    ],
+    "categories": [
+      "Animals",
+      "City Building",
+      "Fantasy"
+    ],
+    "designers": [
+      "James A. Wilson"
+    ],
+    "publisher": "Starling Games"
+  },
+  {
+    "name": "Concordia",
+    "bgg_id": 124361,
+    "min_players": 2,
+    "max_players": 5,
+    "play_time": 100,
+    "min_age": 13,
+    "complexity": "2.99",
+    "rating": "8.10",
+    "description": "Expand a trading dynasty across the Roman Empire, building a deck of god cards.",
+    "mechanics": [
+      "Deck Building",
+      "Network and Route Building",
+      "Hand Management"
+    ],
+    "categories": [
+      "Ancient",
+      "Economic"
+    ],
+    "designers": [
+      "Mac Gerdts"
+    ],
+    "publisher": "PD-Verlag"
+  },
+  {
+    "name": "7 Wonders Duel",
+    "bgg_id": 173346,
+    "min_players": 2,
+    "max_players": 2,
+    "play_time": 30,
+    "min_age": 10,
+    "complexity": "2.22",
+    "rating": "8.10",
+    "description": "A two-player duel drafting cards across three ages, with military and science routes to victory.",
+    "mechanics": [
+      "Drafting",
+      "Set Collection",
+      "Tug of War"
+    ],
+    "categories": [
+      "Ancient",
+      "Card Game",
+      "City Building"
+    ],
+    "designers": [
+      "Antoine Bauza",
+      "Bruno Cathala"
+    ],
+    "publisher": "Repos Production"
+  },
+  {
+    "name": "Patchwork",
+    "bgg_id": 163412,
+    "min_players": 2,
+    "max_players": 2,
+    "play_time": 30,
+    "min_age": 8,
+    "complexity": "1.62",
+    "rating": "7.60",
+    "description": "Two players compete to build the most aesthetic and button-rich quilt from fabric pieces.",
+    "mechanics": [
+      "Tile Placement",
+      "Pattern Building",
+      "Time Track"
+    ],
+    "categories": [
+      "Abstract Strategy",
+      "Puzzle"
+    ],
+    "designers": [
+      "Uwe Rosenberg"
+    ],
+    "publisher": "Lookout Games"
+  },
+  {
+    "name": "Splendor",
+    "bgg_id": 148228,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 30,
+    "min_age": 10,
+    "complexity": "1.78",
+    "rating": "7.40",
+    "description": "Acquire gem mines and merchants as a Renaissance jeweler building a trade empire.",
+    "mechanics": [
+      "Engine Building",
+      "Set Collection"
+    ],
+    "categories": [
+      "Card Game",
+      "Economic",
+      "Renaissance"
+    ],
+    "designers": [
+      "Marc Andre"
+    ],
+    "publisher": "Space Cowboys"
+  },
+  {
+    "name": "Lost Ruins of Arnak",
+    "bgg_id": 312484,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 120,
+    "min_age": 12,
+    "complexity": "2.94",
+    "rating": "8.00",
+    "description": "Explore a lost island, combining deck-building and worker placement to research ruins.",
+    "mechanics": [
+      "Deck Building",
+      "Worker Placement",
+      "Exploration"
+    ],
+    "categories": [
+      "Adventure",
+      "Ancient",
+      "Exploration"
+    ],
+    "designers": [
+      "Mín",
+      "Elwen"
+    ],
+    "publisher": "Czech Games Edition"
+  },
+  {
+    "name": "Ark Nova",
+    "bgg_id": 342942,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 150,
+    "min_age": 14,
+    "complexity": "3.74",
+    "rating": "8.50",
+    "description": "Plan and build a modern, scientifically managed zoo while supporting conservation projects.",
+    "mechanics": [
+      "Hand Management",
+      "Tile Placement",
+      "Set Collection",
+      "Income"
+    ],
+    "categories": [
+      "Animals",
+      "Economic",
+      "Environmental"
+    ],
+    "designers": [
+      "Mathias Wigge"
+    ],
+    "publisher": "Feuerland Spiele"
+  },
+  {
+    "name": "Gaia Project",
+    "bgg_id": 220308,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 150,
+    "min_age": 12,
+    "complexity": "4.37",
+    "rating": "8.30",
+    "description": "Fourteen alien factions terraform and colonize a shared galaxy of planets.",
+    "mechanics": [
+      "Network and Route Building",
+      "Tile Placement",
+      "Variable Player Powers"
+    ],
+    "categories": [
+      "Economic",
+      "Science Fiction",
+      "Territory Building"
+    ],
+    "designers": [
+      "Jens Drogemuller",
+      "Helge Ostertag"
+    ],
+    "publisher": "Feuerland Spiele"
+  },
+  {
+    "name": "Root",
+    "bgg_id": 237182,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 90,
+    "min_age": 10,
+    "complexity": "3.79",
+    "rating": "8.00",
+    "description": "Asymmetric woodland factions wage a charming but cutthroat war of conquest.",
+    "mechanics": [
+      "Area Majority / Influence",
+      "Variable Player Powers",
+      "Hand Management"
+    ],
+    "categories": [
+      "Animals",
+      "Fantasy",
+      "Fighting",
+      "Wargame"
+    ],
+    "designers": [
+      "Cole Wehrle"
+    ],
+    "publisher": "Leder Games"
+  },
+  {
+    "name": "Pandemic Legacy: Season 1",
+    "bgg_id": 161936,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 60,
+    "min_age": 13,
+    "complexity": "2.83",
+    "rating": "8.50",
+    "description": "A twelve-month legacy campaign where the world and the rules change permanently.",
+    "mechanics": [
+      "Cooperative Game",
+      "Hand Management",
+      "Legacy",
+      "Action Points"
+    ],
+    "categories": [
+      "Environmental",
+      "Medical"
+    ],
+    "designers": [
+      "Rob Daviau",
+      "Matt Leacock"
+    ],
+    "publisher": "Z-Man Games"
+  },
+  {
+    "name": "Star Wars: Rebellion",
+    "bgg_id": 187645,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 240,
+    "min_age": 14,
+    "complexity": "3.71",
+    "rating": "8.40",
+    "description": "Refight the Galactic Civil War as the Rebellion hides while the Empire hunts its base.",
+    "mechanics": [
+      "Area Movement",
+      "Dice Rolling",
+      "Variable Player Powers",
+      "Hidden Movement"
+    ],
+    "categories": [
+      "Fighting",
+      "Movies / TV / Radio theme",
+      "Science Fiction",
+      "Wargame"
+    ],
+    "designers": [
+      "Corey Konieczka"
+    ],
+    "publisher": "Fantasy Flight Games"
+  },
+  {
+    "name": "Through the Ages: A New Story of Civilization",
+    "bgg_id": 182028,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 240,
+    "min_age": 14,
+    "complexity": "4.41",
+    "rating": "8.30",
+    "description": "Guide a civilization from antiquity to the modern age, balancing science, culture and war.",
+    "mechanics": [
+      "Card Drafting",
+      "Hand Management",
+      "Worker Placement",
+      "Tech Trees"
+    ],
+    "categories": [
+      "Civilization",
+      "Economic"
+    ],
+    "designers": [
+      "Vlaada Chvatil"
+    ],
+    "publisher": "Czech Games Edition"
+  },
+  {
+    "name": "A Feast for Odin",
+    "bgg_id": 177736,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 120,
+    "min_age": 12,
+    "complexity": "3.85",
+    "rating": "8.10",
+    "description": "Lead a Viking household raiding, hunting and trading to fill your board for the great feast.",
+    "mechanics": [
+      "Worker Placement",
+      "Tile Placement",
+      "Set Collection"
+    ],
+    "categories": [
+      "Economic",
+      "Industry / Manufacturing",
+      "Vikings"
+    ],
+    "designers": [
+      "Uwe Rosenberg"
+    ],
+    "publisher": "Feuerland Spiele"
+  },
+  {
+    "name": "Great Western Trail",
+    "bgg_id": 193738,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 150,
+    "min_age": 12,
+    "complexity": "3.71",
+    "rating": "8.20",
+    "description": "Drive cattle across the old west to Kansas City, building your engine along the trail.",
+    "mechanics": [
+      "Deck Building",
+      "Network and Route Building",
+      "Hand Management"
+    ],
+    "categories": [
+      "American West",
+      "Animals",
+      "Economic"
+    ],
+    "designers": [
+      "Alexander Pfister"
+    ],
+    "publisher": "eggertspiele"
+  },
+  {
+    "name": "Viticulture Essential Edition",
+    "bgg_id": 183394,
+    "min_players": 1,
+    "max_players": 6,
+    "play_time": 90,
+    "min_age": 13,
+    "complexity": "2.93",
+    "rating": "8.00",
+    "description": "Run a Tuscan vineyard across the seasons, planting vines and filling wine orders.",
+    "mechanics": [
+      "Worker Placement",
+      "Hand Management",
+      "Card Drafting"
+    ],
+    "categories": [
+      "Economic",
+      "Farming"
+    ],
+    "designers": [
+      "Jamey Stegmaier",
+      "Alan Stone"
+    ],
+    "publisher": "Stonemaier Games"
+  },
+  {
+    "name": "Five Tribes",
+    "bgg_id": 157354,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 80,
+    "min_age": 13,
+    "complexity": "2.93",
+    "rating": "7.80",
+    "description": "Move meeples through the Sultanate of Naqala, claiming tiles and djinns for points.",
+    "mechanics": [
+      "Mancala",
+      "Area Majority / Influence",
+      "Set Collection",
+      "Auction/Bidding"
+    ],
+    "categories": [
+      "Arabian",
+      "Fantasy",
+      "Mythology"
+    ],
+    "designers": [
+      "Bruno Cathala"
+    ],
+    "publisher": "Days of Wonder"
+  },
+  {
+    "name": "The Crew: The Quest for Planet Nine",
+    "bgg_id": 284083,
+    "min_players": 2,
+    "max_players": 5,
+    "play_time": 20,
+    "min_age": 10,
+    "complexity": "1.97",
+    "rating": "7.70",
+    "description": "A cooperative trick-taking campaign of fifty space missions with limited communication.",
+    "mechanics": [
+      "Trick-taking",
+      "Cooperative Game",
+      "Communication Limits"
+    ],
+    "categories": [
+      "Card Game",
+      "Science Fiction"
+    ],
+    "designers": [
+      "Thomas Sing"
+    ],
+    "publisher": "KOSMOS"
+  },
+  {
+    "name": "Dune: Imperium",
+    "bgg_id": 316554,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 120,
+    "min_age": 14,
+    "complexity": "3.02",
+    "rating": "8.40",
+    "description": "Blend deck-building and worker placement to lead a Great House for control of Arrakis.",
+    "mechanics": [
+      "Deck Building",
+      "Worker Placement",
+      "Variable Player Powers"
+    ],
+    "categories": [
+      "Movies / TV / Radio theme",
+      "Political",
+      "Science Fiction"
+    ],
+    "designers": [
+      "Paul Dennen"
+    ],
+    "publisher": "Dire Wolf"
+  },
+  {
+    "name": "Cascadia",
+    "bgg_id": 295947,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 45,
+    "min_age": 10,
+    "complexity": "1.84",
+    "rating": "7.90",
+    "description": "Build the most harmonious Pacific Northwest of habitats and wildlife from drafted tiles.",
+    "mechanics": [
+      "Tile Placement",
+      "Drafting",
+      "Pattern Building"
+    ],
+    "categories": [
+      "Animals",
+      "Environmental",
+      "Puzzle"
+    ],
+    "designers": [
+      "Randy Flynn"
+    ],
+    "publisher": "Flatout Games"
+  },
+  {
+    "name": "Clank!: A Deck-Building Adventure",
+    "bgg_id": 201808,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 60,
+    "min_age": 13,
+    "complexity": "2.21",
+    "rating": "7.70",
+    "description": "Sneak into a dragon's lair to steal treasure, but every noise draws it closer.",
+    "mechanics": [
+      "Deck Building",
+      "Push Your Luck",
+      "Grid Movement"
+    ],
+    "categories": [
+      "Adventure",
+      "Card Game",
+      "Exploration",
+      "Fantasy"
+    ],
+    "designers": [
+      "Paul Dennen"
+    ],
+    "publisher": "Renegade Game Studios"
+  },
+  {
+    "name": "Blood Rage",
+    "bgg_id": 170216,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 90,
+    "min_age": 14,
+    "complexity": "2.85",
+    "rating": "7.80",
+    "description": "Lead a Viking clan pillaging for glory before Ragnarok consumes the world.",
+    "mechanics": [
+      "Area Majority / Influence",
+      "Drafting",
+      "Variable Player Powers",
+      "Dice Rolling"
+    ],
+    "categories": [
+      "Fighting",
+      "Mythology",
+      "Vikings"
+    ],
+    "designers": [
+      "Eric M. Lang"
+    ],
+    "publisher": "CMON"
+  },
+  {
+    "name": "Mansions of Madness: Second Edition",
+    "bgg_id": 205059,
+    "min_players": 1,
+    "max_players": 5,
+    "play_time": 180,
+    "min_age": 14,
+    "complexity": "2.99",
+    "rating": "7.70",
+    "description": "An app-driven cooperative investigation of Lovecraftian mysteries and monsters.",
+    "mechanics": [
+      "Cooperative Game",
+      "Variable Player Powers",
+      "Grid Movement",
+      "Storytelling"
+    ],
+    "categories": [
+      "Adventure",
+      "Exploration",
+      "Horror",
+      "Murder/Mystery"
+    ],
+    "designers": [
+      "Nikki Valens"
+    ],
+    "publisher": "Fantasy Flight Games"
+  },
+  {
+    "name": "Eldritch Horror",
+    "bgg_id": 146021,
+    "min_players": 1,
+    "max_players": 8,
+    "play_time": 240,
+    "min_age": 14,
+    "complexity": "3.20",
+    "rating": "7.70",
+    "description": "Investigators travel the globe to stop an Ancient One from waking and ending the world.",
+    "mechanics": [
+      "Cooperative Game",
+      "Dice Rolling",
+      "Variable Player Powers",
+      "Action Points"
+    ],
+    "categories": [
+      "Adventure",
+      "Horror",
+      "Travel"
+    ],
+    "designers": [
+      "Corey Konieczka",
+      "Nikki Valens"
+    ],
+    "publisher": "Fantasy Flight Games"
+  },
+  {
+    "name": "Twilight Imperium: Fourth Edition",
+    "bgg_id": 233078,
+    "min_players": 3,
+    "max_players": 6,
+    "play_time": 480,
+    "min_age": 14,
+    "complexity": "4.30",
+    "rating": "8.60",
+    "description": "Galactic civilizations vie for the throne of Mecatol Rex through war, trade and politics.",
+    "mechanics": [
+      "Area Majority / Influence",
+      "Variable Player Powers",
+      "Negotiation",
+      "Tech Trees"
+    ],
+    "categories": [
+      "Civilization",
+      "Economic",
+      "Political",
+      "Science Fiction",
+      "Wargame"
+    ],
+    "designers": [
+      "Dane Beltrami",
+      "Corey Konieczka",
+      "Christian T. Petersen"
+    ],
+    "publisher": "Fantasy Flight Games"
+  },
+  {
+    "name": "War of the Ring: Second Edition",
+    "bgg_id": 115746,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 180,
+    "min_age": 13,
+    "complexity": "4.18",
+    "rating": "8.40",
+    "description": "The Free Peoples and Sauron battle for Middle-earth as the Fellowship races to Mount Doom.",
+    "mechanics": [
+      "Dice Rolling",
+      "Area Movement",
+      "Variable Player Powers",
+      "Hand Management"
+    ],
+    "categories": [
+      "Fantasy",
+      "Fighting",
+      "Wargame"
+    ],
+    "designers": [
+      "Roberto Di Meglio",
+      "Marco Maggi",
+      "Francesco Nepitello"
+    ],
+    "publisher": "Ares Games"
+  },
+  {
+    "name": "Crokinole",
+    "bgg_id": 521,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 30,
+    "min_age": 8,
+    "complexity": "1.16",
+    "rating": "7.90",
+    "description": "A classic dexterity board where you flick discs to the center and knock out rivals.",
+    "mechanics": [
+      "Flicking",
+      "Dexterity"
+    ],
+    "categories": [
+      "Action / Dexterity"
+    ],
+    "designers": [
+      "Eckhardt Wettlaufer"
+    ],
+    "publisher": "Carrom Company"
+  },
+  {
+    "name": "El Grande",
+    "bgg_id": 93,
+    "min_players": 2,
+    "max_players": 5,
+    "play_time": 90,
+    "min_age": 12,
+    "complexity": "3.13",
+    "rating": "7.80",
+    "description": "Compete as grandes of medieval Spain to place the most caballeros in key regions.",
+    "mechanics": [
+      "Area Majority / Influence",
+      "Auction/Bidding",
+      "Hand Management"
+    ],
+    "categories": [
+      "Medieval",
+      "Political"
+    ],
+    "designers": [
+      "Wolfgang Kramer",
+      "Richard Ulrich"
+    ],
+    "publisher": "Hans im Gluck"
+  },
+  {
+    "name": "Puerto Rico",
+    "bgg_id": 3076,
+    "min_players": 3,
+    "max_players": 5,
+    "play_time": 150,
+    "min_age": 12,
+    "complexity": "3.27",
+    "rating": "7.90",
+    "description": "Build plantations, ship goods and erect buildings in the colonial new world.",
+    "mechanics": [
+      "Role Selection",
+      "Variable Phase Order",
+      "Set Collection"
+    ],
+    "categories": [
+      "City Building",
+      "Economic",
+      "Farming"
+    ],
+    "designers": [
+      "Andreas Seyfarth"
+    ],
+    "publisher": "Ravensburger"
+  },
+  {
+    "name": "Lords of Waterdeep",
+    "bgg_id": 110327,
+    "min_players": 2,
+    "max_players": 5,
+    "play_time": 90,
+    "min_age": 12,
+    "complexity": "2.50",
+    "rating": "7.60",
+    "description": "Secret lords of Waterdeep recruit adventurers and fund quests for control of the city.",
+    "mechanics": [
+      "Worker Placement",
+      "Hand Management",
+      "Set Collection"
+    ],
+    "categories": [
+      "City Building",
+      "Economic",
+      "Fantasy"
+    ],
+    "designers": [
+      "Peter Lee",
+      "Rodney Thompson"
+    ],
+    "publisher": "Wizards of the Coast"
+  },
+  {
+    "name": "Stone Age",
+    "bgg_id": 34635,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 90,
+    "min_age": 10,
+    "complexity": "2.46",
+    "rating": "7.50",
+    "description": "Lead a Stone Age tribe to gather resources, feed your people and advance civilization.",
+    "mechanics": [
+      "Worker Placement",
+      "Dice Rolling",
+      "Set Collection"
+    ],
+    "categories": [
+      "Economic",
+      "Prehistoric"
+    ],
+    "designers": [
+      "Bernd Brunnhofer"
+    ],
+    "publisher": "Hans im Gluck"
+  },
+  {
+    "name": "Castles of Mad King Ludwig",
+    "bgg_id": 155426,
+    "min_players": 1,
+    "max_players": 4,
+    "play_time": 90,
+    "min_age": 13,
+    "complexity": "2.51",
+    "rating": "7.70",
+    "description": "Build an outlandishly lavish castle room by room, buying and selling oddly shaped tiles.",
+    "mechanics": [
+      "Tile Placement",
+      "Auction/Bidding",
+      "Set Collection"
+    ],
+    "categories": [
+      "Economic",
+      "Puzzle"
+    ],
+    "designers": [
+      "Ted Alspach"
+    ],
+    "publisher": "Bezier Games"
+  },
+  {
+    "name": "Kingdomino",
+    "bgg_id": 204583,
+    "min_players": 2,
+    "max_players": 4,
+    "play_time": 20,
+    "min_age": 8,
+    "complexity": "1.20",
+    "rating": "7.40",
+    "description": "Draft domino-like tiles to build the best-connected 5x5 kingdom of terrains.",
+    "mechanics": [
+      "Tile Placement",
+      "Drafting",
+      "Pattern Building"
+    ],
+    "categories": [
+      "Cities",
+      "Family",
+      "Territory Building"
+    ],
+    "designers": [
+      "Bruno Cathala"
+    ],
+    "publisher": "Blue Orange Games"
+  },
+  {
+    "name": "Jaipur",
+    "bgg_id": 54043,
+    "min_players": 2,
+    "max_players": 2,
+    "play_time": 30,
+    "min_age": 12,
+    "complexity": "1.50",
+    "rating": "7.50",
+    "description": "Two rival traders in Jaipur collect and sell goods to win the Maharaja's favor.",
+    "mechanics": [
+      "Set Collection",
+      "Hand Management",
+      "Push Your Luck"
+    ],
+    "categories": [
+      "Card Game",
+      "Economic"
+    ],
+    "designers": [
+      "Sebastien Pauchon"
+    ],
+    "publisher": "GameWorks"
   }
 ]

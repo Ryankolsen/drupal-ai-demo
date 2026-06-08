@@ -119,6 +119,19 @@ final class GameImporterTest extends KernelTestBase {
   }
 
   /**
+   * Counts nodes of a given bundle.
+   */
+  private function countNodes(string $bundle): int {
+    return (int) $this->container->get('entity_type.manager')
+      ->getStorage('node')
+      ->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', $bundle)
+      ->count()
+      ->execute();
+  }
+
+  /**
    * Counts taxonomy terms in a vocabulary.
    */
   private function countTerms(string $vid): int {
@@ -221,6 +234,38 @@ final class GameImporterTest extends KernelTestBase {
     $this->importer->import($games);
     $this->assertCount(2, $node_storage->loadByProperties(['type' => 'designer']));
     $this->assertCount(1, $node_storage->loadByProperties(['type' => 'publisher']));
+  }
+
+  /**
+   * The committed fixture imports cleanly and idempotently.
+   *
+   * This guards the real seed path: bg:seed reads exactly this file, so a
+   * malformed row, a duplicate bgg_id, or a non-idempotent re-run would surface
+   * here rather than on stage. Asserts every row becomes one node, a re-run
+   * creates no duplicates, and that the committed JSON parses.
+   */
+  public function testCommittedFixtureImports(): void {
+    $path = $this->container->get('extension.list.module')->getPath('board_games')
+      . '/fixtures/games.json';
+    $games = json_decode((string) file_get_contents($path), TRUE);
+    $this->assertIsArray($games, 'Committed fixture parses as JSON.');
+    $this->assertGreaterThanOrEqual(50, count($games), 'Fixture holds the curated catalog (~50+ games).');
+
+    $first = $this->importer->import($games);
+    $this->assertSame(count($games), $first['created']);
+    $this->assertSame(0, $first['skipped']);
+    $this->assertSame(count($games), $this->countNodes('board_game'));
+
+    // A second pass updates in place — no duplicate games, designers, or terms.
+    $designers_after_first = $this->countNodes('designer');
+    $mechanics_after_first = $this->countTerms('mechanics');
+
+    $second = $this->importer->import($games);
+    $this->assertSame(0, $second['created']);
+    $this->assertSame(count($games), $second['updated']);
+    $this->assertSame(count($games), $this->countNodes('board_game'));
+    $this->assertSame($designers_after_first, $this->countNodes('designer'));
+    $this->assertSame($mechanics_after_first, $this->countTerms('mechanics'));
   }
 
   /**

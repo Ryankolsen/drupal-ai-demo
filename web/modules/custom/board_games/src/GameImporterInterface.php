@@ -20,8 +20,11 @@ interface GameImporterInterface {
    *   A list of game arrays. Each game supports the keys: name (string,
    *   required), bgg_id (int, required), min_players, max_players, play_time
    *   (int), complexity, rating (float|string), description (string),
-   *   mechanics (string[]), image (string filename in the fixtures images
-   *   directory).
+   *   mechanics (string[]), categories (string[]), designers (string[],
+   *   resolved-or-created as Designer nodes), publisher (string, resolved-or-
+   *   created as a Publisher node), and image (string filename in the fixtures
+   *   images directory). Unknown keys (e.g. min_age, which has no field yet)
+   *   are ignored, so the fixture can carry data ahead of the content model.
    *
    * @return array
    *   Associative array of counts with keys 'created', 'updated', 'skipped'.
