@@ -72,9 +72,22 @@ A normal SDC renders fine in Twig but stays invisible/unusable in **Drupal Canva
    ddev drush config:set canvas.component.sdc.guardrails.<name> status true -y
    ```
 
-   If `config:get` returns nothing, the SDC failed Canvas discovery — re-run the validator (step 3) and check `ddev drush watchdog:show` for shape-matching errors. A prop that won't shape-match keeps the whole component out.
+   If after this `status` flips back to `false` on the next `cache:rebuild`, the component is **ineligible** (failing Canvas's requirements) and Canvas re-disables it every rebuild — `config:set` won't stick. See Troubleshooting.
 
 6. **Tell the user** to reload the Canvas editor; the component now appears in the Library (usually under "Other"). Drop it on the page to see its props form and slots.
+
+7. **Persist the enabled status (optional).** `status: true` lives in *active* config only; a later `drush cim` reverts it (and the next rebuild regenerates the entity disabled). To keep it enabled across config import/deploys, export it: `ddev drush cex -y` (the component entity is usually the only diff). Note the sync dir is often under `web/sites/default/files/sync` and git-ignored, so this persists locally but may not travel with the repo.
+
+## Troubleshooting
+
+**Component never appears / `status` reverts to `false` on every `cache:rebuild`.**
+The component is failing Canvas's requirements check, so Canvas auto-disables it each rebuild. The exact reason is stored in a key-value collection (NOT watchdog). Read it:
+
+```bash
+ddev drush php:eval '$r = \Drupal::service("Drupal\canvas\ComponentIncompatibilityReasonRepository")->getReasons(); echo json_encode($r["sdc"] ?? "none", JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);'
+```
+
+This prints messages like `Prop "modifier" has an empty enum value.` Fix the prop, `cache:rebuild`, and re-check. Common causes: an **empty `enum` value** (see rule 4), a prop with no `examples`, or a prop shape Canvas can't map. (Reasons are append-only — a stale entry can linger after you fix it, so trust a `true` status that survives a rebuild over the reason list.)
 
 ## Quick reference
 
