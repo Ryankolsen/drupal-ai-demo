@@ -21,7 +21,7 @@ Before authoring, write down:
 - **Order**: sorts (e.g. a rating field DESC).
 - **Displays**: a `page` (has a `path`), a `block` (placeable in a region), or
   both. Each display inherits the `default` display and overrides only what
-  differs.
+  differs. **Name every display descriptively** — see below.
 - **Row + style**: render each result as a rendered entity in a view mode
   (`row.type: 'entity:node'`, `options.view_mode: card`) inside a `grid`/`unformatted` style — or as Views fields.
 - **Contextual filter?** If the list depends on something in the URL or the
@@ -55,11 +55,13 @@ display:
       style: { type: grid, options: { columns: 3 } }
       row: { type: 'entity:node', options: { view_mode: card } }
     cache_metadata: { max-age: -1, contexts: [...], tags: {} }
-  page_1:
+  <descriptive>_page:                        # NOT page_1 — see "Name every display"
     display_plugin: page
+    display_title: '<Descriptive> page'
     display_options: { path: <path> }       # a page has a path
-  block_1:
+  <descriptive>_block:                       # NOT block_1
     display_plugin: block
+    display_title: '<Descriptive> block'
     display_options: { block_description: '<Admin block name>' }
 ```
 
@@ -67,6 +69,49 @@ Filters and sorts that wrap a real entity field carry `entity_type: node` and
 `entity_field: <field_name>`, and are keyed by the column (e.g.
 `field_rating_value`, `status`, `type`). Copy the shape from an existing committed
 View rather than inventing keys.
+
+## Name every display descriptively (not `page_1` / `Page`)
+
+Drupal hands new displays generic identities — machine name `page_1` / `block_1`
+and **Display name** `Page` / `Block`. Leave them and the config reads as
+boilerplate: a site with four Views all referring to `page_1` tells you nothing,
+and a block placement `views_block:games_by_designer-block_1` is opaque. **Rename
+both the display machine name and its Display name to describe what the display
+is** — scoped to the View it lives in, since display ids only need to be unique
+within their View:
+
+```yaml
+display:
+  default:                     # keep the default display as `default` — it is special
+    id: default
+    display_title: Default
+  designer_page:               # was page_1 — machine name describes the display
+    id: designer_page          # the inner `id:` must equal the YAML key
+    display_title: 'Designer games page'   # was "Page" — human Display name
+    display_plugin: page
+  designer_block:              # was block_1
+    id: designer_block
+    display_title: 'Designer games block'  # was "Block"
+    display_plugin: block
+```
+
+Convention used in this repo: `<subject>_page` / `<subject>_block` for the
+machine name (e.g. `finder_page`, `top_rated_page`, `publisher_block`), and a
+spoken-language Display name (`Finder page`, `Top rated page`). The View id
+already carries the subject, so the display name only needs to disambiguate the
+display variant.
+
+**Renaming a display is a rename, not just a relabel — chase the references:**
+
+- The YAML **key** under `display:` and its inner `id:` must match.
+- A **block placement** names the display: `plugin` /`settings.id`
+  `views_block:<view_id>-<display_id>` in `block.block.*.yml` must use the new id.
+- The auto-generated **route** is `view.<view_id>.<display_id>` — any
+  `Url::fromRoute()` / `{{ url(...) }}` referencing it must change (the *path*
+  is unaffected).
+- **Kernel tests** call `$view->setDisplay('<display_id>')` — update them.
+
+Do this when you author the View; renaming later means touching every reference.
 
 ## The reverse entity-reference pattern (the useful part)
 
@@ -209,7 +254,7 @@ rendering:
 
 ```php
 $view = \Drupal\views\Views::getView('games_by_designer');
-$view->setDisplay('page_1');
+$view->setDisplay('designer_page');                // the descriptive display id
 $view->setArguments([$designer->id()]);
 $view->execute();
 $ids = array_map(fn($row) => (int) $row->_entity->id(), $view->result);
@@ -227,7 +272,7 @@ matching set (canonicalize when order is incidental):
 
 ```php
 $view = \Drupal\views\Views::getView('game_finder');
-$view->setDisplay('page_1');
+$view->setDisplay('finder_page');                  // the descriptive display id
 $view->setExposedInput(['players' => 4]);          // ?players=4
 $view->execute();
 $titles = array_map(fn($r) => $r->_entity->label(), $view->result);

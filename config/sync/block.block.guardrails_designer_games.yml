@@ -15,9 +15,9 @@ theme: guardrails
 region: content
 weight: 1
 provider: null
-plugin: 'views_block:games_by_designer-block_1'
+plugin: 'views_block:games_by_designer-designer_block'
 settings:
-  id: 'views_block:games_by_designer-block_1'
+  id: 'views_block:games_by_designer-designer_block'
   label: 'Designed games'
   label_display: visible
   provider: views

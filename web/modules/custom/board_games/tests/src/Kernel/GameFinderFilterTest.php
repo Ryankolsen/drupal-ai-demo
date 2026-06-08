@@ -129,7 +129,7 @@ final class GameFinderFilterTest extends KernelTestBase {
    */
   private function runFinder(array $exposed): array {
     $view = Views::getView('game_finder');
-    $view->setDisplay('page_1');
+    $view->setDisplay('finder_page');
     $view->setExposedInput($exposed);
     $view->execute();
     return array_map(static fn($row) => (string) $row->_entity->label(), $view->result);

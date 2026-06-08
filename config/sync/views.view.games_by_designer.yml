@@ -157,9 +157,9 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  page_1:
-    id: page_1
-    display_title: Page
+  designer_page:
+    id: designer_page
+    display_title: 'Designer games page'
     display_plugin: page
     position: 1
     display_options:
@@ -173,9 +173,9 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  block_1:
-    id: block_1
-    display_title: Block
+  designer_block:
+    id: designer_block
+    display_title: 'Designer games block'
     display_plugin: block
     position: 2
     display_options:

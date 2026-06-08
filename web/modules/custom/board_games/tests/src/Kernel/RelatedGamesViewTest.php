@@ -74,10 +74,10 @@ final class RelatedGamesViewTest extends KernelTestBase {
   /**
    * Runs a view display with one contextual argument and returns the node ids.
    */
-  private function resultIds(string $view_id, int $argument): array {
+  private function resultIds(string $view_id, string $display, int $argument): array {
     $view = Views::getView($view_id);
     $this->assertNotNull($view, "The $view_id view loaded.");
-    $view->setDisplay('page_1');
+    $view->setDisplay($display);
     $view->setArguments([$argument]);
     $view->execute();
     return array_map(static fn($row) => (int) $row->_entity->id(), $view->result);
@@ -106,12 +106,12 @@ final class RelatedGamesViewTest extends KernelTestBase {
     // Alice: both games credited to Alice, ordered by rating DESC.
     $this->assertSame(
       [(int) $duet->id(), (int) $solo->id()],
-      $this->resultIds('games_by_designer', (int) $alice->id()),
+      $this->resultIds('games_by_designer', 'designer_page', (int) $alice->id()),
     );
     // Bob: the co-designed game plus the solo one credited to Bob.
     $this->assertSame(
       [(int) $duet->id(), (int) $bobs->id()],
-      $this->resultIds('games_by_designer', (int) $bob->id()),
+      $this->resultIds('games_by_designer', 'designer_page', (int) $bob->id()),
     );
   }
 
@@ -137,7 +137,7 @@ final class RelatedGamesViewTest extends KernelTestBase {
 
     $this->assertSame(
       [(int) $a2->id(), (int) $a1->id()],
-      $this->resultIds('games_by_publisher', (int) $acme->id()),
+      $this->resultIds('games_by_publisher', 'publisher_page', (int) $acme->id()),
     );
   }
 
@@ -158,7 +158,7 @@ final class RelatedGamesViewTest extends KernelTestBase {
 
     $this->assertSame(
       [(int) $live->id()],
-      $this->resultIds('games_by_designer', (int) $alice->id()),
+      $this->resultIds('games_by_designer', 'designer_page', (int) $alice->id()),
     );
   }
 
@@ -174,7 +174,7 @@ final class RelatedGamesViewTest extends KernelTestBase {
     ]);
 
     // A publisher id is not a valid argument for the designer view.
-    $this->assertSame([], $this->resultIds('games_by_designer', (int) $publisher->id()));
+    $this->assertSame([], $this->resultIds('games_by_designer', 'designer_page', (int) $publisher->id()));
   }
 
   /**
@@ -182,11 +182,11 @@ final class RelatedGamesViewTest extends KernelTestBase {
    */
   public function testPagePaths(): void {
     $designer = Views::getView('games_by_designer');
-    $designer->setDisplay('page_1');
+    $designer->setDisplay('designer_page');
     $this->assertSame('designer/%/games', $designer->getDisplay()->getOption('path'));
 
     $publisher = Views::getView('games_by_publisher');
-    $publisher->setDisplay('page_1');
+    $publisher->setDisplay('publisher_page');
     $this->assertSame('publisher/%/games', $publisher->getDisplay()->getOption('path'));
   }
 

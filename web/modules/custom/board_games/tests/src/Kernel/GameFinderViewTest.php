@@ -93,7 +93,7 @@ final class GameFinderViewTest extends KernelTestBase {
 
     $view = Views::getView('game_finder');
     $this->assertNotNull($view, 'The game_finder view loaded.');
-    $view->setDisplay('page_1');
+    $view->setDisplay('finder_page');
     // The view now carries exposed filters; processing empty exposed input
     // applies none of them, so this asserts the unfiltered baseline.
     $view->setExposedInput([]);
@@ -112,7 +112,7 @@ final class GameFinderViewTest extends KernelTestBase {
    */
   public function testGameFinderPagePath(): void {
     $view = Views::getView('game_finder');
-    $view->setDisplay('page_1');
+    $view->setDisplay('finder_page');
     $this->assertSame('games', $view->getDisplay()->getOption('path'));
   }
 
@@ -127,7 +127,7 @@ final class GameFinderViewTest extends KernelTestBase {
 
     $view = Views::getView('top_rated');
     $this->assertNotNull($view, 'The top_rated view loaded.');
-    $view->setDisplay('page_1');
+    $view->setDisplay('top_rated_page');
     $view->execute();
 
     $ids = array_map(static fn($row) => (int) $row->_entity->id(), $view->result);

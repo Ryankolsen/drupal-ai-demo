@@ -276,9 +276,9 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  page_1:
-    id: page_1
-    display_title: Page
+  finder_page:
+    id: finder_page
+    display_title: 'Finder page'
     display_plugin: page
     position: 1
     display_options:
