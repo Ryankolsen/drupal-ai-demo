@@ -35,6 +35,9 @@
 /web/sites/*/private/
 /web/sites/simpletest/
 
+# PHPUnit result cache (regenerated each run).
+/.phpunit.cache/
+
 # OS / editor cruft.
 .DS_Store
 Thumbs.db

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Project PHPUnit configuration for the Guardrails board-games demo.
+
+  Runs the tests under web/modules/custom (and any custom themes). Drupal's
+  test bootstrap resolves the app root to web/ via dirname(__DIR__, 2) of
+  web/core/tests/bootstrap.php, so this file lives at the repo root and points
+  back into web/core.
+
+  Run the whole suite:   ddev exec phpunit -c phpunit.xml
+  Run one suite:         ddev exec phpunit -c phpunit.xml (testsuite kernel)
+
+  Kernel tests use SQLite by default (SIMPLETEST_DB below) so they need no
+  separate database server. Functional tests additionally need a reachable
+  SIMPLETEST_BASE_URL; set it in your environment when you add them.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="web/core/tests/bootstrap.php"
+         colors="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutChangesToGlobalState="true"
+         failOnWarning="true"
+         failOnRisky="true"
+         cacheDirectory=".phpunit.cache"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd">
+  <php>
+    <ini name="error_reporting" value="32767"/>
+    <ini name="memory_limit" value="-1"/>
+    <!-- SQLite so kernel tests run with no external database server. -->
+    <env name="SIMPLETEST_DB" value="sqlite://localhost//tmp/drupal_test.sqlite"/>
+    <!-- Only needed for functional (BrowserTestBase) tests; left empty here. -->
+    <env name="SIMPLETEST_BASE_URL" value=""/>
+    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
+    <!-- Symfony deprecation notices should not fail this project's suite. -->
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+  </php>
+  <testsuites>
+    <testsuite name="unit">
+      <directory>web/modules/custom/*/tests/src/Unit</directory>
+      <directory>web/themes/custom/*/tests/src/Unit</directory>
+    </testsuite>
+    <testsuite name="kernel">
+      <directory>web/modules/custom/*/tests/src/Kernel</directory>
+      <directory>web/themes/custom/*/tests/src/Kernel</directory>
+    </testsuite>
+    <testsuite name="functional">
+      <directory>web/modules/custom/*/tests/src/Functional</directory>
+      <directory>web/themes/custom/*/tests/src/Functional</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

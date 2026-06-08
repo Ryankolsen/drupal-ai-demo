@@ -49,7 +49,7 @@ To fix a bug or add behavior in a contributed module, **patch it — never edit 
 ## Working agreements
 
 - **Plan before building.** Non-trivial work flows PRD → multi-phase plan → tracer-bullet slice. Each slice is a thin, demoable cut through every layer.
-- **Verify your work.** After changes: `ddev drush cr` (rebuild cache), confirm the page renders, and run the test suite once it exists (`drupal/core-dev` + `phpunit.xml`, added in a later slice).
+- **Verify your work.** After changes: `ddev drush cr` (rebuild cache), confirm the page renders, and run the test suite: `ddev exec phpunit -c phpunit.xml`. Tests live in each module's `tests/src/{Unit,Kernel,Functional}`; kernel tests run on SQLite with no extra DB server. See the `setup-drupal-phpunit` skill.
 - **Match the surrounding code** — its naming, structure, and comment density.
 
 ## Quick command reference
@@ -62,3 +62,5 @@ To fix a bug or add behavior in a contributed module, **patch it — never edit 
 | Rebuild cache | `ddev drush cr` |
 | Enable a module | `ddev drush en <module> -y` |
 | Composer | `ddev composer <cmd>` |
+| Run tests | `ddev exec phpunit -c phpunit.xml` |
+| Run one group | `ddev exec phpunit -c phpunit.xml --group <group>` |
