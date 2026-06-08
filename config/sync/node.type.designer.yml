@@ -1,0 +1,11 @@
+uuid: 95489717-c5f4-42f8-b281-25ee5069b4c6
+langcode: en
+status: true
+dependencies: {  }
+name: Designer
+type: designer
+description: 'A person who designed one or more board games.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

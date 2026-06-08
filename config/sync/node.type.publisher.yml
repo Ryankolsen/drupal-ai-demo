@@ -1,0 +1,11 @@
+uuid: 0ff0b8d5-772d-4ffe-818d-754665e0d4a0
+langcode: en
+status: true
+dependencies: {  }
+name: Publisher
+type: publisher
+description: 'A company that publishes board games.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

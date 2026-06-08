@@ -1,0 +1,39 @@
+uuid: 8b26eafc-1aca-4cee-a8a8-d21602002df7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.publisher.field_founded_year
+    - field.field.node.publisher.field_logo
+    - node.type.publisher
+  module:
+    - user
+id: node.publisher.default
+targetEntityType: node
+bundle: publisher
+mode: default
+content:
+  field_founded_year:
+    type: number_integer
+    label: inline
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_logo:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: thumbnail
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

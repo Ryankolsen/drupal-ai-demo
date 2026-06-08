@@ -49,20 +49,34 @@ trait BoardGameContentModelTrait {
    * Recreates the Board Game content model from committed config.
    *
    * Order matters: storages before instances, the media source field before
-   * the media bundle that references it.
+   * the media bundle that references it, and the Designer/Publisher bundles
+   * before Board Game (whose field_designers/field_publisher reference them).
    */
   protected function installBoardGameModel(): void {
     // Mechanics vocabulary (target of field_mechanics).
     Vocabulary::create($this->readSyncConfig('taxonomy.vocabulary.mechanics'))->save();
 
-    // Image media bundle and its source field (target of field_cover).
+    // Image media bundle + source field (target of cover/photo/logo refs).
     FieldStorageConfig::create($this->readSyncConfig('field.storage.media.field_media_image'))->save();
     MediaType::create($this->readSyncConfig('media.type.image'))->save();
     FieldConfig::create($this->readSyncConfig('field.field.media.image.field_media_image'))->save();
 
-    // Board Game content type and its fields (storage then instance).
-    NodeType::create($this->readSyncConfig('node.type.board_game'))->save();
-    foreach (glob($this->configSyncDir() . '/field.field.node.board_game.*.yml') as $file) {
+    // Designer and Publisher first: Board Game references them, so their node
+    // types must exist before its entity-reference field instances are created.
+    $this->installNodeTypeFromConfig('designer');
+    $this->installNodeTypeFromConfig('publisher');
+    $this->installNodeTypeFromConfig('board_game');
+  }
+
+  /**
+   * Creates a node type and all its committed fields (storage then instance).
+   *
+   * @param string $bundle
+   *   The node bundle machine name, e.g. 'board_game'.
+   */
+  protected function installNodeTypeFromConfig(string $bundle): void {
+    NodeType::create($this->readSyncConfig('node.type.' . $bundle))->save();
+    foreach (glob($this->configSyncDir() . '/field.field.node.' . $bundle . '.*.yml') as $file) {
       $instance = Yaml::parseFile($file);
       $field_name = $instance['field_name'];
       if (!FieldStorageConfig::loadByName('node', $field_name)) {

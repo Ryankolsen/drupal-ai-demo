@@ -154,6 +154,56 @@ final class GameImporterTest extends KernelTestBase {
   }
 
   /**
+   * Designers and publisher are resolved-or-created and linked to the game.
+   *
+   * A designer shared by two games is created once (dedup by title), and
+   * re-importing creates no duplicate Designer/Publisher nodes.
+   */
+  public function testImportLinksDesignersAndPublisher(): void {
+    $games = [
+      [
+        'name' => 'Catan',
+        'bgg_id' => 13,
+        'min_players' => 3,
+        'max_players' => 4,
+        'designers' => ['Klaus Teuber'],
+        'publisher' => 'Kosmos',
+      ],
+      [
+        'name' => 'Catan: Seafarers',
+        'bgg_id' => 325,
+        'min_players' => 3,
+        'max_players' => 4,
+        // Klaus Teuber is shared with Catan: must dedup to one Designer node.
+        'designers' => ['Klaus Teuber', 'Pete Fenlon'],
+        'publisher' => 'Kosmos',
+      ],
+    ];
+
+    $result = $this->importer->import($games);
+    $this->assertSame(['created' => 2, 'updated' => 0, 'skipped' => 0], $result);
+
+    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
+
+    // Two distinct designers (Klaus Teuber deduped), one publisher (Kosmos).
+    $this->assertCount(2, $node_storage->loadByProperties(['type' => 'designer']));
+    $this->assertCount(1, $node_storage->loadByProperties(['type' => 'publisher']));
+
+    $catan = current($node_storage->loadByProperties(['field_bgg_id' => 13]));
+    $this->assertCount(1, $catan->get('field_designers'));
+    $this->assertSame('Klaus Teuber', $catan->get('field_designers')->entity->label());
+    $this->assertSame('Kosmos', $catan->get('field_publisher')->entity->label());
+
+    $seafarers = current($node_storage->loadByProperties(['field_bgg_id' => 325]));
+    $this->assertCount(2, $seafarers->get('field_designers'));
+
+    // Re-importing creates no duplicate designer/publisher nodes.
+    $this->importer->import($games);
+    $this->assertCount(2, $node_storage->loadByProperties(['type' => 'designer']));
+    $this->assertCount(1, $node_storage->loadByProperties(['type' => 'publisher']));
+  }
+
+  /**
    * Rows missing the required bgg_id or name are skipped, not imported.
    */
   public function testRowsMissingRequiredKeysAreSkipped(): void {

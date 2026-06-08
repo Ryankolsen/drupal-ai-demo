@@ -1,0 +1,33 @@
+uuid: a81b45fc-57a3-43bb-83d8-ebf983bd600c
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.designer
+    - views.view.games_by_designer
+  module:
+    - node
+    - views
+  theme:
+    - guardrails
+id: guardrails_designer_games
+theme: guardrails
+region: content
+weight: 1
+provider: null
+plugin: 'views_block:games_by_designer-block_1'
+settings:
+  id: 'views_block:games_by_designer-block_1'
+  label: 'Designed games'
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      designer: designer

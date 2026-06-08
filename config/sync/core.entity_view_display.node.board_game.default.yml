@@ -7,10 +7,12 @@ dependencies:
     - field.field.node.board_game.field_complexity
     - field.field.node.board_game.field_cover
     - field.field.node.board_game.field_description
+    - field.field.node.board_game.field_designers
     - field.field.node.board_game.field_max_players
     - field.field.node.board_game.field_mechanics
     - field.field.node.board_game.field_min_players
     - field.field.node.board_game.field_play_time
+    - field.field.node.board_game.field_publisher
     - field.field.node.board_game.field_rating
     - node.type.board_game
   module:
@@ -47,6 +49,22 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_designers:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_publisher:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
     region: content
   field_max_players:
     type: number_integer

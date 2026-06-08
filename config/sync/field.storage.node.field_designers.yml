@@ -1,0 +1,19 @@
+uuid: eeb835c3-07b9-4111-b34d-4ed494d8c1e6
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_designers
+field_name: field_designers
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

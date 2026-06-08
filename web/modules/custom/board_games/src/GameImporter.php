@@ -84,6 +84,19 @@ final class GameImporter implements GameImporterInterface {
       }
       $node->set('field_mechanics', $term_ids);
 
+      // Designers (many) and publisher (one): resolve-or-create the related
+      // Designer/Publisher nodes by title so the references and their reverse
+      // lookups stay deduped across re-runs.
+      $designer_ids = [];
+      foreach ($game['designers'] ?? [] as $designer_name) {
+        $designer_ids[] = $this->resolveRelatedNode('designer', $designer_name)->id();
+      }
+      $node->set('field_designers', $designer_ids);
+
+      if (!empty($game['publisher'])) {
+        $node->set('field_publisher', $this->resolveRelatedNode('publisher', $game['publisher'])->id());
+      }
+
       // Cover image: resolve-or-create File + Media by source filename.
       if (!empty($game['image'])) {
         $media = $this->resolveCoverMedia($game['image'], $game['name']);
@@ -119,6 +132,35 @@ final class GameImporter implements GameImporterInterface {
 
     /** @var \Drupal\node\NodeInterface $node */
     $node = $storage->create(['type' => 'board_game']);
+    return $node;
+  }
+
+  /**
+   * Resolves a related person/company node by title, creating it if needed.
+   *
+   * Used for Designer and Publisher nodes, which a Board Game references. Dedup
+   * is on (bundle, title) so re-importing never duplicates a designer shared by
+   * several games.
+   *
+   * @param string $bundle
+   *   The node bundle, 'designer' or 'publisher'.
+   * @param string $title
+   *   The person or company name.
+   */
+  private function resolveRelatedNode(string $bundle, string $title): NodeInterface {
+    $storage = $this->entityTypeManager->getStorage('node');
+    $existing = $storage->loadByProperties(['type' => $bundle, 'title' => $title]);
+    if ($existing) {
+      return reset($existing);
+    }
+
+    /** @var \Drupal\node\NodeInterface $node */
+    $node = $storage->create([
+      'type' => $bundle,
+      'title' => $title,
+      'status' => NodeInterface::PUBLISHED,
+    ]);
+    $node->save();
     return $node;
   }
 

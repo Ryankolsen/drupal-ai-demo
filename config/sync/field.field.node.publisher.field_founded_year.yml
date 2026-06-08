@@ -1,0 +1,23 @@
+uuid: a6028ab7-9085-4a39-b77f-bf4ec2b480e7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_founded_year
+    - node.type.publisher
+id: node.publisher.field_founded_year
+field_name: field_founded_year
+entity_type: node
+bundle: publisher
+label: 'Founded year'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
