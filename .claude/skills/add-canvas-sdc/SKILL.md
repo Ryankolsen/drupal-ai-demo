@@ -12,7 +12,7 @@ A normal SDC renders fine in Twig but stays invisible/unusable in **Drupal Canva
 1. **Every prop needs `examples:`** — Canvas uses the first example as the default/preview value when the component is placed. `examples` is a YAML **array**. For `required` props it is mandatory.
 2. **Pick a prop shape Canvas understands** — string, string+HTML, textarea, boolean, integer, link, enum (dropdown), image object, date, array. See [REFERENCE.md](REFERENCE.md) for the exact YAML per shape.
 3. **Links** use `format: uri-reference` (relative or absolute) or `format: uri` (absolute only) — a bare string renders as a plain text box.
-4. **Enums** add `meta:enum:` for human-friendly dropdown labels.
+4. **Enums** add `meta:enum:` for labels, and must **never contain an empty value** (`enum: ['', x]`) — Canvas rejects the whole component and auto-disables it. For an optional choice, leave the prop out of `required:` instead.
 5. **Slots** work as drop zones automatically — no `examples` needed.
 6. **Do not set `noUi: true`** (that hides the component from Canvas).
 

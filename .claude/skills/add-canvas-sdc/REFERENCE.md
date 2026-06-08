@@ -100,17 +100,19 @@ alignment:
   examples:
     - center
 ```
-To offer a "none/default" choice, include an empty option:
+⚠️ **Never put an empty value in an `enum`** (e.g. `enum: ['', accent]` for a
+"none" option). Canvas rejects the whole component — it becomes ineligible and
+is auto-disabled on every cache rebuild, so it never appears in the Library.
+To make a choice optional, simply leave the prop out of `required:`; an optional
+enum can be left unset by the author. Guard the Twig for the unset case:
 ```yaml
-  enum: ['', accent]
-  meta:enum:
-    '': '— Default —'
-    accent: Accent
-  examples:
+  enum:
     - accent
+  meta:enum:
+    accent: Accent
 ```
 ```twig
-<div class="box box--{{ alignment }}">…</div>
+<div class="box {{ alignment ? 'box--' ~ alignment }}">…</div>
 ```
 
 ## Image object (media library / upload)

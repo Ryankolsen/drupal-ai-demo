@@ -148,6 +148,30 @@ if (properties) {
       warnings.push(`prop "${propName}": has \`enum\` but no \`meta:enum\` — Canvas will show raw values instead of friendly labels.`);
     }
 
+    // RULE 2b — an empty enum value makes Canvas mark the WHOLE component
+    // ineligible and disable it (it never appears in the Library). Do NOT add
+    // an empty option for "none": an optional prop (not in `required`) can be
+    // left unset already.
+    if (has('enum')) {
+      const enumKey = childKeys.find((l) => /^\s*enum\s*:/.test(l.text));
+      const items = [];
+      const inlineEnum = enumKey.text.split(/:(.*)/s)[1]?.trim() ?? '';
+      if (inlineEnum.startsWith('[')) {
+        // enum: ['', accent]
+        for (const m of inlineEnum.matchAll(/'([^']*)'|"([^"]*)"|([^,\[\]\s]+)/g)) {
+          items.push(m[1] ?? m[2] ?? m[3] ?? '');
+        }
+      } else {
+        for (const l of blockAfter(enumKey.i, childIndent)) {
+          const m = l.text.match(/^\s*-\s*(.*)$/);
+          if (m) items.push(m[1].trim().replace(/^['"]|['"]$/g, ''));
+        }
+      }
+      if (items.some((v) => v === '')) {
+        errors.push(`prop "${propName}": \`enum\` contains an empty value — Canvas rejects this and disables the entire component. Remove the empty option; leave the prop out of \`required\` so it can be unset instead.`);
+      }
+    }
+
     // RULE 3 — a "url"/"link"-ish string with no format renders as plain text.
     if (type === 'string' && /url|link|href/i.test(propName) && !has('format')) {
       warnings.push(`prop "${propName}": looks like a link but has no \`format\` — add \`format: uri-reference\` (or \`uri\`) for a proper Link field.`);
