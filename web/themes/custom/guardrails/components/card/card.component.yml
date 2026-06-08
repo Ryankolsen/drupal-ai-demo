@@ -36,10 +36,8 @@ props:
       title: 'Modifier class'
       description: 'Optional extra CSS class for variants.'
       enum:
-        - ''
         - accent
       meta:enum:
-        '': '— Default —'
         accent: Accent
       examples:
         - accent
