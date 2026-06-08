@@ -1,0 +1,24 @@
+uuid: cffd4be2-0059-4c8d-98f4-9efa1d4b1483
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cover
+    - media.type.image
+    - node.type.board_game
+id: node.board_game.field_cover
+field_name: field_cover
+entity_type: node
+bundle: board_game
+label: Cover
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+field_type: entity_reference

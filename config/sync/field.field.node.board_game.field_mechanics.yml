@@ -1,0 +1,24 @@
+uuid: dc78462c-ea93-46f2-952a-8f5c60b6b33c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mechanics
+    - node.type.board_game
+    - taxonomy.vocabulary.mechanics
+id: node.board_game.field_mechanics
+field_name: field_mechanics
+entity_type: node
+bundle: board_game
+label: Mechanics
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mechanics: mechanics
+field_type: entity_reference

@@ -1,0 +1,10 @@
+services:
+  board_games.importer:
+    class: Drupal\board_games\GameImporter
+    arguments:
+      - '@entity_type.manager'
+      - '@file.repository'
+      - '@file_system'
+      - '@logger.factory'
+  # Allow the interface to be autowired (e.g. into the Drush command).
+  Drupal\board_games\GameImporterInterface: '@board_games.importer'

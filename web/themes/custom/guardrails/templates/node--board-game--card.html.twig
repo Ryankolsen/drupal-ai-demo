@@ -1,0 +1,11 @@
+{#
+/**
+ * @file
+ * Renders a Board Game node in the 'card' view mode via the game_card SDC.
+ *
+ * All field-to-prop mapping happens in
+ * guardrails_preprocess_node__board_game__card(); this template only forwards
+ * the prepared `game_card` props to the component, keeping logic out of Twig.
+ */
+#}
+{{ include('guardrails:game_card', game_card) }}

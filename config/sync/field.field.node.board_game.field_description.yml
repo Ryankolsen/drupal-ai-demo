@@ -1,0 +1,22 @@
+uuid: eec45183-a6d4-4095-af61-3d150fb83381
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - node.type.board_game
+  module:
+    - text
+id: node.board_game.field_description
+field_name: field_description
+entity_type: node
+bundle: board_game
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

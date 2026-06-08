@@ -1,0 +1,143 @@
+uuid: 615029e8-7033-4168-8241-8211cfb97d1e
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+  theme:
+    - guardrails
+active_version: afcb96161e75c331
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        heading:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: Catan
+          expression: ℹ︎string␟value
+        url:
+          required: false
+          field_type: link
+          field_storage_settings: {  }
+          field_instance_settings:
+            title: 0
+            link_type: 17
+          field_widget: link_default
+          default_value:
+            -
+              uri: /node/1
+              options: {  }
+          expression: ℹ︎link␟url
+        cover_src:
+          required: false
+          field_type: link
+          field_storage_settings: {  }
+          field_instance_settings:
+            title: 0
+            link_type: 17
+          field_widget: link_default
+          default_value:
+            -
+              uri: /sites/default/files/board_games/catan.png
+              options: {  }
+          expression: ℹ︎link␟url
+        cover_alt:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Catan cover'
+          expression: ℹ︎string␟value
+        min_players:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 1
+            max: null
+          field_widget: number
+          default_value:
+            -
+              value: 3
+          expression: ℹ︎integer␟value
+        max_players:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 1
+            max: null
+          field_widget: number
+          default_value:
+            -
+              value: 4
+          expression: ℹ︎integer␟value
+        play_time:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 0
+            max: null
+          field_widget: number
+          default_value:
+            -
+              value: 60
+          expression: ℹ︎integer␟value
+        complexity:
+          required: false
+          field_type: float
+          field_storage_settings:
+            min: 0
+            max: 5
+          field_instance_settings: {  }
+          field_widget: number
+          default_value:
+            -
+              value: 2.3
+          expression: ℹ︎float␟value
+        rating:
+          required: false
+          field_type: float
+          field_storage_settings:
+            min: 0
+            max: 10
+          field_instance_settings: {  }
+          field_widget: number
+          default_value:
+            -
+              value: 7.1
+          expression: ℹ︎float␟value
+        mechanics:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Dice Rolling'
+            -
+              value: 'Set Collection'
+            -
+              value: 'Route/Network Building'
+            -
+              value: 'Hand Management'
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Game Card'
+id: sdc.guardrails.game_card
+provider: guardrails
+source: sdc
+source_local_id: 'guardrails:game_card'

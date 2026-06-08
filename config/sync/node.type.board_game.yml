@@ -1,0 +1,11 @@
+uuid: a51ae424-6580-4ee2-b35d-972cb771f70c
+langcode: en
+status: true
+dependencies: {  }
+name: 'Board Game'
+type: board_game
+description: 'A board game in the catalog, sourced from BoardGameGeek.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Theme functions for the Guardrails Demo theme.
+ *
+ * Per the project guardrails, all field-to-prop mapping lives here in
+ * preprocess; the matching Twig templates stay purely presentational.
+ */
+
+declare(strict_types=1);
+
+use Drupal\media\MediaInterface;
+
+/**
+ * Prepares game_card SDC props for a Board Game node in the 'card' view mode.
+ *
+ * Maps node fields to the props of the `guardrails:game_card` component and
+ * exposes them as the `game_card` variable, which the
+ * node--board-game--card.html.twig template hands straight to the component.
+ */
+function guardrails_preprocess_node__board_game__card(array &$variables): void {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+
+  $cover_src = '';
+  $cover_alt = '';
+  if (!$node->get('field_cover')->isEmpty()) {
+    $media = $node->get('field_cover')->entity;
+    if ($media instanceof MediaInterface && !$media->get('field_media_image')->isEmpty()) {
+      $image = $media->get('field_media_image')->first();
+      $file = $image->entity;
+      if ($file) {
+        $cover_src = \Drupal::service('file_url_generator')->generateString($file->getFileUri());
+        $cover_alt = (string) $image->alt;
+      }
+    }
+  }
+
+  $mechanics = [];
+  foreach ($node->get('field_mechanics')->referencedEntities() as $term) {
+    $mechanics[] = $term->label();
+  }
+
+  $variables['game_card'] = [
+    'heading' => $node->label(),
+    'url' => $node->toUrl()->toString(),
+    'cover_src' => $cover_src,
+    'cover_alt' => $cover_alt,
+    'min_players' => _guardrails_int_or_null($node, 'field_min_players'),
+    'max_players' => _guardrails_int_or_null($node, 'field_max_players'),
+    'play_time' => _guardrails_int_or_null($node, 'field_play_time'),
+    'complexity' => _guardrails_float_or_null($node, 'field_complexity'),
+    'rating' => _guardrails_float_or_null($node, 'field_rating'),
+    'mechanics' => $mechanics,
+  ];
+}
+
+/**
+ * Returns an integer field value, or NULL when the field is empty.
+ */
+function _guardrails_int_or_null($node, string $field): ?int {
+  return $node->get($field)->isEmpty() ? NULL : (int) $node->get($field)->value;
+}
+
+/**
+ * Returns a float field value, or NULL when the field is empty.
+ */
+function _guardrails_float_or_null($node, string $field): ?float {
+  return $node->get($field)->isEmpty() ? NULL : (float) $node->get($field)->value;
+}

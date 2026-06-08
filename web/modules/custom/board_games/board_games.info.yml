@@ -1,0 +1,9 @@
+name: Board Games
+type: module
+description: 'Board game catalog: fixture importer service and seed command.'
+package: Guardrails Demo
+core_version_requirement: ^11
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:media

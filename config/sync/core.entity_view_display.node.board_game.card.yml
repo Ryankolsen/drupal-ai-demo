@@ -1,0 +1,38 @@
+uuid: e916a755-5e07-4407-9f6d-3bd34ecdd61f
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.board_game.field_bgg_id
+    - field.field.node.board_game.field_complexity
+    - field.field.node.board_game.field_cover
+    - field.field.node.board_game.field_description
+    - field.field.node.board_game.field_max_players
+    - field.field.node.board_game.field_mechanics
+    - field.field.node.board_game.field_min_players
+    - field.field.node.board_game.field_play_time
+    - field.field.node.board_game.field_rating
+    - node.type.board_game
+  module:
+    - user
+id: node.board_game.card
+targetEntityType: node
+bundle: board_game
+mode: card
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_bgg_id: true
+  field_complexity: true
+  field_cover: true
+  field_description: true
+  field_max_players: true
+  field_mechanics: true
+  field_min_players: true
+  field_play_time: true
+  field_rating: true

@@ -1,0 +1,77 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Game Card
+status: stable
+description: 'A board game summary card: cover, player/time/complexity/rating stats, and mechanics.'
+props:
+  type: object
+  required:
+    - heading
+  properties:
+    heading:
+      type: string
+      title: Heading
+      description: 'The game name.'
+      examples:
+        - 'Catan'
+    url:
+      type: string
+      title: URL
+      format: uri-reference
+      description: 'Link to the game detail page.'
+      examples:
+        - '/node/1'
+    cover_src:
+      type: string
+      title: 'Cover image URL'
+      format: uri-reference
+      description: 'Source URL for the cover image. The card degrades gracefully when empty.'
+      examples:
+        - '/sites/default/files/board_games/catan.png'
+    cover_alt:
+      type: string
+      title: 'Cover alt text'
+      description: 'Alternative text for the cover image (required for accessibility when an image is shown).'
+      default: ''
+      examples:
+        - 'Catan cover'
+    min_players:
+      type: integer
+      title: 'Minimum players'
+      minimum: 1
+      examples:
+        - 3
+    max_players:
+      type: integer
+      title: 'Maximum players'
+      minimum: 1
+      examples:
+        - 4
+    play_time:
+      type: integer
+      title: 'Play time (minutes)'
+      minimum: 0
+      examples:
+        - 60
+    complexity:
+      type: number
+      title: Complexity
+      description: 'BGG weight, 1.00–5.00.'
+      minimum: 0
+      maximum: 5
+      examples:
+        - 2.3
+    rating:
+      type: number
+      title: Rating
+      description: 'BGG rating, 0.00–10.00.'
+      minimum: 0
+      maximum: 10
+      examples:
+        - 7.1
+    mechanics:
+      type: array
+      title: Mechanics
+      items:
+        type: string
+      examples:
+        - ['Dice Rolling', 'Set Collection', 'Route/Network Building', 'Hand Management']

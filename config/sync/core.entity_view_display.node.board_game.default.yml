@@ -1,0 +1,103 @@
+uuid: 8d0c1605-981a-41b1-b920-b65dfbf36141
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.board_game.field_bgg_id
+    - field.field.node.board_game.field_complexity
+    - field.field.node.board_game.field_cover
+    - field.field.node.board_game.field_description
+    - field.field.node.board_game.field_max_players
+    - field.field.node.board_game.field_mechanics
+    - field.field.node.board_game.field_min_players
+    - field.field.node.board_game.field_play_time
+    - field.field.node.board_game.field_rating
+    - node.type.board_game
+  module:
+    - text
+    - user
+id: node.board_game.default
+targetEntityType: node
+bundle: board_game
+mode: default
+content:
+  field_complexity:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_cover:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: thumbnail
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_max_players:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_mechanics:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_min_players:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_play_time:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_rating:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_bgg_id: true

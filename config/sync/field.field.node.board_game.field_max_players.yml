@@ -1,0 +1,23 @@
+uuid: 547f121d-3859-42d4-9a37-231a3990b558
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_max_players
+    - node.type.board_game
+id: node.board_game.field_max_players
+field_name: field_max_players
+entity_type: node
+bundle: board_game
+label: 'Maximum players'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

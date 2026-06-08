@@ -1,0 +1,23 @@
+uuid: 45d9e619-8dd0-45d9-927f-7871a0d6b902
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_complexity
+    - node.type.board_game
+id: node.board_game.field_complexity
+field_name: field_complexity
+entity_type: node
+bundle: board_game
+label: Complexity
+description: 'BGG weight, 1.00–5.00.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

@@ -1,0 +1,9 @@
+uuid: a999c594-7c56-48f5-8477-6bdc7460883f
+langcode: en
+status: true
+dependencies: {  }
+name: Mechanics
+vid: mechanics
+description: 'Board game mechanics (e.g. Dice Rolling, Set Collection).'
+weight: 0
+new_revision: false

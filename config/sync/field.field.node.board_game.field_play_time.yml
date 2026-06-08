@@ -1,0 +1,23 @@
+uuid: 63b5dff2-ea36-4497-9de9-d781f1face56
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_play_time
+    - node.type.board_game
+id: node.board_game.field_play_time
+field_name: field_play_time
+entity_type: node
+bundle: board_game
+label: 'Play time (minutes)'
+description: 'Average play time in minutes.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

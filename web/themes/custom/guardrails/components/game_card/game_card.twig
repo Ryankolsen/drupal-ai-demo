@@ -1,0 +1,75 @@
+{#
+/**
+ * @file
+ * Game Card single-directory component.
+ *
+ * Renders a board game summary. All data is mapped to props in a preprocess
+ * hook (see guardrails_preprocess_node__board_game__card); this template stays
+ * presentational, per the project guardrails.
+ *
+ * Props:
+ * - heading: string (required) — the game name.
+ * - url: string — link to the game detail page.
+ * - cover_src: string — cover image URL; the card degrades gracefully if empty.
+ * - cover_alt: string — alt text for the cover image.
+ * - min_players / max_players: integer — supported player range.
+ * - play_time: integer — average play time in minutes.
+ * - complexity: number — BGG weight (1–5).
+ * - rating: number — BGG rating (0–10).
+ * - mechanics: array of strings — mechanic names.
+ #}
+<article{{ attributes.addClass('gr-game-card') }}>
+  <div class="gr-game-card__cover">
+    {% if cover_src %}
+      <img class="gr-game-card__image" src="{{ cover_src }}" alt="{{ cover_alt }}" loading="lazy">
+    {% else %}
+      {# Graceful fallback: a decorative placeholder, hidden from assistive tech. #}
+      <div class="gr-game-card__placeholder" aria-hidden="true">{{ heading|slice(0, 1) }}</div>
+    {% endif %}
+  </div>
+
+  <div class="gr-game-card__body">
+    <h3 class="gr-game-card__heading">
+      {% if url %}
+        <a href="{{ url }}">{{ heading }}</a>
+      {% else %}
+        {{ heading }}
+      {% endif %}
+    </h3>
+
+    <dl class="gr-game-card__stats">
+      {% if min_players is not null and max_players is not null %}
+        <div class="gr-game-card__stat">
+          <dt>Players</dt>
+          <dd>{{ min_players == max_players ? min_players : min_players ~ '–' ~ max_players }}</dd>
+        </div>
+      {% endif %}
+      {% if play_time %}
+        <div class="gr-game-card__stat">
+          <dt>Play time</dt>
+          <dd>{{ play_time }} min</dd>
+        </div>
+      {% endif %}
+      {% if complexity is not null %}
+        <div class="gr-game-card__stat">
+          <dt>Complexity</dt>
+          <dd>{{ complexity|number_format(1) }} / 5</dd>
+        </div>
+      {% endif %}
+      {% if rating is not null %}
+        <div class="gr-game-card__stat gr-game-card__stat--rating">
+          <dt>Rating</dt>
+          <dd>{{ rating|number_format(1) }} / 10</dd>
+        </div>
+      {% endif %}
+    </dl>
+
+    {% if mechanics is not empty %}
+      <ul class="gr-game-card__mechanics">
+        {% for mechanic in mechanics %}
+          <li class="gr-game-card__mechanic">{{ mechanic }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</article>

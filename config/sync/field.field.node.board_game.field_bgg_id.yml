@@ -1,0 +1,23 @@
+uuid: 9fedad07-842d-47e7-a1e6-9e1489e05ee2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_bgg_id
+    - node.type.board_game
+id: node.board_game.field_bgg_id
+field_name: field_bgg_id
+entity_type: node
+bundle: board_game
+label: 'BGG ID'
+description: 'BoardGameGeek id; the dedupe key.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

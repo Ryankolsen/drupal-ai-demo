@@ -1,0 +1,23 @@
+uuid: 53dd416b-cd09-4c00-8423-fca91c3b0044
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_min_players
+    - node.type.board_game
+id: node.board_game.field_min_players
+field_name: field_min_players
+entity_type: node
+bundle: board_game
+label: 'Minimum players'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
