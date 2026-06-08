@@ -1,0 +1,40 @@
+/**
+ * @file
+ * Styles for the Badge Row component. Auto-attached by SDC when the component
+ * is rendered.
+ *
+ * Text colors meet WCAG AA against the pill background.
+ */
+.gr-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid #d4d4d8;
+  border-radius: 999px;
+  background: #f4f4f5;
+  font-size: 0.85rem;
+  color: #27272a; /* AA on #f4f4f5. */
+}
+
+.gr-badge__icon {
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+.gr-badge__value {
+  font-weight: 700;
+}
+
+.gr-badge__label {
+  color: #52525b; /* AA on #f4f4f5. */
+}

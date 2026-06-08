@@ -57,6 +57,34 @@ function guardrails_preprocess_node__board_game__card(array &$variables): void {
 }
 
 /**
+ * Prepares the stat-component props for a Board Game node detail page.
+ *
+ * The 'full' view mode (the canonical node page) renders its headline stats
+ * through the badge_row, complexity_meter and rating_stars SDCs. Field-to-prop
+ * mapping lives here; node--board-game--full.html.twig only forwards the
+ * prepared variables to the components and lets the remaining fields keep their
+ * configured formatters.
+ */
+function guardrails_preprocess_node__board_game__full(array &$variables): void {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+
+  // Omit null values: SDC rejects an explicit null for a typed prop, so the
+  // badge_row component only receives the keys that actually have data.
+  $variables['badge_row'] = array_filter([
+    'min_players' => _guardrails_int_or_null($node, 'field_min_players'),
+    'max_players' => _guardrails_int_or_null($node, 'field_max_players'),
+    'play_time' => _guardrails_int_or_null($node, 'field_play_time'),
+  ], static fn ($value): bool => $value !== NULL);
+  $variables['complexity_meter'] = [
+    'value' => _guardrails_float_or_null($node, 'field_complexity'),
+  ];
+  $variables['rating_stars'] = [
+    'rating' => _guardrails_float_or_null($node, 'field_rating'),
+  ];
+}
+
+/**
  * Returns an integer field value, or NULL when the field is empty.
  */
 function _guardrails_int_or_null($node, string $field): ?int {

@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * Renders a Board Game node in the 'full' view mode (the detail page).
+ *
+ * The headline numeric stats are rendered through the badge_row, rating_stars
+ * and complexity_meter SDCs, with props prepared in
+ * guardrails_preprocess_node__board_game__full(); the descriptive and reference
+ * fields keep their configured formatters. The individual stat fields
+ * (min/max players, play time, complexity, rating) are intentionally not
+ * printed from `content` so they are not rendered twice. Logic stays out of
+ * Twig per the project guardrails.
+ *
+ * Available variables:
+ * - badge_row / complexity_meter / rating_stars: prepared SDC prop arrays.
+ * - content: the renderable field array.
+ * - label, url, page, title_prefix, title_suffix, title_attributes, attributes.
+ */
+#}
+<article{{ attributes.addClass('gr-game-detail') }}>
+  {{ title_prefix }}
+  {% if not page %}
+    <h2 class="gr-game-detail__title"{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  {% if content.field_cover|render %}
+    <div class="gr-game-detail__cover">
+      {{ content.field_cover }}
+    </div>
+  {% endif %}
+
+  <div class="gr-game-detail__stats">
+    {% if badge_row.min_players is not null or badge_row.play_time %}
+      {{ include('guardrails:badge_row', badge_row, with_context = false) }}
+    {% endif %}
+    {% if rating_stars.rating is not null %}
+      {{ include('guardrails:rating_stars', rating_stars, with_context = false) }}
+    {% endif %}
+    {% if complexity_meter.value is not null %}
+      {{ include('guardrails:complexity_meter', complexity_meter, with_context = false) }}
+    {% endif %}
+  </div>
+
+  <div class="gr-game-detail__body">
+    {{ content.field_description }}
+    {{ content.field_designers }}
+    {{ content.field_publisher }}
+    {{ content.field_mechanics }}
+    {{ content.field_categories }}
+  </div>
+
+  {{ content.links }}
+</article>

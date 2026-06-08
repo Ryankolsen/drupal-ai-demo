@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Complexity Meter single-directory component.
+ *
+ * A small 1–max gauge for a board game's complexity weight. The pips give the
+ * at-a-glance gestalt; the numeric readout carries the exact value so the
+ * information is never conveyed by color alone (WCAG 1.4.1). The gauge is
+ * exposed to assistive tech as a single labelled image, with the pips hidden.
+ *
+ * Props:
+ * - value: number (required) — the weight to display.
+ * - max: integer — scale top / pip count (default 5).
+ * - label: string — visible caption (default 'Complexity').
+ #}
+{% set scale = max|default(5) %}
+{% set caption = label|default('Complexity') %}
+{% set filled = min(value|round(0, 'floor'), scale) %}
+<div{{ attributes.addClass('gr-complexity-meter') }}>
+  {% if caption %}
+    <span class="gr-complexity-meter__label">{{ caption }}</span>
+  {% endif %}
+  <span class="gr-complexity-meter__gauge" role="img" aria-label="{{ caption }}: {{ value|number_format(1) }} out of {{ scale }}">
+    {% for i in 1..scale %}
+      <span class="gr-complexity-meter__pip{{ i <= filled ? ' is-filled' }}" aria-hidden="true"></span>
+    {% endfor %}
+  </span>
+  <span class="gr-complexity-meter__value" aria-hidden="true">{{ value|number_format(1) }} / {{ scale }}</span>
+</div>

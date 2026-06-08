@@ -78,6 +78,63 @@ A normal SDC renders fine in Twig but stays invisible/unusable in **Drupal Canva
 
 7. **Persist the enabled status (optional).** `status: true` lives in *active* config only; a later `drush cim` reverts it (and the next rebuild regenerates the entity disabled). To keep it enabled across config import/deploys, export it: `ddev drush cex -y` (the component entity is usually the only diff). Note the sync dir is often under `web/sites/default/files/sync` and git-ignored, so this persists locally but may not travel with the repo.
 
+## Composing components (a component that includes another)
+
+A component can render another SDC to build larger pieces from smaller ones
+(e.g. a card that embeds a rating and a stats row). Include the child by its
+plugin id and pass its props explicitly:
+
+```twig
+{{ include('guardrails:rating_stars', { rating: rating }, with_context = false) }}
+```
+
+- **Always pass `with_context = false`.** Otherwise the parent's whole context —
+  including its own `attributes` object — leaks into the child, so the child
+  reuses the parent's CSS classes and stray variables. SDC always gives the
+  child a fresh `attributes`; isolating context keeps that clean.
+- Pass only the props the child declares; map the parent's props/values to the
+  child's prop names inline.
+- Guard a child's **required** props at the include site (`{% if value is not
+  null %}`) so you never invoke it with a missing required prop.
+- **Never pass an explicit `null` for a typed prop.** SDC validates props and
+  throws `InvalidComponentException` ("NULL value found, but a …") when a typed
+  prop (integer/number/string/…) receives `null` — even an *optional* one. So
+  for optional props, omit the key entirely rather than passing null: build the
+  props object conditionally in Twig with `merge`, or `array_filter(..., fn($v)
+  => $v !== NULL)` the array in preprocess.
+
+  ```twig
+  {% set badges = {} %}
+  {% if play_time is not null %}{% set badges = badges|merge({ play_time: play_time }) %}{% endif %}
+  {% if badges is not empty %}{{ include('guardrails:badge_row', badges, with_context = false) }}{% endif %}
+  ```
+
+## Derive presentation in the component, not in preprocess
+
+Canvas passes prop values **straight to the component** — there is no preprocess
+hook in the Canvas render path. So any presentational math that turns a prop
+into markup (a fill percentage, a pip/star count, a rounded label) must live in
+the **component Twig**, computed from the props, not in a theme preprocess
+function. (Preprocess still maps *entity fields* to props when the component is
+rendered through a node template — but the component must stand on its own when
+an editor places it in Canvas with raw prop values.)
+
+## Accessibility for visual components (gauges, meters, ratings)
+
+Visual indicators must meet WCAG AA on their own:
+
+- **Never convey the value by color alone** (WCAG 1.4.1). Pair every gauge,
+  meter or star row with a text/numeric readout of the value.
+- Expose the visual as a single labelled image: put `role="img"` and a
+  descriptive `aria-label` (e.g. `"Rated 7.1 out of 10"`) on the wrapper, and
+  mark the decorative glyphs/pips/icons `aria-hidden="true"` so assistive tech
+  hears the label once, not every star.
+- If a visible numeric readout duplicates the aria-label, mark the readout
+  `aria-hidden="true"` to avoid a double announcement.
+- Graphical objects (filled vs empty pips/stars) should differ by luminance,
+  not hue alone, and target ~3:1 contrast against their background/each other
+  (WCAG 1.4.11).
+
 ## Troubleshooting
 
 **Component never appears / `status` reverts to `false` on every `cache:rebuild`.**

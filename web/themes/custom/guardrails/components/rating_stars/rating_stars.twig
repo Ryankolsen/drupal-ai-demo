@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Rating Stars single-directory component.
+ *
+ * Maps a numeric score onto a row of stars using a clipped overlay so partial
+ * ratings render exactly. The stars are decorative (aria-hidden); the score is
+ * announced once through an aria-label on the row, and shown to sighted users
+ * as a numeric readout, so the rating is never conveyed by color alone.
+ *
+ * The fill width is derived from the props here (not in preprocess) because
+ * Canvas passes props straight to the component with no preprocess step.
+ *
+ * Props:
+ * - rating: number (required) — the score to display.
+ * - max: number — top of the scale (default 10).
+ * - stars: integer — number of star glyphs (default 5).
+ * - show_value: boolean — print the numeric readout (default true).
+ #}
+{% set scale = max|default(10) %}
+{% set star_count = stars|default(5) %}
+{% set show = show_value is defined ? show_value : true %}
+{% set pct = scale > 0 ? (rating / scale * 100)|round : 0 %}
+<span{{ attributes.addClass('gr-rating-stars') }}>
+  <span class="gr-rating-stars__stars" role="img" aria-label="Rated {{ rating|number_format(1) }} out of {{ scale }}">
+    <span class="gr-rating-stars__track" aria-hidden="true">{% for i in 1..star_count %}★{% endfor %}</span>
+    <span class="gr-rating-stars__fill" style="width: {{ pct }}%" aria-hidden="true">{% for i in 1..star_count %}★{% endfor %}</span>
+  </span>
+  {% if show %}
+    <span class="gr-rating-stars__value" aria-hidden="true">{{ rating|number_format(1) }} / {{ scale }}</span>
+  {% endif %}
+</span>

@@ -1,0 +1,39 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Rating Stars
+status: stable
+description: 'An accessible star rating that maps a numeric score onto a row of stars, exposing the score to assistive tech as a single labelled image plus an optional visible readout.'
+props:
+  type: object
+  required:
+    - rating
+  properties:
+    rating:
+      type: number
+      title: Rating
+      description: 'The score to display (e.g. BGG rating, 0–10).'
+      minimum: 0
+      maximum: 10
+      examples:
+        - 7.1
+    max:
+      type: number
+      title: 'Maximum rating'
+      description: 'Top of the rating scale the score is measured against.'
+      minimum: 1
+      maximum: 100
+      examples:
+        - 10
+    stars:
+      type: integer
+      title: 'Number of stars'
+      description: 'How many star glyphs the row contains.'
+      minimum: 1
+      maximum: 10
+      examples:
+        - 5
+    show_value:
+      type: boolean
+      title: 'Show numeric value'
+      description: 'Whether to print the numeric readout beside the stars.'
+      examples:
+        - true

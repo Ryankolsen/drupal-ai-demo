@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Badge Row single-directory component.
+ *
+ * Renders the headline board game facts as a semantic list of badges. Icons are
+ * decorative (aria-hidden); every badge keeps a readable text label so its
+ * meaning is clear to assistive tech and the row meets WCAG AA. The whole list
+ * is omitted when no values are supplied (no empty <ul>).
+ *
+ * Props:
+ * - min_players / max_players: integer — supported player range.
+ * - play_time: integer — average play time in minutes.
+ * - min_age: integer — recommended minimum age.
+ #}
+{% set players = (min_players is not null and max_players is not null)
+  ? (min_players == max_players ? min_players : min_players ~ '–' ~ max_players)
+  : null %}
+{% if players is not null or play_time or min_age %}
+  <ul{{ attributes.addClass('gr-badge-row') }}>
+    {% if players is not null %}
+      <li class="gr-badge gr-badge--players">
+        <span class="gr-badge__icon" aria-hidden="true">👥</span>
+        <span class="gr-badge__text"><span class="gr-badge__value">{{ players }}</span> <span class="gr-badge__label">players</span></span>
+      </li>
+    {% endif %}
+    {% if play_time %}
+      <li class="gr-badge gr-badge--time">
+        <span class="gr-badge__icon" aria-hidden="true">⏱️</span>
+        <span class="gr-badge__text"><span class="gr-badge__value">{{ play_time }}</span> <span class="gr-badge__label">min</span></span>
+      </li>
+    {% endif %}
+    {% if min_age %}
+      <li class="gr-badge gr-badge--age">
+        <span class="gr-badge__icon" aria-hidden="true">🎂</span>
+        <span class="gr-badge__text"><span class="gr-badge__label">Ages</span> <span class="gr-badge__value">{{ min_age }}+</span></span>
+      </li>
+    {% endif %}
+  </ul>
+{% endif %}

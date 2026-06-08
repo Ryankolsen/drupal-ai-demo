@@ -1,0 +1,45 @@
+/**
+ * @file
+ * Styles for the Complexity Meter component. Auto-attached by SDC when the
+ * component is rendered.
+ *
+ * Filled and empty pips differ in both fill and border (not color alone), and
+ * the exact value is always printed alongside, so the meter meets WCAG AA.
+ */
+.gr-complexity-meter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.gr-complexity-meter__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #52525b; /* AA on white (≈ 7:1). */
+}
+
+.gr-complexity-meter__gauge {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.gr-complexity-meter__pip {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #a1a1aa;
+  border-radius: 3px;
+  background: #f4f4f5;
+}
+
+.gr-complexity-meter__pip.is-filled {
+  border-color: #92400e;
+  background: #b45309; /* Amber; ≈ 4.7:1 on white as a graphical object. */
+}
+
+.gr-complexity-meter__value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #18181b;
+}

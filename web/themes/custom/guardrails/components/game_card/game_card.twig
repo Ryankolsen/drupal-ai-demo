@@ -17,6 +17,10 @@
  * - complexity: number — BGG weight (1–5).
  * - rating: number — BGG rating (0–10).
  * - mechanics: array of strings — mechanic names.
+ *
+ * The player/time, complexity and rating stats are rendered by composing the
+ * badge_row, complexity_meter and rating_stars sub-components. Each include
+ * uses with_context = false so the card's own attributes/context never leak in.
  #}
 <article{{ attributes.addClass('gr-game-card') }}>
   <div class="gr-game-card__cover">
@@ -37,32 +41,26 @@
       {% endif %}
     </h3>
 
-    <dl class="gr-game-card__stats">
-      {% if min_players is not null and max_players is not null %}
-        <div class="gr-game-card__stat">
-          <dt>Players</dt>
-          <dd>{{ min_players == max_players ? min_players : min_players ~ '–' ~ max_players }}</dd>
-        </div>
-      {% endif %}
-      {% if play_time %}
-        <div class="gr-game-card__stat">
-          <dt>Play time</dt>
-          <dd>{{ play_time }} min</dd>
-        </div>
-      {% endif %}
-      {% if complexity is not null %}
-        <div class="gr-game-card__stat">
-          <dt>Complexity</dt>
-          <dd>{{ complexity|number_format(1) }} / 5</dd>
-        </div>
-      {% endif %}
-      {% if rating is not null %}
-        <div class="gr-game-card__stat gr-game-card__stat--rating">
-          <dt>Rating</dt>
-          <dd>{{ rating|number_format(1) }} / 10</dd>
-        </div>
-      {% endif %}
-    </dl>
+    {# Build the badge props omitting null values: SDC rejects an explicit null
+       for a typed prop, so only pass the keys that have data. #}
+    {% set badges = {} %}
+    {% if min_players is not null %}{% set badges = badges|merge({ min_players: min_players }) %}{% endif %}
+    {% if max_players is not null %}{% set badges = badges|merge({ max_players: max_players }) %}{% endif %}
+    {% if play_time is not null %}{% set badges = badges|merge({ play_time: play_time }) %}{% endif %}
+    {% if badges is not empty %}
+      {{ include('guardrails:badge_row', badges, with_context = false) }}
+    {% endif %}
+
+    {% if rating is not null or complexity is not null %}
+      <div class="gr-game-card__meters">
+        {% if rating is not null %}
+          {{ include('guardrails:rating_stars', { rating: rating }, with_context = false) }}
+        {% endif %}
+        {% if complexity is not null %}
+          {{ include('guardrails:complexity_meter', { value: complexity }, with_context = false) }}
+        {% endif %}
+      </div>
+    {% endif %}
 
     {% if mechanics is not empty %}
       <ul class="gr-game-card__mechanics">

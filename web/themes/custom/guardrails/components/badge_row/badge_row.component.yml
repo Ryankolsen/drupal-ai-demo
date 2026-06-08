@@ -1,0 +1,35 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Badge Row
+status: stable
+description: 'A row of at-a-glance board game badges — player count, play time, and minimum age. Each badge renders only when its value is supplied, so the row degrades gracefully.'
+props:
+  type: object
+  properties:
+    min_players:
+      type: integer
+      title: 'Minimum players'
+      description: 'Lower bound of the supported player range.'
+      minimum: 1
+      examples:
+        - 2
+    max_players:
+      type: integer
+      title: 'Maximum players'
+      description: 'Upper bound of the supported player range.'
+      minimum: 1
+      examples:
+        - 4
+    play_time:
+      type: integer
+      title: 'Play time (minutes)'
+      description: 'Average play time in minutes.'
+      minimum: 0
+      examples:
+        - 45
+    min_age:
+      type: integer
+      title: 'Minimum age (years)'
+      description: 'Recommended minimum player age.'
+      minimum: 0
+      examples:
+        - 10

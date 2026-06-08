@@ -1,0 +1,31 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Complexity Meter
+status: stable
+description: 'A visual 1–5 gauge for a board game complexity weight, with an accessible numeric readout so the value is never conveyed by color alone.'
+props:
+  type: object
+  required:
+    - value
+  properties:
+    value:
+      type: number
+      title: 'Complexity value'
+      description: 'The complexity weight to display (e.g. BGG weight, 1–5).'
+      minimum: 0
+      maximum: 5
+      examples:
+        - 2.3
+    max:
+      type: integer
+      title: 'Scale maximum'
+      description: 'Top of the scale — the number of pips drawn.'
+      minimum: 1
+      maximum: 10
+      examples:
+        - 5
+    label:
+      type: string
+      title: Label
+      description: 'Visible caption shown before the gauge.'
+      examples:
+        - 'Complexity'

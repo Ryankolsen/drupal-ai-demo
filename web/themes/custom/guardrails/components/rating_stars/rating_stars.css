@@ -1,0 +1,45 @@
+/**
+ * @file
+ * Styles for the Rating Stars component. Auto-attached by SDC when the
+ * component is rendered.
+ *
+ * The filled stars overlay the empty track; the overlay is clipped to a width
+ * proportional to the score, so partial ratings render precisely. The numeric
+ * readout guarantees the score is available without relying on the star color.
+ */
+.gr-rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.gr-rating-stars__stars {
+  position: relative;
+  display: inline-block;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.gr-rating-stars__track,
+.gr-rating-stars__fill {
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.gr-rating-stars__track {
+  color: #d4d4d8; /* Empty stars. */
+}
+
+.gr-rating-stars__fill {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  overflow: hidden;
+  color: #b45309; /* Amber filled stars; ≈ 4.7:1 on white. */
+}
+
+.gr-rating-stars__value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #18181b;
+}

@@ -68,6 +68,22 @@ spacing:
 <div style="padding-top: {{ spacing }}px">…</div>
 ```
 
+## Number (decimal / float)
+For non-integer values (ratings, weights, percentages). Same shape as integer
+but `type: number`; Canvas maps it to a float field and accepts decimals.
+```yaml
+rating:
+  type: number
+  title: Rating
+  minimum: 0
+  maximum: 10
+  examples:
+    - 7.1
+```
+```twig
+{{ rating|number_format(1) }}
+```
+
 ## Link (URL field)
 - `format: uri-reference` → relative **or** absolute (`/about`, `https://…`).
 - `format: uri` → absolute only (must include a scheme).

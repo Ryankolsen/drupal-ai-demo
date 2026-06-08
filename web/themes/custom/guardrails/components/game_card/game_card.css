@@ -62,34 +62,10 @@
   text-decoration: underline;
 }
 
-.gr-game-card__stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem 1rem;
-  margin: 0;
-}
-
-.gr-game-card__stat {
+.gr-game-card__meters {
   display: flex;
   flex-direction: column;
-}
-
-.gr-game-card__stat dt {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: #52525b; /* AA on white (≈ 7:1). */
-}
-
-.gr-game-card__stat dd {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #18181b;
-}
-
-.gr-game-card__stat--rating dd {
-  color: #166534; /* Green, AA on white (≈ 6.3:1). */
+  gap: 0.5rem;
 }
 
 .gr-game-card__mechanics {
