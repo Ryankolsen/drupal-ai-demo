@@ -5,12 +5,10 @@ description: Add (or remove) a field on an existing Drupal bundle via exported c
 
 # Adding a Field to an Existing Bundle
 
-For a brand-new content type *with* its fields, use `create-content-type`. This
-skill is the narrower case: one field onto a bundle that already exists. Prefer
-**copying a sibling field's YAML** and retargeting it over hand-authoring keys.
-
-Config lives in `/config/sync` (single directory — this repo has no
-`config_split`). Custom code lives in `web/modules/custom`.
+One field onto a bundle that already exists (for a whole new type, use
+`create-content-type`). Prefer **copying a sibling field's YAML** and retargeting
+it over hand-authoring keys. Config lives in `/config/sync` (single directory —
+no `config_split` here); custom code in `web/modules/custom`.
 
 ## Checklist
 
@@ -51,22 +49,19 @@ ddev drush cex -y
 ddev drush cr
 ```
 
-**Why `cex` after `cim` is mandatory.** Hand-authored field YAML almost always
-differs from Drupal's exporter output — missing `uuid:`, key ordering, absent
-optional keys. `cex` after `cim` lets Drupal normalize every file: it writes back
-the auto-assigned UUID onto `field.field.*.yml`, fixes key order, and adds missing
-keys. Review the resulting `git diff` — expect at minimum a `uuid:` added to each
-new `field.field.*.yml`, and commit that normalized diff.
-
-If `cex` shows deletions or unrelated changes, stop and investigate — the only
-expected diff is normalization of the files you just added.
+**Why `cex` after `cim` is mandatory.** Hand-authored YAML differs from the
+exporter's output (missing `uuid:`, key order, absent optional keys). `cim` loads
+it; `cex` writes Drupal's normalized version back — auto-assigned UUID onto
+`field.field.*.yml`, fixed key order, added keys. Review the `git diff`: expect at
+minimum a `uuid:` added to each new `field.field.*.yml`, and commit that. If `cex`
+shows deletions or unrelated changes, stop and investigate — the only expected diff
+is normalization of the files you just added.
 
 ## Gotchas
 
-- **Omit `uuid:`** in new hand-authored files; never copy a sibling's UUID. Drupal
-  assigns a fresh one on import, and `cex` writes it back. Shipping a
-  `field.field.*.yml` with a stale UUID causes infinite drift — every `cim`
-  re-applies the file because the DB UUID won't match.
+- **Omit `uuid:`** in new files; never copy a sibling's. A stale UUID in
+  `field.field.*.yml` causes infinite drift — every `cim` re-applies the file
+  because the DB UUID won't match.
 - **Storage is shared across bundles.** Don't change cardinality / `target_type`
   on existing storage for one bundle's sake — create a new field instead.
 - **Unlimited cardinality is `-1`**, not `0`.
