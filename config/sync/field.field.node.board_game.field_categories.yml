@@ -1,0 +1,24 @@
+uuid: 53920128-fe84-4df6-956d-273132535df9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_categories
+    - node.type.board_game
+    - taxonomy.vocabulary.categories
+id: node.board_game.field_categories
+field_name: field_categories
+entity_type: node
+bundle: board_game
+label: Categories
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      categories: categories
+field_type: entity_reference

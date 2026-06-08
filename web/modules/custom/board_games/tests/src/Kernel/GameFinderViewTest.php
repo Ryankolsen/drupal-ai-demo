@@ -59,8 +59,9 @@ final class GameFinderViewTest extends KernelTestBase {
 
     $this->installBoardGameModel();
 
-    // Install the committed view exactly as it ships.
+    // Install the committed views exactly as they ship.
     View::create($this->readSyncConfig('views.view.game_finder'))->save();
+    View::create($this->readSyncConfig('views.view.top_rated'))->save();
   }
 
   /**
@@ -93,6 +94,9 @@ final class GameFinderViewTest extends KernelTestBase {
     $view = Views::getView('game_finder');
     $this->assertNotNull($view, 'The game_finder view loaded.');
     $view->setDisplay('page_1');
+    // The view now carries exposed filters; processing empty exposed input
+    // applies none of them, so this asserts the unfiltered baseline.
+    $view->setExposedInput([]);
     $view->execute();
 
     $ids = array_map(static fn($row) => (int) $row->_entity->id(), $view->result);
@@ -110,6 +114,29 @@ final class GameFinderViewTest extends KernelTestBase {
     $view = Views::getView('game_finder');
     $view->setDisplay('page_1');
     $this->assertSame('games', $view->getDisplay()->getOption('path'));
+  }
+
+  /**
+   * Top Rated ranks published games by rating DESC and is served at /top-rated.
+   */
+  public function testTopRatedRanksByRating(): void {
+    $low = $this->createGame('Catan', '7.10');
+    $high = $this->createGame('Pandemic', '7.60');
+    $mid = $this->createGame('Ticket to Ride', '7.40');
+    $this->createGame('Secret Prototype', '9.90', FALSE);
+
+    $view = Views::getView('top_rated');
+    $this->assertNotNull($view, 'The top_rated view loaded.');
+    $view->setDisplay('page_1');
+    $view->execute();
+
+    $ids = array_map(static fn($row) => (int) $row->_entity->id(), $view->result);
+    $this->assertSame(
+      [(int) $high->id(), (int) $mid->id(), (int) $low->id()],
+      $ids,
+      'Only published board games appear, ranked by rating DESC.',
+    );
+    $this->assertSame('top-rated', $view->getDisplay()->getOption('path'));
   }
 
 }

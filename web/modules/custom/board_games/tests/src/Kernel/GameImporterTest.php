@@ -86,6 +86,8 @@ final class GameImporterTest extends KernelTestBase {
         'description' => 'Trade, build, and settle the island of Catan.',
         // "Set Collection" is shared with Pandemic to test term dedup.
         'mechanics' => ['Dice Rolling', 'Set Collection'],
+        // "Strategy" is shared with Pandemic to test category dedup.
+        'categories' => ['Strategy', 'Family'],
         'image' => 'catan.png',
       ],
       [
@@ -98,6 +100,7 @@ final class GameImporterTest extends KernelTestBase {
         'rating' => '7.60',
         'description' => 'Cooperatively cure four diseases.',
         'mechanics' => ['Cooperative Play', 'Set Collection'],
+        'categories' => ['Cooperative', 'Strategy'],
         'image' => 'pandemic.png',
       ],
     ];
@@ -116,6 +119,19 @@ final class GameImporterTest extends KernelTestBase {
   }
 
   /**
+   * Counts taxonomy terms in a vocabulary.
+   */
+  private function countTerms(string $vid): int {
+    return (int) $this->container->get('entity_type.manager')
+      ->getStorage('taxonomy_term')
+      ->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('vid', $vid)
+      ->count()
+      ->execute();
+  }
+
+  /**
    * Importing fresh fixtures creates one node per game with all relations.
    */
   public function testImportCreatesGames(): void {
@@ -124,7 +140,9 @@ final class GameImporterTest extends KernelTestBase {
     $this->assertSame(['created' => 2, 'updated' => 0, 'skipped' => 0], $result);
     $this->assertSame(2, $this->countEntities('node'));
     // Three distinct mechanics across the two games (Set Collection shared).
-    $this->assertSame(3, $this->countEntities('taxonomy_term'));
+    $this->assertSame(3, $this->countTerms('mechanics'));
+    // Three distinct categories (Strategy shared), kept in their own vocab.
+    $this->assertSame(3, $this->countTerms('categories'));
     $this->assertSame(2, $this->countEntities('media'));
     $this->assertSame(2, $this->countEntities('file'));
 
@@ -135,6 +153,7 @@ final class GameImporterTest extends KernelTestBase {
     // Decimal storage normalises '7.10' to '7.1'.
     $this->assertEquals(7.1, (float) $node->get('field_rating')->value);
     $this->assertCount(2, $node->get('field_mechanics'));
+    $this->assertCount(2, $node->get('field_categories'));
     $this->assertFalse($node->get('field_cover')->isEmpty());
   }
 
@@ -148,7 +167,8 @@ final class GameImporterTest extends KernelTestBase {
     $this->assertSame(['created' => 0, 'updated' => 2, 'skipped' => 0], $second);
     // Nothing duplicated on the second pass.
     $this->assertSame(2, $this->countEntities('node'));
-    $this->assertSame(3, $this->countEntities('taxonomy_term'));
+    $this->assertSame(3, $this->countTerms('mechanics'));
+    $this->assertSame(3, $this->countTerms('categories'));
     $this->assertSame(2, $this->countEntities('media'));
     $this->assertSame(2, $this->countEntities('file'));
   }

@@ -6,7 +6,9 @@ dependencies:
     - core.entity_view_mode.node.card
     - node.type.board_game
   module:
+    - board_games
     - node
+    - taxonomy
     - user
 id: game_finder
 label: 'Game Finder'
@@ -91,6 +93,163 @@ display:
           value:
             board_game: board_game
           group: 1
+        player_count:
+          id: player_count
+          table: node_field_data
+          field: board_game_player_count
+          relationship: none
+          group_type: group
+          plugin_id: board_games_player_count
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: 'Plays with N players'
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: players
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+        field_play_time_value:
+          id: field_play_time_value
+          table: node__field_play_time
+          field: field_play_time_value
+          relationship: none
+          group_type: group
+          entity_type: node
+          entity_field: field_play_time
+          plugin_id: numeric
+          operator: '<='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_play_time_value_op
+            label: 'Max play time (minutes)'
+            description: ''
+            use_operator: false
+            operator: field_play_time_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: max_time
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+        field_complexity_value:
+          id: field_complexity_value
+          table: node__field_complexity
+          field: field_complexity_value
+          relationship: none
+          group_type: group
+          entity_type: node
+          entity_field: field_complexity
+          plugin_id: numeric
+          operator: between
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_complexity_value_op
+            label: Complexity
+            description: 'Weight from 1 (light) to 5 (heavy).'
+            use_operator: false
+            operator: field_complexity_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: complexity
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+        mechanic_tid:
+          id: mechanic_tid
+          table: taxonomy_index
+          field: tid
+          relationship: none
+          group_type: group
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: mechanic_tid_op
+            label: Mechanic
+            description: ''
+            use_operator: false
+            operator: mechanic_tid_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: mechanic
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          reduce_duplicates: false
+          vid: mechanics
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        category_tid:
+          id: category_tid
+          table: taxonomy_index
+          field: tid
+          relationship: none
+          group_type: group
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: category_tid_op
+            label: Category
+            description: ''
+            use_operator: false
+            operator: category_tid_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: category
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          reduce_duplicates: false
+          vid: categories
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       style:
         type: grid
         options:

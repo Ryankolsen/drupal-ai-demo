@@ -77,12 +77,19 @@ final class GameImporter implements GameImporterInterface {
         ]);
       }
 
-      // Many-to-many mechanics, resolve-or-create by name.
-      $term_ids = [];
+      // Many-to-many mechanics and categories, resolve-or-create by name in
+      // their respective vocabularies.
+      $mechanic_ids = [];
       foreach ($game['mechanics'] ?? [] as $mechanic) {
-        $term_ids[] = $this->resolveTerm($mechanic)->id();
+        $mechanic_ids[] = $this->resolveTerm('mechanics', $mechanic)->id();
       }
-      $node->set('field_mechanics', $term_ids);
+      $node->set('field_mechanics', $mechanic_ids);
+
+      $category_ids = [];
+      foreach ($game['categories'] ?? [] as $category) {
+        $category_ids[] = $this->resolveTerm('categories', $category)->id();
+      }
+      $node->set('field_categories', $category_ids);
 
       // Designers (many) and publisher (one): resolve-or-create the related
       // Designer/Publisher nodes by title so the references and their reverse
@@ -165,12 +172,20 @@ final class GameImporter implements GameImporterInterface {
   }
 
   /**
-   * Resolves a Mechanics term by name, creating it if needed.
+   * Resolves a taxonomy term by vocabulary and name, creating it if needed.
+   *
+   * Used for both Mechanics and Categories. Dedup is on (vid, name) so a term
+   * shared by several games is created once and re-imports add no duplicates.
+   *
+   * @param string $vid
+   *   The vocabulary machine name, 'mechanics' or 'categories'.
+   * @param string $name
+   *   The term name.
    */
-  private function resolveTerm(string $name): TermInterface {
+  private function resolveTerm(string $vid, string $name): TermInterface {
     $storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $existing = $storage->loadByProperties([
-      'vid' => 'mechanics',
+      'vid' => $vid,
       'name' => $name,
     ]);
     if ($existing) {
@@ -178,7 +193,7 @@ final class GameImporter implements GameImporterInterface {
     }
 
     /** @var \Drupal\taxonomy\TermInterface $term */
-    $term = $storage->create(['vid' => 'mechanics', 'name' => $name]);
+    $term = $storage->create(['vid' => $vid, 'name' => $name]);
     $term->save();
     return $term;
   }

@@ -1,0 +1,9 @@
+uuid: 9339a023-0f63-4b5e-a939-b0afd24b088b
+langcode: en
+status: true
+dependencies: {  }
+name: Categories
+vid: categories
+description: 'Board game categories (e.g. Strategy, Family, Party).'
+weight: 0
+new_revision: false

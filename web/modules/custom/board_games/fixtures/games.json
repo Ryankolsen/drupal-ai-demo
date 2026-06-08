@@ -9,6 +9,7 @@
     "rating": "7.10",
     "description": "Trade, build, and settle the island of Catan. Collect and manage resources to expand your settlements and cities, racing rivals to ten victory points.",
     "mechanics": ["Dice Rolling", "Set Collection", "Route/Network Building", "Hand Management"],
+    "categories": ["Strategy", "Family"],
     "designers": ["Klaus Teuber"],
     "publisher": "Kosmos",
     "image": "catan.png"
@@ -23,6 +24,7 @@
     "rating": "7.40",
     "description": "Collect train cards to claim railway routes connecting cities across the map, completing destination tickets for the longest continuous routes.",
     "mechanics": ["Set Collection", "Route/Network Building", "Hand Management"],
+    "categories": ["Family", "Strategy"],
     "designers": ["Alan R. Moon"],
     "publisher": "Days of Wonder",
     "image": "ticket-to-ride.png"
@@ -37,6 +39,7 @@
     "rating": "7.60",
     "description": "Work together as a team of specialists to treat infections and discover cures before four deadly diseases overwhelm the world.",
     "mechanics": ["Cooperative Play", "Hand Management", "Set Collection"],
+    "categories": ["Cooperative", "Strategy"],
     "designers": ["Matt Leacock"],
     "publisher": "Z-Man Games",
     "image": "pandemic.png"
@@ -51,6 +54,7 @@
     "rating": "7.40",
     "description": "Draw and place tiles to build a medieval landscape of cities, roads, and fields, deploying followers to score the features you complete.",
     "mechanics": ["Tile Placement"],
+    "categories": ["Family", "Strategy"],
     "designers": ["Klaus-Jürgen Wrede"],
     "publisher": "Hans im Glück",
     "image": "carcassonne.png"
@@ -65,6 +69,7 @@
     "rating": "7.80",
     "description": "Draft colorful tiles to decorate the walls of the Royal Palace of Evora, planning placements to maximize points and deny your opponents.",
     "mechanics": ["Tile Placement", "Set Collection"],
+    "categories": ["Abstract", "Family"],
     "designers": ["Michael Kiesling"],
     "publisher": "Plan B Games",
     "image": "azul.png"

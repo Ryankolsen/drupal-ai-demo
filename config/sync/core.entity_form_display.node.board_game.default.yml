@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.board_game.field_bgg_id
+    - field.field.node.board_game.field_categories
     - field.field.node.board_game.field_complexity
     - field.field.node.board_game.field_cover
     - field.field.node.board_game.field_description
@@ -35,6 +36,16 @@ content:
     weight: 0
     region: content
     settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_categories:
+    type: entity_reference_autocomplete_tags
+    weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_complexity:

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.board_game.field_bgg_id
+    - field.field.node.board_game.field_categories
     - field.field.node.board_game.field_complexity
     - field.field.node.board_game.field_cover
     - field.field.node.board_game.field_description
@@ -23,6 +24,14 @@ targetEntityType: node
 bundle: board_game
 mode: default
 content:
+  field_categories:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
   field_complexity:
     type: number_decimal
     label: above

@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for the Board Games module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_views_data().
+ *
+ * Exposes a synthetic "supported player count" filter on the node base table.
+ * It is backed by the PlayerCount filter plugin, which turns one exposed value
+ * N into the range test field_min_players ≤ N ≤ field_max_players. Registering
+ * it here is what lets a View reference it as an ordinary filter in config.
+ */
+function board_games_views_data(): array {
+  $data = [];
+  $data['node_field_data']['board_game_player_count'] = [
+    'title' => t('Supported player count'),
+    'help' => t('Filter to board games that support a given number of players (field_min_players ≤ N ≤ field_max_players).'),
+    'filter' => [
+      'id' => 'board_games_player_count',
+    ],
+  ];
+  return $data;
+}

@@ -53,8 +53,10 @@ trait BoardGameContentModelTrait {
    * before Board Game (whose field_designers/field_publisher reference them).
    */
   protected function installBoardGameModel(): void {
-    // Mechanics vocabulary (target of field_mechanics).
+    // Mechanics and Categories vocabularies (targets of the term-reference
+    // fields field_mechanics / field_categories).
     Vocabulary::create($this->readSyncConfig('taxonomy.vocabulary.mechanics'))->save();
+    Vocabulary::create($this->readSyncConfig('taxonomy.vocabulary.categories'))->save();
 
     // Image media bundle + source field (target of cover/photo/logo refs).
     FieldStorageConfig::create($this->readSyncConfig('field.storage.media.field_media_image'))->save();
