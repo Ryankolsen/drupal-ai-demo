@@ -5,121 +5,50 @@ description: Build a Drupal View as version-controlled config — a listing page
 
 # Build a View the config-managed way
 
-A View is **configuration** (`views.view.<id>.yml`): its base table, displays,
+A View is **configuration** (`views.view.<id>.yml`): base table, displays,
 filters, sorts, contextual filters (arguments), style, and row plugin all live
 in exported config. The mistake to avoid is clicking it together in the UI and
-never exporting — the View then lives only in one database. This skill produces
-a View and **captures it to `config/sync`** in one pass, and covers the
-**reverse entity-reference** pattern ("list the games by *this* designer").
+never exporting — the View then lives only in one database. This skill produces a
+View and **captures it to `config/sync`** in one pass.
 
 ## Decide the View first
-
-Before authoring, write down:
 
 - **Base entity/table**: usually `node_field_data` (content), `base_field: nid`.
 - **What it lists**: filters (e.g. `status = 1`, `type = <bundle>`).
 - **Order**: sorts (e.g. a rating field DESC).
 - **Displays**: a `page` (has a `path`), a `block` (placeable in a region), or
-  both. Each display inherits the `default` display and overrides only what
-  differs. **Name every display descriptively** — see below.
-- **Row + style**: render each result as a rendered entity in a view mode
-  (`row.type: 'entity:node'`, `options.view_mode: card`) inside a `grid`/`unformatted` style — or as Views fields.
-- **Contextual filter?** If the list depends on something in the URL or the
-  current page (an author, a term, the current node), that's an **argument**,
-  not an exposed filter.
+  both. Each display inherits `default` and overrides only what differs.
+- **Row + style**: rendered entity in a view mode (`row.type: 'entity:node'`,
+  `options.view_mode: card`) inside a `grid`/`unformatted` style — or Views fields.
+- **Contextual filter?** If the list depends on the URL or current page (an
+  author, a term, the current node), that's an **argument**, not an exposed filter.
 
-## Anatomy of `views.view.<id>.yml`
+## Author the YAML
 
-```yaml
-uuid: <uuid>            # fresh random UUID; the kernel-test trait strips it
-langcode: en
-status: true
-dependencies:
-  config: [core.entity_view_mode.node.card, node.type.<bundle>]
-  module: [node, user]
-id: <id>
-label: '<Human label>'
-module: views
-base_table: node_field_data
-base_field: nid
-display:
-  default:
-    display_plugin: default
-    display_options:
-      pager: { type: full, options: { items_per_page: 12, id: 0 } }
-      access: { type: perm, options: { perm: 'access content' } }
-      cache: { type: tag, options: {} }
-      sorts: { ... }      # see below
-      arguments: { ... }  # contextual filters — see the reverse-ref pattern
-      filters: { ... }    # status + type, keyed by entity_field
-      style: { type: grid, options: { columns: 3 } }
-      row: { type: 'entity:node', options: { view_mode: card } }
-    cache_metadata: { max-age: -1, contexts: [...], tags: {} }
-  <descriptive>_page:                        # NOT page_1 — see "Name every display"
-    display_plugin: page
-    display_title: '<Descriptive> page'
-    display_options: { path: <path> }       # a page has a path
-  <descriptive>_block:                       # NOT block_1
-    display_plugin: block
-    display_title: '<Descriptive> block'
-    display_options: { block_description: '<Admin block name>' }
-```
-
-Filters and sorts that wrap a real entity field carry `entity_type: node` and
-`entity_field: <field_name>`, and are keyed by the column (e.g.
-`field_rating_value`, `status`, `type`). Copy the shape from an existing committed
-View rather than inventing keys.
+The file is `views.view.<id>.yml`. Filters/sorts wrapping a real entity field
+carry `entity_type: node` + `entity_field: <field_name>` and are keyed by the
+column (e.g. `field_rating_value`, `status`, `type`). Copy the shape from an
+existing committed View rather than inventing keys.
+→ Full annotated skeleton: [REFERENCE.md](REFERENCE.md#full-viewsviewidyml-anatomy).
 
 ## Name every display descriptively (not `page_1` / `Page`)
 
-Drupal hands new displays generic identities — machine name `page_1` / `block_1`
-and **Display name** `Page` / `Block`. Leave them and the config reads as
-boilerplate: a site with four Views all referring to `page_1` tells you nothing,
-and a block placement `views_block:games_by_designer-block_1` is opaque. **Rename
-both the display machine name and its Display name to describe what the display
-is** — scoped to the View it lives in, since display ids only need to be unique
-within their View:
+Drupal hands new displays generic identities (`page_1`/`block_1`, names
+`Page`/`Block`) — leave them and the config reads as boilerplate
+(`views_block:games_by_designer-block_1` is opaque). **Rename both the display
+machine name and its Display name** to describe the display, scoped to its View:
+this repo uses `<subject>_page` / `<subject>_block` (e.g. `finder_page`,
+`publisher_block`) with a spoken-language Display name. Keep the `default` display
+as `default`. Do this **when you author the View** — renaming later means chasing
+the block placement, the `view.<view_id>.<display_id>` route, and test
+`setDisplay()` calls. → [REFERENCE.md](REFERENCE.md#name-every-display-example--chase-the-references).
 
-```yaml
-display:
-  default:                     # keep the default display as `default` — it is special
-    id: default
-    display_title: Default
-  designer_page:               # was page_1 — machine name describes the display
-    id: designer_page          # the inner `id:` must equal the YAML key
-    display_title: 'Designer games page'   # was "Page" — human Display name
-    display_plugin: page
-  designer_block:              # was block_1
-    id: designer_block
-    display_title: 'Designer games block'  # was "Block"
-    display_plugin: block
-```
+## Reverse entity-reference pattern (the useful part)
 
-Convention used in this repo: `<subject>_page` / `<subject>_block` for the
-machine name (e.g. `finder_page`, `top_rated_page`, `publisher_block`), and a
-spoken-language Display name (`Finder page`, `Top rated page`). The View id
-already carries the subject, so the display name only needs to disambiguate the
-display variant.
-
-**Renaming a display is a rename, not just a relabel — chase the references:**
-
-- The YAML **key** under `display:` and its inner `id:` must match.
-- A **block placement** names the display: `plugin` /`settings.id`
-  `views_block:<view_id>-<display_id>` in `block.block.*.yml` must use the new id.
-- The auto-generated **route** is `view.<view_id>.<display_id>` — any
-  `Url::fromRoute()` / `{{ url(...) }}` referencing it must change (the *path*
-  is unaffected).
-- **Kernel tests** call `$view->setDisplay('<display_id>')` — update them.
-
-Do this when you author the View; renaming later means touching every reference.
-
-## The reverse entity-reference pattern (the useful part)
-
-To list "all A that reference entity B" (games designed by a designer, articles
-by an author), you do **not** need a Views relationship. Add a **contextual
-filter (argument)** directly on the reference field's data column. For a field
-`field_designers` on nodes, the column lives in table `node__field_designers`,
-column `field_designers_target_id`:
+To list "all A that reference entity B" (games by a designer, articles by an
+author), you do **not** need a Views relationship. Add a **contextual filter
+(argument)** on the reference field's data column. For `field_designers` on nodes,
+the column is table `node__field_designers`, column `field_designers_target_id`:
 
 ```yaml
 arguments:
@@ -140,99 +69,27 @@ arguments:
     break_phrase: false
 ```
 
-The argument is the **id of the referenced entity** (the designer). Views joins
-`node__field_designers` to the base automatically and returns every game whose
-`field_designers` contains that id. A single-value field (`field_publisher`)
-works identically via `node__field_publisher` / `field_publisher_target_id`.
+The argument is the **id of the referenced entity**. Views joins
+`node__field_designers` to the base automatically. A single-value field
+(`field_publisher`) works identically via `node__field_publisher` /
+`field_publisher_target_id`. Supply the argument two ways:
 
-### Two ways to supply the argument
+- **Page** — put a `%` placeholder in the path: `path: designer/%/games`.
+- **Block** — set `default_argument_type: node` ("Content ID from URL") + a bundle
+  visibility condition so it reads the current node id on a designer's page; use
+  `default_action: empty` so it renders nothing off-context.
+  → block placement YAML: [REFERENCE.md](REFERENCE.md#placing-the-reverse-ref-block-on-the-right-pages).
 
-- **Page display** — put a `%` placeholder in the path: `path: designer/%/games`.
-  The URL segment becomes the argument.
-- **Block display** — set `default_argument_type: node` ("Content ID from URL").
-  Placed on a node's canonical page, the block reads the current node id, so a
-  Designer's page can show *that* designer's games with no path argument. Use
-  `default_action: empty` so it simply renders nothing off-context.
+## Exposed filters & facets
 
-### Placing the block on the right pages
-
-A block display becomes a `views_block:<view_id>-block_1` plugin. Place it with a
-`block.block.<theme>_<id>.yml`, region `content`, weight after the main content,
-and a **bundle visibility condition** so it only appears on the intended pages:
-
-```yaml
-plugin: 'views_block:games_by_designer-block_1'
-visibility:
-  'entity_bundle:node':
-    id: 'entity_bundle:node'
-    context_mapping: { node: '@node.node_route_context:node' }
-    bundles: { designer: designer }
-```
-
-The bundle condition adds a `config: node.type.designer` dependency — declare it.
-
-## Exposed filters & facets (the faceted-finder part)
-
-An **exposed** filter renders a control on the page so a visitor narrows the
-list themselves. Set `exposed: true` and an `expose:` block (give it a clean
-`identifier` — that becomes the query-string key, e.g. `?max_time=45`). Lock the
-operator (`use_operator: false`, fixed `operator:`) when the visitor should only
-supply a value, not choose a comparison.
-
-- **Single-value numeric** (`plugin_id: numeric`, `operator: '<='`) — one input,
-  e.g. "max play time". Value shape is `{ min: '', max: '', value: '' }`.
-- **Range** (`plugin_id: numeric`, `operator: between`) — renders *two* inputs
-  (min/max), e.g. a complexity band. Same value shape; `between` reads min+max.
-- **Taxonomy facet** (`plugin_id: taxonomy_index_tid`, `table: taxonomy_index`) —
-  a term dropdown. Scope it to one vocabulary with `vid: <machine_name>` +
-  `limit: true`, `type: select`. It filters via the `taxonomy_index` table,
-  which Drupal maintains on node save (so the node's term references are indexed
-  automatically — no relationship needed). Two such filters (e.g. Mechanic and
-  Category) coexist; each joins `taxonomy_index` on its own alias and AND-narrows.
-
-### Custom range filter: one value against two columns
-
-When "supports N players" means `field_min_players ≤ N ≤ field_max_players`, no
-stock filter fits — two numeric filters would expose two inputs and can't relate
-them. Write a tiny **`FilterPluginBase`** plugin that takes one value and adds
-both bounds, then register it via `hook_views_data()` so config can name it:
-
-```php
-// board_games.module
-function board_games_views_data(): array {
-  $data['node_field_data']['board_game_player_count'] = [
-    'title' => t('Supported player count'),
-    'filter' => ['id' => 'board_games_player_count'],
-  ];
-  return $data;
-}
-```
-
-```php
-#[ViewsFilter("board_games_player_count")]
-final class PlayerCount extends FilterPluginBase {
-  public $no_operator = TRUE;                 // single value, no operator UI
-  protected function valueForm(&$form, $fs) {
-    $form['value'] = ['#type' => 'number', '#min' => 1, '#default_value' => $this->value];
-  }
-  public function query(): void {
-    // Views wraps a non-multiple exposed value in a 1-element array; an
-    // empty/0/'' value must be treated as "no constraint" or the finder
-    // matches nothing. Guard BEFORE touching the query.
-    $v = (int) (is_array($this->value) ? reset($this->value) : $this->value);
-    if ($v < 1) { return; }
-    $min = $this->query->ensureTable('node__field_min_players', $this->relationship);
-    $max = $this->query->ensureTable('node__field_max_players', $this->relationship);
-    $this->query->addWhere($this->options['group'], "$min.field_min_players_value", $v, '<=');
-    $this->query->addWhere($this->options['group'], "$max.field_max_players_value", $v, '>=');
-  }
-}
-```
-
-`ensureTable()` joins each field's dedicated table (their views data defines the
-join back to `node_field_data`). In the view config the filter is just
-`{ table: node_field_data, field: board_game_player_count, plugin_id: board_games_player_count }`.
-Its view then declares `dependencies.module: [board_games]`.
+An **exposed** filter renders a control so the visitor narrows the list
+(`exposed: true` + an `expose:` block; the `identifier` becomes the query key).
+Three stock shapes: single-value numeric, a `between` range (two inputs), and a
+`taxonomy_index_tid` term facet. → exact shapes:
+[REFERENCE.md](REFERENCE.md#exposed-filters-detailed-shapes). When one value must
+test two columns (`field_min_players ≤ N ≤ field_max_players`), write a custom
+`FilterPluginBase` registered via `hook_views_data()` →
+[REFERENCE.md](REFERENCE.md#custom-range-filter-one-value-against-two-columns).
 
 ## Capture to config (non-negotiable)
 
@@ -248,41 +105,13 @@ those so the commit contains only the new View. Round-trip with
 
 ## Verify with a kernel test (no browser, no DB server)
 
-Execute the View at the data layer — load it, set the argument or exposed input,
-assert the result ids. This catches a wrong table/column or filter without
-rendering:
-
-```php
-$view = \Drupal\views\Views::getView('games_by_designer');
-$view->setDisplay('designer_page');                // the descriptive display id
-$view->setArguments([$designer->id()]);
-$view->execute();
-$ids = array_map(fn($row) => (int) $row->_entity->id(), $view->result);
-$this->assertSame([$expected2, $expected1], $ids); // ordered by the sort
-```
-
-Install the committed View from sync in `setUp()` so the test exercises exactly
-what ships: `View::create($this->readSyncConfig('views.view.games_by_designer'))->save();`
-(see the `setup-drupal-phpunit` skill for the content-model trait). Also assert
-the page `path` and that the `status`/bundle filters and argument validation
-exclude what they should (unpublished rows, wrong-bundle arguments).
-
-For an **exposed** filter, drive it with `setExposedInput()` and assert the
-matching set (canonicalize when order is incidental):
-
-```php
-$view = \Drupal\views\Views::getView('game_finder');
-$view->setDisplay('finder_page');                  // the descriptive display id
-$view->setExposedInput(['players' => 4]);          // ?players=4
-$view->execute();
-$titles = array_map(fn($r) => $r->_entity->label(), $view->result);
-$this->assertEqualsCanonicalizing(['Party', 'Mid'], $titles);
-```
-
-`taxonomy_index_tid` filters need the index table; `installEntitySchema('taxonomy_term')`
-creates `taxonomy_index` (it lives in `TermStorageSchema`), and
-`installConfig(['taxonomy'])` enables the on-save indexing — no separate
-`installSchema('taxonomy', ['taxonomy_index'])` (there is no such schema hook).
+Execute the View at the data layer — load it, `setDisplay()` the descriptive id,
+set the argument (`setArguments`) or exposed input (`setExposedInput`),
+`execute()`, and assert the result entity ids/labels. Install the committed View
+from sync in `setUp()` so the test exercises exactly what ships. → full test
+examples + the `taxonomy_index` schema setup:
+[REFERENCE.md](REFERENCE.md#kernel-test-examples). (See `setup-drupal-phpunit` for
+the content-model trait.)
 
 ## Gotchas
 
@@ -292,9 +121,9 @@ creates `taxonomy_index` (it lives in `TermStorageSchema`), and
   return early on an empty/0 value or it silently matches nothing (and then the
   unfiltered `setExposedInput([])` baseline comes back empty too — the tell that
   one filter isn't guarding).
-- **Reverse lookup ≠ relationship.** A contextual filter on
-  `<field>_target_id` is simpler than a Views relationship and is the idiomatic
-  way to list "items referencing X".
+- **Reverse lookup ≠ relationship.** A contextual filter on `<field>_target_id`
+  is simpler than a Views relationship and is the idiomatic way to list "items
+  referencing X".
 - **Argument validation matters.** Without `validate.type: 'entity:node'` +
   `bundles`, any numeric id (a node of the wrong type, a stale id) leaks rows.
 - **`default_action`**: `'not found'` (404) suits a page; `empty` suits a block
