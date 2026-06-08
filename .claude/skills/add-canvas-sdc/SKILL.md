@@ -1,4 +1,4 @@
-c---
+---
 name: add-canvas-sdc
 description: Scaffold a Drupal Single Directory Component (SDC) that works in Drupal Canvas / Experience Builder. Use when the user wants to add, create, or generate an SDC component, a card/hero/banner component, or make an existing SDC usable in the Canvas page builder. Covers the Canvas-specific requirements (examples on every prop, shape matching, slots) that a plain SDC omits.
 ---
@@ -63,7 +63,18 @@ A normal SDC renders fine in Twig but stays invisible/unusable in **Drupal Canva
 
    A clean rebuild also confirms the YAML schema is valid (an invalid SDC errors during discovery).
 
-5. **Tell the user** to reload the Canvas editor; the component appears in the components/`+` panel. If it still doesn't show, it may need enabling in Canvas's component list, but discovery now succeeds.
+5. **Enable the component in Canvas.** Discovery alone is not enough — Canvas auto-registers each valid SDC as a config entity `canvas.component.sdc.<theme>.<machine_name>` but creates it **disabled** (`status: false`), so it won't appear in the Library until opted in. The cache rebuild in step 4 is what creates the entity, so enable it after:
+
+   ```bash
+   # Confirm it was registered and check status / that every prop shape-matched:
+   ddev drush config:get canvas.component.sdc.guardrails.<name>
+   # Enable it so it shows in the Canvas Library:
+   ddev drush config:set canvas.component.sdc.guardrails.<name> status true -y
+   ```
+
+   If `config:get` returns nothing, the SDC failed Canvas discovery — re-run the validator (step 3) and check `ddev drush watchdog:show` for shape-matching errors. A prop that won't shape-match keeps the whole component out.
+
+6. **Tell the user** to reload the Canvas editor; the component now appears in the Library (usually under "Other"). Drop it on the page to see its props form and slots.
 
 ## Quick reference
 
