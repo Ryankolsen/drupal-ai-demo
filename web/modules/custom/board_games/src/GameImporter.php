@@ -32,6 +32,9 @@ final class GameImporter implements GameImporterInterface {
    */
   private const IMAGE_DESTINATION_DIR = 'public://board_games';
 
+  /**
+   * The logger channel for the board_games module.
+   */
   private LoggerChannelInterface $logger;
 
   public function __construct(
@@ -250,8 +253,9 @@ final class GameImporter implements GameImporterInterface {
       return reset($existing);
     }
 
-    // Ensure the destination directory exists and is writable. prepareDirectory()
-    // takes the directory by reference, so it must be a variable.
+    // Ensure the destination directory exists and is writable.
+    // prepareDirectory() takes the directory by reference, so it must be a
+    // variable.
     $directory = self::IMAGE_DESTINATION_DIR;
     $this->fileSystem->prepareDirectory(
       $directory,
