@@ -154,7 +154,7 @@ Execute the View at the data layer — no browser, no DB server. The recipe:
 
 1. In `setUp()`, install the **committed** View from sync so the test exercises
    exactly what ships: `View::create($this->readSyncConfig('views.view.<id>'))->save();`
-   (the content-model trait is in the `setup-drupal-phpunit` skill).
+   (the content-model trait is in the `test-module` skill).
 2. Load with `\Drupal\views\Views::getView('<id>')`, `setDisplay('<display_id>')`
    (the descriptive id), then drive it: `setArguments([$id])` for a contextual
    filter, or `setExposedInput(['<identifier>' => <value>])` for an exposed one.

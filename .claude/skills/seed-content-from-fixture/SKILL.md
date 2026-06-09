@@ -139,7 +139,7 @@ services:
 
 ## Verify
 
-A fast **kernel test** is the guard (see `setup-drupal-phpunit`). Assert the
+A fast **kernel test** is the guard (see `test-module`). Assert the
 contract and idempotency directly against the service:
 
 ```php

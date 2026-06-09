@@ -19,7 +19,7 @@ When a task matches one of these, delegate to it first.
 | Editing an existing View's YAML | `editing-views` |
 | Building/registering a Single Directory Component for Canvas | `add-canvas-sdc` |
 | Seeding content from a committed fixture | `seed-content-from-fixture` |
-| Setting up PHPUnit / writing kernel tests | `setup-drupal-phpunit` |
+| Setting up PHPUnit / writing kernel tests | `test-module` |
 | Patching a contrib or core file | `create-patch` |
 | Reviewing a diff before a PR | `drupal-code-review` |
 | Updating Drupal core | `drupal-core-update` |

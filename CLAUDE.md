@@ -12,7 +12,7 @@ This is the companion demo site for the conference talk **"Guardrails, Not Guess
 
 ## The meta-goal: harvest skills
 
-The real deliverable of this project is a **starter set of reusable, shareable Claude skills**, not just the site. After completing a unit of work, **harvest the repeatable procedure into a project-local skill** in `.claude/skills/` (e.g. `create-content-type`, `build-a-view`, `seed-content-from-fixture`, `setup-drupal-phpunit`, `patch-contrib-module`). Keep skills **generic and shareable** — not board-game-specific. Use the `write-a-skill` skill for structure. Always prefer doing a task in a way that generalizes into a skill, even when a one-off shortcut would be faster.
+The real deliverable of this project is a **starter set of reusable, shareable Claude skills**, not just the site. After completing a unit of work, **harvest the repeatable procedure into a project-local skill** in `.claude/skills/` (e.g. `create-content-type`, `build-a-view`, `seed-content-from-fixture`, `test-module`, `patch-contrib-module`). Keep skills **generic and shareable** — not board-game-specific. Use the `write-a-skill` skill for structure. Always prefer doing a task in a way that generalizes into a skill, even when a one-off shortcut would be faster.
 
 ## Prime directives
 
@@ -49,7 +49,7 @@ To fix a bug or add behavior in a contributed module, **patch it — never edit 
 ## Working agreements
 
 - **Plan before building.** Non-trivial work flows PRD → multi-phase plan → tracer-bullet slice. Each slice is a thin, demoable cut through every layer.
-- **Verify your work.** After changes: `ddev drush cr` (rebuild cache), confirm the page renders, and run the test suite: `ddev exec phpunit -c phpunit.xml`. Tests live in each module's `tests/src/{Unit,Kernel,Functional}`; kernel tests run on SQLite with no extra DB server. See the `setup-drupal-phpunit` skill.
+- **Verify your work.** After changes: `ddev drush cr` (rebuild cache), confirm the page renders, and run the test suite: `ddev exec phpunit -c phpunit.xml`. Tests live in each module's `tests/src/{Unit,Kernel,Functional}`; kernel tests run on SQLite with no extra DB server. See the `test-module` skill.
 - **Match the surrounding code** — its naming, structure, and comment density.
 
 ## Quick command reference

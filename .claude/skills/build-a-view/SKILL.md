@@ -110,7 +110,7 @@ set the argument (`setArguments`) or exposed input (`setExposedInput`),
 `execute()`, and assert the result entity ids/labels. Install the committed View
 from sync in `setUp()` so the test exercises exactly what ships. → full test
 examples + the `taxonomy_index` schema setup:
-[REFERENCE.md](REFERENCE.md#kernel-test-examples). (See `setup-drupal-phpunit` for
+[REFERENCE.md](REFERENCE.md#kernel-test-examples). (See `test-module` for
 the content-model trait.)
 
 ## Gotchas
