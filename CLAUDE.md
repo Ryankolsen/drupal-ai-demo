@@ -12,7 +12,29 @@ This is the companion demo site for the conference talk **"Guardrails, Not Guess
 
 ## The meta-goal: harvest skills
 
-The real deliverable of this project is a **starter set of reusable, shareable Claude skills**, not just the site. After completing a unit of work, **harvest the repeatable procedure into a project-local skill** in `.claude/skills/` (e.g. `create-content-type`, `build-a-view`, `seed-content-from-fixture`, `test-module`, `patch-contrib-module`). Keep skills **generic and shareable** — not board-game-specific. Use the `write-a-skill` skill for structure. Always prefer doing a task in a way that generalizes into a skill, even when a one-off shortcut would be faster.
+The real deliverable of this project is a **starter set of reusable, shareable Claude skills**, not just the site. After completing a unit of work, **harvest the repeatable procedure into a project-local skill** in `.claude/skills/` (e.g. `create-content-type`, `build-a-view`, `seed-content-from-fixture`, `test-module`, `create-patch`). Keep skills **generic and shareable** — not board-game-specific. Use the `write-a-skill` skill for structure, and `trim-a-skill` to slim one that has grown past ~100 lines. Always prefer doing a task in a way that generalizes into a skill, even when a one-off shortcut would be faster.
+
+## Skills — reach for these first
+
+These project-local skills live in `.claude/skills/`. When a task matches one, **invoke the skill before improvising** — it encodes the guardrails below as a repeatable procedure. `development-practices` holds the fuller "which skill to reach for" decision map.
+
+| Skill | Use it when you're… |
+|---|---|
+| `create-content-type` | scaffolding a content type / bundle / vocabulary **with its fields**, captured to config |
+| `adding-fields` | adding or removing **a single field** on an *existing* bundle |
+| `build-a-view` | building a View — a listing page, a block, or a related-items list — as config + a kernel test |
+| `editing-views` | hand-editing an **existing** View's YAML (filters, fields, sorts, arguments, displays) |
+| `add-canvas-sdc` | scaffolding a Single Directory Component that works in **Canvas** (see SDC rules below) |
+| `seed-content-from-fixture` | seeding content from a committed fixture via an **idempotent** importer / Drush command |
+| `test-module` | standing up PHPUnit or writing fast **kernel tests** for custom code |
+| `drupal-code-review` | reviewing a diff for bugs, side effects, and consistency before a PR |
+| `create-patch` | changing **contrib / core / any untracked file** (patch it — never edit in place) |
+| `drupal-core-update` | updating Drupal core to a patch or **security** release |
+| `build-feature` | implementing any non-trivial feature — drives the **tracer-bullet** slice approach |
+| `to-prd` | turning the current conversation into a **PRD** on the issue tracker |
+| `to-issues` | breaking a plan or PRD into independently-grabbable **tracer-bullet issues** |
+| `development-practices` | making code changes and want the dev guardrails + skill decision map |
+| `write-a-skill` / `trim-a-skill` | authoring a new skill, or slimming a bloated one (the meta-goal) |
 
 ## Prime directives
 
@@ -49,7 +71,8 @@ To fix a bug or add behavior in a contributed module, **patch it — never edit 
 ## Working agreements
 
 - **Plan before building.** Non-trivial work flows PRD → multi-phase plan → tracer-bullet slice. Each slice is a thin, demoable cut through every layer.
-- **Verify your work.** After changes: `ddev drush cr` (rebuild cache), confirm the page renders, and run the test suite: `ddev exec phpunit -c phpunit.xml`. Tests live in each module's `tests/src/{Unit,Kernel,Functional}`; kernel tests run on SQLite with no extra DB server. See the `test-module` skill.
+- **Verify your work.** After changes: `ddev drush cr` (rebuild cache), confirm the page renders, run static analysis (`ddev exec composer phpcs` and `ddev exec composer phpstan`), and run the test suite: `ddev exec phpunit -c phpunit.xml`. Tests live in each module's `tests/src/{Unit,Kernel,Functional}`; kernel tests run on SQLite with no extra DB server. See the `test-module` skill.
+- **Static analysis runs on every commit.** A committed pre-commit hook (`.githooks/pre-commit`) runs phpcs + phpstan on `web/modules/custom` and `web/themes/custom` and **blocks the commit on failure**. Enable it once per clone with `git config core.hooksPath .githooks`. Style: `ddev exec composer phpcbf` auto-fixes most violations. Configs: `phpcs.xml.dist` (Drupal + DrupalPractice) and `phpstan.neon.dist` (level 1).
 - **Match the surrounding code** — its naming, structure, and comment density.
 
 ## Quick command reference
@@ -62,5 +85,8 @@ To fix a bug or add behavior in a contributed module, **patch it — never edit 
 | Rebuild cache | `ddev drush cr` |
 | Enable a module | `ddev drush en <module> -y` |
 | Composer | `ddev composer <cmd>` |
+| Lint (phpcs) | `ddev exec composer phpcs` |
+| Auto-fix style | `ddev exec composer phpcbf` |
+| Static analysis (phpstan) | `ddev exec composer phpstan` |
 | Run tests | `ddev exec phpunit -c phpunit.xml` |
 | Run one group | `ddev exec phpunit -c phpunit.xml --group <group>` |
