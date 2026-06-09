@@ -16,36 +16,21 @@ The real deliverable of this project is a **starter set of reusable, shareable C
 
 ## Skills — reach for these first
 
-These project-local skills live in `.claude/skills/`. When a task matches one, **invoke the skill before improvising** — it encodes the guardrails below as a repeatable procedure. `development-practices` holds the fuller "which skill to reach for" decision map.
+Project-local skills live in `.claude/skills/`. When a task matches one, **invoke the skill before improvising** — it encodes these guardrails as a repeatable procedure. `development-practices` holds the full "which skill to reach for" decision map.
 
-| Skill | Use it when you're… |
-|---|---|
-| `create-content-type` | scaffolding a content type / bundle / vocabulary **with its fields**, captured to config |
-| `adding-fields` | adding or removing **a single field** on an *existing* bundle |
-| `build-a-view` | building a View — a listing page, a block, or a related-items list — as config + a kernel test |
-| `editing-views` | hand-editing an **existing** View's YAML (filters, fields, sorts, arguments, displays) |
-| `add-canvas-sdc` | scaffolding a Single Directory Component that works in **Canvas** (see SDC rules below) |
-| `seed-content-from-fixture` | seeding content from a committed fixture via an **idempotent** importer / Drush command |
-| `test-module` | standing up PHPUnit or writing fast **kernel tests** for custom code |
-| `drupal-code-review` | reviewing a diff for bugs, side effects, and consistency before a PR |
-| `create-patch` | changing **contrib / core / any untracked file** (patch it — never edit in place) |
-| `drupal-core-update` | updating Drupal core to a patch or **security** release |
-| `build-feature` | implementing any non-trivial feature — drives the **tracer-bullet** slice approach |
-| `to-prd` | turning the current conversation into a **PRD** on the issue tracker |
-| `to-issues` | breaking a plan or PRD into independently-grabbable **tracer-bullet issues** |
-| `development-practices` | making code changes and want the dev guardrails + skill decision map |
-| `write-a-skill` / `trim-a-skill` | authoring a new skill, or slimming a bloated one (the meta-goal) |
+- **Model & config:** `create-content-type` (bundle + fields + vocab), `adding-fields` (one field on an existing bundle), `build-a-view` / `editing-views` (Views as config)
+- **Front-end:** `add-canvas-sdc` (Canvas-ready SDC — see SDC rules below)
+- **Content:** `seed-content-from-fixture` (idempotent importer from a committed fixture)
+- **Quality:** `test-module` (PHPUnit / kernel tests), `drupal-code-review` (pre-PR review)
+- **Contrib & core:** `create-patch` (patch, never edit in place), `drupal-core-update` (security release)
+- **Process:** `build-feature` (tracer-bullet slice), `to-prd`, `to-issues`
+- **Meta:** `write-a-skill`, `trim-a-skill`, `development-practices`
 
 ## Prime directives
 
 1. **Never edit untracked or contrib files in place.** Anything under `web/core/`, `web/modules/contrib/`, `web/themes/contrib/`, `web/libraries/`, or `vendor/` is Composer-managed and gitignored — your edits will be silently wiped on the next `composer install`. To change contrib behavior, **write a patch** (see *Patching contrib*).
 
-2. **Capture configuration after every model change.** Content types, fields, vocabularies, view modes, and Views are **configuration**, not content. The moment you create or change any of them in the UI or via Drush, export and commit:
-   ```
-   ddev drush config:export -y    # alias: cex
-   ```
-   Config is committed to **`/config/sync`** at the repo root (version-controlled, outside the webroot). To reload committed config: `ddev drush config:import -y` (`cim`).
-   > `config_sync_directory` is set to `../config/sync` in the committed `web/sites/default/settings.php`. Verify with `ddev drush ev "echo \Drupal\Core\Site\Settings::get('config_sync_directory');"` — it must print `../config/sync`, never `sites/default/files/sync` (that location is gitignored, so config there would not be committed).
+2. **Capture configuration after every model change.** Content types, fields, vocabularies, view modes, and Views are **configuration**, not content. After any such change, export and commit it with `ddev drush cex -y` — it writes to **`/config/sync`** at the repo root (version-controlled, outside the webroot). Reload with `ddev drush cim -y`. Config must land in `../config/sync`, never the gitignored `sites/default/files/sync`; `development-practices` has the one-line verify command.
 
 3. **Twig is presentational; logic lives in preprocess.** No querying, loading entities, or business logic in `.twig` files. Map data to variables in a `*_preprocess_*()` hook (theme or module), and let the template render. Templates should read like markup.
 
@@ -55,18 +40,11 @@ These project-local skills live in `.claude/skills/`. When a task matches one, *
 
 ## Single Directory Components (SDC) + Canvas
 
-- SDCs live in `web/themes/custom/guardrails/components/<machine_name>/` as a trio: `<name>.component.yml`, `<name>.twig`, `<name>.css`.
-- To be usable in **Canvas**, follow the **`add-canvas-sdc`** skill. The cardinal rule: **every prop needs an `examples:` entry**, enums must never contain an empty value, and links use `format: uri-reference`. A prop without an example is the #1 reason a component silently fails to appear in Canvas.
-- Validate a component with the skill's `scripts/validate-canvas-sdc.mjs`.
-- The existing `card` component is the canonical reference.
+SDCs are the default for presentational UI — a trio under `web/themes/custom/guardrails/components/<machine_name>/` (`<name>.component.yml` / `.twig` / `.css`); the `card` component is the canonical reference. To work in **Canvas**, follow the **`add-canvas-sdc`** skill: **every prop needs an `examples:` entry** (a prop without one is the #1 reason a component fails to appear), enums never contain an empty value, links use `format: uri-reference`. Validate with the skill's `scripts/validate-canvas-sdc.mjs`.
 
 ## Patching contrib
 
-To fix a bug or add behavior in a contributed module, **patch it — never edit it in place**:
-1. Make the change in `web/modules/contrib/<module>/` locally to develop the fix, then capture it as a patch file committed under e.g. `patches/`.
-2. Register the patch via `cweagans/composer-patches` in `composer.json`.
-3. Verify it applies on a clean tree: `ddev composer install` re-applies patches.
-4. A patch that applies cleanly on a fresh install is the only acceptable end state — the module directory itself stays unmodified in version control.
+Never edit contrib/core in place (directive 1) — **patch it** via the **`create-patch`** skill: develop the fix in `web/modules/contrib/<module>/`, capture it under `patches/`, register it with `cweagans/composer-patches` in `composer.json`, and prove it re-applies on a clean tree (`ddev composer install`). The module directory itself stays unmodified in version control.
 
 ## Working agreements
 

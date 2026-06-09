@@ -52,6 +52,14 @@ git status config/sync     # isolate your change; git restore unrelated drift
 ddev drush cim -y          # round-trip to prove it imports cleanly
 ```
 
+Config must land in the committed `../config/sync`, not the gitignored
+`sites/default/files/sync`. Verify the target once after setup:
+
+```bash
+ddev drush ev "echo \Drupal\Core\Site\Settings::get('config_sync_directory');"
+# must print ../config/sync  (set in the committed web/sites/default/settings.php)
+```
+
 ## Twig rules
 
 **Twig = presentation only. Logic → preprocess.** No querying, loading entities,
