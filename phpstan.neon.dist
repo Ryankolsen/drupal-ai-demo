@@ -1,0 +1,17 @@
+# PHPStan static analysis config for custom Drupal code.
+# The phpstan-drupal extension and deprecation rules auto-register via
+# phpstan/extension-installer (drupal/core-dev), so they need no `includes:`.
+parameters:
+  # Level 1 matches what Drupal core itself targets — a low-noise baseline.
+  # Raise incrementally (max level is 10) as the custom code hardens.
+  level: 1
+
+  # Analyse only the code we own. Contrib/core are Composer-managed.
+  paths:
+    - web/modules/custom
+    - web/themes/custom
+
+  excludePaths:
+    - '*/tests/fixtures/*'
+    - '*/node_modules/*'
+    - '*/vendor/*'

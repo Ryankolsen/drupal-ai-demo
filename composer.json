@@ -107,6 +107,7 @@
     },
     "scripts": {
         "phpcs": "phpcs",
-        "phpcbf": "phpcbf"
+        "phpcbf": "phpcbf",
+        "phpstan": "phpstan analyse"
     }
 }
