@@ -1,0 +1,21 @@
+uuid: bae0b9c3-251f-48ae-bbae-e9fd5936032b
+langcode: en
+status: true
+dependencies:
+  config:
+    - canvas.component.block.views_block.comments_recent-block_1
+    - canvas.component.block.views_block.content_recent-block_1
+    - canvas.component.block.views_block.games_by_designer-designer_block
+    - canvas.component.block.views_block.games_by_publisher-publisher_block
+    - canvas.component.block.views_block.top_rated-top_rated_block
+    - canvas.component.block.views_block.who_s_online-who_s_online_block
+name: 'Lists (Views)'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.views_block.comments_recent-block_1
+  - block.views_block.content_recent-block_1
+  - block.views_block.games_by_designer-designer_block
+  - block.views_block.games_by_publisher-publisher_block
+  - block.views_block.top_rated-top_rated_block
+  - block.views_block.who_s_online-who_s_online_block

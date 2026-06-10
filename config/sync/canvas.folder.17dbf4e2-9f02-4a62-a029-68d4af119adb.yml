@@ -3,13 +3,19 @@ langcode: en
 status: true
 dependencies:
   config:
+    - canvas.component.sdc.guardrails.badge_row
     - canvas.component.sdc.guardrails.card
+    - canvas.component.sdc.guardrails.complexity_meter
     - canvas.component.sdc.guardrails.game_card
+    - canvas.component.sdc.guardrails.rating_stars
     - canvas.component.sdc.olivero.teaser
 name: Other
 configEntityTypeId: component
 weight: 0
 items:
+  - sdc.guardrails.badge_row
   - sdc.guardrails.card
+  - sdc.guardrails.complexity_meter
   - sdc.guardrails.game_card
+  - sdc.guardrails.rating_stars
   - sdc.olivero.teaser

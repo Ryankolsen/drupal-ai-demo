@@ -1,0 +1,52 @@
+uuid: de9973f7-585e-445f-8d05-6e3542d3bfb4
+langcode: en
+status: true
+dependencies:
+  theme:
+    - guardrails
+active_version: b10ae0fb29d7cb70
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        value:
+          required: true
+          field_type: float
+          field_storage_settings:
+            min: 0
+            max: 5
+          field_instance_settings: {  }
+          field_widget: number
+          default_value:
+            -
+              value: 2.3
+          expression: ℹ︎float␟value
+        max:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 1
+            max: 10
+          field_widget: number
+          default_value:
+            -
+              value: 5
+          expression: ℹ︎integer␟value
+        label:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: Complexity
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Complexity Meter'
+id: sdc.guardrails.complexity_meter
+provider: guardrails
+source: sdc
+source_local_id: 'guardrails:complexity_meter'

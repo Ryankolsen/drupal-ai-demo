@@ -1,0 +1,64 @@
+uuid: c54de443-fc41-486e-bc33-582c0ef4bbd7
+langcode: en
+status: true
+dependencies:
+  theme:
+    - guardrails
+active_version: ddebf2c4f023b659
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        rating:
+          required: true
+          field_type: float
+          field_storage_settings:
+            min: 0
+            max: 10
+          field_instance_settings: {  }
+          field_widget: number
+          default_value:
+            -
+              value: 7.1
+          expression: ℹ︎float␟value
+        max:
+          required: false
+          field_type: float
+          field_storage_settings:
+            min: 1
+            max: 100
+          field_instance_settings: {  }
+          field_widget: number
+          default_value:
+            -
+              value: 10.0
+          expression: ℹ︎float␟value
+        stars:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 1
+            max: 10
+          field_widget: number
+          default_value:
+            -
+              value: 5
+          expression: ℹ︎integer␟value
+        show_value:
+          required: false
+          field_type: boolean
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: boolean_checkbox
+          default_value:
+            -
+              value: true
+          expression: ℹ︎boolean␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Rating Stars'
+id: sdc.guardrails.rating_stars
+provider: guardrails
+source: sdc
+source_local_id: 'guardrails:rating_stars'

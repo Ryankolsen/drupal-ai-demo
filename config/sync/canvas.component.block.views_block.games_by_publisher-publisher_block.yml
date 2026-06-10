@@ -1,0 +1,26 @@
+uuid: 21742c9e-85d1-428a-8564-f383a0cf1d32
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.games_by_publisher
+  module:
+    - views
+active_version: 0023ce965081bd7d
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:games_by_publisher-publisher_block'
+        label: 'Games by Publisher'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Games by Publisher'
+id: block.views_block.games_by_publisher-publisher_block
+provider: views
+source: block
+source_local_id: 'views_block:games_by_publisher-publisher_block'

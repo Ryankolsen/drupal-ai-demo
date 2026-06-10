@@ -1,0 +1,66 @@
+uuid: 36720fec-3894-49a8-b599-186ea16eaa8e
+langcode: en
+status: true
+dependencies:
+  theme:
+    - guardrails
+active_version: de7631ce967a8b91
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        min_players:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 1
+            max: null
+          field_widget: number
+          default_value:
+            -
+              value: 2
+          expression: ℹ︎integer␟value
+        max_players:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 1
+            max: null
+          field_widget: number
+          default_value:
+            -
+              value: 4
+          expression: ℹ︎integer␟value
+        play_time:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 0
+            max: null
+          field_widget: number
+          default_value:
+            -
+              value: 45
+          expression: ℹ︎integer␟value
+        min_age:
+          required: false
+          field_type: integer
+          field_storage_settings: {  }
+          field_instance_settings:
+            min: 0
+            max: null
+          field_widget: number
+          default_value:
+            -
+              value: 10
+          expression: ℹ︎integer␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Badge Row'
+id: sdc.guardrails.badge_row
+provider: guardrails
+source: sdc
+source_local_id: 'guardrails:badge_row'

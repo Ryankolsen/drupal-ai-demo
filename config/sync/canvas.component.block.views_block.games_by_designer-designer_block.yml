@@ -1,0 +1,26 @@
+uuid: 46ee7d8f-93c2-48c9-bc4a-ce312fab7ee6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.games_by_designer
+  module:
+    - views
+active_version: 32e027eabc113312
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:games_by_designer-designer_block'
+        label: 'Games by Designer'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Games by Designer'
+id: block.views_block.games_by_designer-designer_block
+provider: views
+source: block
+source_local_id: 'views_block:games_by_designer-designer_block'

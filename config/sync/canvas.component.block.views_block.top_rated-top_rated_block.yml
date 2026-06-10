@@ -1,0 +1,26 @@
+uuid: 801bf322-c4ee-4c70-8ce1-697ee07e6756
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.top_rated
+  module:
+    - views
+active_version: f090c38c3ef287ce
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:top_rated-top_rated_block'
+        label: 'Game Cards grid'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Game Cards grid'
+id: block.views_block.top_rated-top_rated_block
+provider: views
+source: block
+source_local_id: 'views_block:top_rated-top_rated_block'
