@@ -125,4 +125,46 @@ final class SdcComponentRenderTest extends KernelTestBase {
     $this->assertStringNotContainsString('players', $html);
   }
 
+  /**
+   * The hero renders its heading as an H1 with a CTA and decorative banner.
+   *
+   * The banner is decorative (the overlaid text carries the meaning), so it is
+   * a presentational CSS background — never an announced image and never an
+   * <img> with alt — and the headline is the page H1 for WCAG AA semantics.
+   */
+  public function testHero(): void {
+    $html = $this->renderComponent('guardrails:hero', [
+      'heading' => 'Discover your next favorite board game',
+      'tagline' => 'Browse ratings, mechanics and play times.',
+      'background_src' => '/themes/custom/guardrails/components/hero/images/hero-banner.webp',
+      'cta_text' => 'Browse the catalog',
+      'cta_url' => '/games',
+      'align' => 'left',
+    ]);
+    // Headline is the page H1.
+    $this->assertStringContainsString('<h1 class="gr-hero__heading">Discover your next favorite board game</h1>', $html);
+    $this->assertStringContainsString('Browse ratings, mechanics and play times.', $html);
+    // CTA is a real link to the catalog.
+    $this->assertStringContainsString('href="/games"', $html);
+    $this->assertStringContainsString('Browse the catalog', $html);
+    // Banner is a decorative CSS background, exposed as presentational.
+    $this->assertStringContainsString('hero-banner.webp', $html);
+    $this->assertStringContainsString('role="presentation"', $html);
+    // Decorative: never rendered as an <img> (which would need alt text).
+    $this->assertStringNotContainsString('<img', $html);
+  }
+
+  /**
+   * Alignment defaults to left when the optional align prop is omitted.
+   */
+  public function testHeroDefaultsToLeftAlignment(): void {
+    $html = $this->renderComponent('guardrails:hero', [
+      'heading' => 'Game night starts here',
+    ]);
+    $this->assertStringContainsString('gr-hero--left', $html);
+    // Optional props omitted (not null): no tagline, no CTA, no background.
+    $this->assertStringNotContainsString('gr-hero__tagline', $html);
+    $this->assertStringNotContainsString('gr-hero__cta', $html);
+  }
+
 }

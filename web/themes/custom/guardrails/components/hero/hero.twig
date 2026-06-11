@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Hero single-directory component.
+ *
+ * A full-width banner with overlaid heading, tagline and call-to-action.
+ * The background image is decorative — the meaning is carried by the text — so
+ * it is rendered as a CSS background and exposed to assistive tech as
+ * presentational.
+ *
+ * Available props:
+ * - heading: string — main headline (rendered as H1). Required.
+ * - tagline: string — supporting line under the heading.
+ * - background_src: string — URL of the decorative banner background image.
+ * - cta_text: string — call-to-action label (requires cta_url).
+ * - cta_url: string — call-to-action link target.
+ * - align: string — 'left' (default) or 'center' text alignment.
+ #}
+{% set align = align ?: 'left' %}
+<section{{ attributes.addClass('gr-hero', 'gr-hero--' ~ align) }}>
+  {% if background_src %}
+    <div class="gr-hero__image" style="background-image: url('{{ background_src }}');" role="presentation"></div>
+  {% endif %}
+  <div class="gr-hero__overlay">
+    <div class="gr-hero__inner">
+      <h1 class="gr-hero__heading">{{ heading }}</h1>
+      {% if tagline %}
+        <p class="gr-hero__tagline">{{ tagline }}</p>
+      {% endif %}
+      {% if cta_text and cta_url %}
+        <a class="gr-hero__cta" href="{{ cta_url }}">{{ cta_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

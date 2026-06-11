@@ -1,0 +1,88 @@
+uuid: 1e1cb4cd-4d9c-425f-9914-e1909c472322
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - options
+  theme:
+    - guardrails
+active_version: 5c1b561aa0f0b68a
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        heading:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Discover your next favorite board game'
+          expression: ℹ︎string␟value
+        tagline:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Browse ratings, mechanics and play times for a curated catalog of tabletop games.'
+          expression: ℹ︎string␟value
+        background_src:
+          required: false
+          field_type: link
+          field_storage_settings: {  }
+          field_instance_settings:
+            title: 0
+            link_type: 17
+          field_widget: link_default
+          default_value:
+            -
+              uri: /themes/custom/guardrails/components/hero/images/hero-banner.webp
+              options: {  }
+          expression: ℹ︎link␟url
+        cta_text:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Browse the catalog'
+          expression: ℹ︎string␟value
+        cta_url:
+          required: false
+          field_type: link
+          field_storage_settings: {  }
+          field_instance_settings:
+            title: 0
+            link_type: 17
+          field_widget: link_default
+          default_value:
+            -
+              uri: /games
+              options: {  }
+          expression: ℹ︎link␟url
+        align:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value:
+            -
+              value: left
+          expression: ℹ︎list_string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: Hero
+id: sdc.guardrails.hero
+provider: guardrails
+source: sdc
+source_local_id: 'guardrails:hero'

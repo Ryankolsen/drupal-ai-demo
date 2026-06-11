@@ -1,0 +1,53 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Hero
+status: stable
+description: 'A full-width hero banner: heading, tagline and call-to-action over a background image. Built for Drupal Canvas.'
+props:
+  type: object
+  required:
+    - heading
+  properties:
+    heading:
+      type: string
+      title: Heading
+      description: 'The main headline, rendered as the page H1.'
+      examples:
+        - 'Discover your next favorite board game'
+    tagline:
+      type: string
+      title: Tagline
+      description: 'Supporting line shown under the heading.'
+      examples:
+        - 'Browse ratings, mechanics and play times for a curated catalog of tabletop games.'
+    background_src:
+      type: string
+      title: 'Background image'
+      format: uri-reference
+      description: 'URL of the banner background image. Decorative — the meaning is carried by the overlaid text, so it is rendered as a CSS background and exposed to assistive tech as presentational.'
+      examples:
+        - '/themes/custom/guardrails/components/hero/images/hero-banner.webp'
+    cta_text:
+      type: string
+      title: 'Call to action'
+      description: 'Label for the call-to-action button. Requires a URL.'
+      examples:
+        - 'Browse the catalog'
+    cta_url:
+      type: string
+      title: 'Call to action URL'
+      format: uri-reference
+      description: 'Link target for the call-to-action button.'
+      examples:
+        - '/games'
+    align:
+      type: string
+      title: 'Text alignment'
+      description: 'Where the heading, tagline and CTA sit over the banner.'
+      enum:
+        - left
+        - center
+      meta:enum:
+        left: Left
+        center: Center
+      examples:
+        - left
