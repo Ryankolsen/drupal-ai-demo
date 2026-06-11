@@ -110,6 +110,28 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
+  top_rated_block:
+    id: top_rated_block
+    display_title: 'Game Cards grid block'
+    display_plugin: block
+    position: 2
+    display_options:
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 6
+      defaults:
+        pager: false
+      display_extenders: {  }
+      block_description: 'Game Cards grid'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_interface'
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
   top_rated_page:
     id: top_rated_page
     display_title: 'Top rated page'
@@ -118,28 +140,6 @@ display:
     display_options:
       display_extenders: {  }
       path: top-rated
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_interface'
-        - 'user.node_grants:view'
-        - user.permissions
-      tags: {  }
-  top_rated_block:
-    id: top_rated_block
-    display_title: 'Game Cards grid block'
-    display_plugin: block
-    position: 2
-    display_options:
-      defaults:
-        pager: false
-      pager:
-        type: some
-        options:
-          offset: 0
-          items_per_page: 6
-      block_description: 'Game Cards grid'
-      display_extenders: {  }
     cache_metadata:
       max-age: -1
       contexts:
