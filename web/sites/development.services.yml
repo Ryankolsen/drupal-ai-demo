@@ -14,6 +14,14 @@
 # sites/default/default.services.yml or from core/core.services.yml file.
 parameters:
   http.response.debug_cacheability_headers: true
+  # Twig debugging: emits theme-hook + template-suggestion HTML comments and the
+  # source file path for every template, and disables the Twig cache so edits
+  # show without a rebuild. This file is loaded only inside DDEV (see the
+  # IS_DDEV_PROJECT block in settings.php), so it never affects production.
+  twig.config:
+    debug: true
+    auto_reload: true
+    cache: false
 services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory

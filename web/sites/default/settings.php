@@ -887,6 +887,35 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
 }
 
 /**
+ * Development settings — local DDEV environments only.
+ *
+ * DDEV sets the IS_DDEV_PROJECT environment variable; staging and production
+ * servers do not. Gating on it means these debugging aids switch on
+ * automatically for every developer locally and can never activate in
+ * production — no per-machine file required.
+ */
+if (getenv('IS_DDEV_PROJECT') == 'true') {
+  // Twig debug (theme-hook + template-suggestion comments, no Twig cache) and
+  // the null cache backend used below both live in this services file.
+  $settings['container_yamls'][] = $app_root . '/sites/development.services.yml';
+
+  // Show all error messages with backtraces.
+  $config['system.logging']['error_level'] = 'verbose';
+
+  // Disable CSS and JS aggregation.
+  $config['system.performance']['css']['preprocess'] = FALSE;
+  $config['system.performance']['js']['preprocess'] = FALSE;
+
+  // Disable the render, page, and dynamic page caches (null backend above).
+  $settings['cache']['bins']['render'] = 'cache.backend.null';
+  $settings['cache']['bins']['page'] = 'cache.backend.null';
+  $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+
+  // Allow access to rebuild.php.
+  $settings['rebuild_access'] = TRUE;
+}
+
+/**
  * Load local development override configuration, if available.
  *
  * Create a settings.local.php file to override variables on secondary (staging,
@@ -899,7 +928,6 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
  *
  * Keep this code block at the end of this file to take full effect.
  */
-#
-# if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-#   include $app_root . '/' . $site_path . '/settings.local.php';
-# }
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
