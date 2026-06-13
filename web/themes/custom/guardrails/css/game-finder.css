@@ -1,0 +1,95 @@
+/**
+ * @file
+ * Layout for the Game Finder exposed filter form.
+ *
+ * Olivero's `.form--inline` floats each exposed filter and renders the
+ * "between" Complexity filter as a heavy bordered fieldset, which leaves the
+ * filters misaligned and inconsistently padded. This lays the exposed form out
+ * as a single responsive grid where every filter is an equal, top-aligned cell
+ * with consistent spacing, and flattens the Complexity fieldset so it reads as
+ * one filter like the rest. Spacing reuses Olivero's `--sp*` scale.
+ */
+
+.view-game-finder .views-exposed-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--sp1) var(--sp1-5);
+  align-items: start;
+  margin-block-end: var(--sp2);
+}
+
+/* Drop Olivero's inline-block float and per-child margins on each filter. */
+.view-game-finder .views-exposed-form > * {
+  display: block;
+  min-width: 0;
+  margin: 0;
+}
+
+/* One consistent label treatment across every filter. */
+.view-game-finder .views-exposed-form .form-item__label {
+  display: block;
+  margin-block-end: var(--sp0-5);
+}
+
+/* Every control fills its cell so the filters share one width. */
+.view-game-finder .views-exposed-form .form-element {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Descriptions sit under their control with uniform spacing. */
+.view-game-finder .views-exposed-form .form-item__description {
+  margin-block-start: var(--sp0-5);
+}
+
+/*
+ * Flatten the Complexity "between" fieldset: strip the border, legend bar and
+ * inner padding so it matches the plain filter cells.
+ */
+.view-game-finder .views-exposed-form .fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.view-game-finder .views-exposed-form .fieldset__legend {
+  float: none;
+  width: auto;
+  margin: 0;
+  border-radius: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.view-game-finder .views-exposed-form .fieldset__label {
+  padding: 0 0 var(--sp0-5);
+  color: inherit;
+}
+
+/* Min/Max sit side by side; the description spans the full width below them. */
+.view-game-finder .views-exposed-form .fieldset__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp0-5);
+  margin: 0;
+  padding: 0;
+}
+
+.view-game-finder .views-exposed-form .fieldset__wrapper > .form-item {
+  margin: 0;
+}
+
+.view-game-finder .views-exposed-form .fieldset__description {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+/* Drop the Apply button to the bottom of its cell, level with the inputs. */
+.view-game-finder .views-exposed-form .form-actions {
+  display: flex;
+  align-items: flex-end;
+  align-self: end;
+  margin: 0;
+}

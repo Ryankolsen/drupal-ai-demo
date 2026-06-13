@@ -3,3 +3,9 @@ global:
   css:
     theme:
       css/global.css: {}
+
+game-finder:
+  version: VERSION
+  css:
+    theme:
+      css/game-finder.css: {}

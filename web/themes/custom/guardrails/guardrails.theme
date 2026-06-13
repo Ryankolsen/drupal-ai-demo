@@ -13,6 +13,18 @@ declare(strict_types=1);
 use Drupal\media\MediaInterface;
 
 /**
+ * Attaches the Game Finder exposed-filter styling to the view.
+ *
+ * Scoped to the game_finder view so the grid layout in css/game-finder.css
+ * only loads where the exposed filter form is rendered.
+ */
+function guardrails_preprocess_views_view(array &$variables): void {
+  if (isset($variables['view']) && $variables['view']->id() === 'game_finder') {
+    $variables['#attached']['library'][] = 'guardrails/game-finder';
+  }
+}
+
+/**
  * Prepares game_card SDC props for a Board Game node in the 'card' view mode.
  *
  * Maps node fields to the props of the `guardrails:game_card` component and
