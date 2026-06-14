@@ -5,3 +5,19 @@
  * Component-specific styles live alongside their component in
  * components/<name>/<name>.css and are auto-attached by SDC.
  */
+
+/**
+ * Block rhythm.
+ *
+ * Olivero leaves no consistent vertical space between stacked blocks in the
+ * main content region, so blocks — and the components stacked inside a Canvas
+ * page's main block — butt directly against each other (e.g. the hero banner
+ * and the card grid below it). This establishes a single, fluid vertical
+ * rhythm for every block placed in the content region, without reaching into
+ * any individual component's own styles. The leading block keeps its natural
+ * position; only the gap *between* stacked blocks is added.
+ */
+.region--content > * + *,
+.region--content .block-system-main-block > .block__content > * + * {
+  margin-block-start: clamp(2rem, 5vw, 3.5rem);
+}
