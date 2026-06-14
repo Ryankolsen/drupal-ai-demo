@@ -54,28 +54,41 @@
   background: none;
 }
 
+/* Render the Complexity legend exactly like every other filter label so all
+   three "main labels" in the top row share one height. */
 .view-game-finder .views-exposed-form .fieldset__legend {
   float: none;
   width: auto;
-  margin: 0;
+  margin-block: var(--sp0-5);
   border-radius: 0;
   background: none;
-  font-size: inherit;
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
 }
 
 .view-game-finder .views-exposed-form .fieldset__label {
-  padding: 0 0 var(--sp0-5);
+  padding: 0;
   color: inherit;
 }
 
 /*
- * The Complexity filter carries an extra "Min / Max" sub-label row, which
- * pushes its inputs one line lower than the plain single-input filters beside
- * it. Reserve a matching label-height line above those single controls so every
- * input in the top row shares one baseline.
+ * Complexity carries an extra "Min / Max" sub-label row between its legend and
+ * inputs that the plain single-input filters lack, so their inputs would sit a
+ * line higher. Give those two filters a blank sub-label line of the same height
+ * so every input in the row shares one baseline. The legend already provides
+ * the gap above Min/Max, so drop the sub-labels' own top margin to match.
  */
-.view-game-finder .views-exposed-form > .form-item:has(input[type="text"], input[type="number"]) .form-element {
-  margin-block-start: calc(var(--line-height-s) + (2 * var(--sp0-5)));
+.view-game-finder .views-exposed-form .fieldset__wrapper .form-item__label {
+  margin-block-start: 0;
+}
+
+.view-game-finder .views-exposed-form .form-item-players .form-item__label::after,
+.view-game-finder .views-exposed-form .form-item-max-time .form-item__label::after {
+  display: block;
+  margin-block-start: var(--sp0-5);
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
+  content: "\00a0";
 }
 
 /* Min/Max sit side by side; the description spans the full width below them. */
