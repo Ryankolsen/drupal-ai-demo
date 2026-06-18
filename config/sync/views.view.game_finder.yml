@@ -105,7 +105,7 @@ display:
           exposed: true
           expose:
             operator_id: ''
-            label: 'Plays with N players'
+            label: 'Number of players'
             description: ''
             use_operator: false
             operator: ''
@@ -146,9 +146,9 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            placeholder: ''
           is_grouped: false
         field_complexity_value:
           id: field_complexity_value
@@ -180,9 +180,9 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            placeholder: ''
           is_grouped: false
         mechanic_tid:
           id: mechanic_tid
