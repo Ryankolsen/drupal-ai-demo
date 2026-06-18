@@ -90,8 +90,8 @@ display:
           summary_options:
             base_path: ''
             count: true
-            items_per_page: 25
             override: false
+            items_per_page: 25
           summary:
             sort_order: asc
             number_of_records: 0
@@ -101,10 +101,10 @@ display:
             type: 'entity:node'
             fail: 'not found'
           validate_options:
-            operation: view
-            multiple: 0
             bundles:
               designer: designer
+            operation: view
+            multiple: 0
           break_phrase: false
           not: false
       filters:
@@ -157,29 +157,12 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  designer_page:
-    id: designer_page
-    display_title: 'Designer games page'
-    display_plugin: page
-    position: 1
-    display_options:
-      display_extenders: {  }
-      path: designer/%/games
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_interface'
-        - url
-        - 'user.node_grants:view'
-        - user.permissions
-      tags: {  }
   designer_block:
     id: designer_block
     display_title: 'Designer games block'
     display_plugin: block
     position: 2
     display_options:
-      display_extenders: {  }
       title: 'Designed games'
       arguments:
         field_designers_target_id:
@@ -204,8 +187,8 @@ display:
           summary_options:
             base_path: ''
             count: true
-            items_per_page: 25
             override: false
+            items_per_page: 25
           summary:
             sort_order: asc
             number_of_records: 0
@@ -215,13 +198,30 @@ display:
             type: 'entity:node'
             fail: empty
           validate_options:
-            operation: view
-            multiple: 0
             bundles:
               designer: designer
+            operation: view
+            multiple: 0
           break_phrase: false
           not: false
+      display_extenders: {  }
       block_description: 'Games by Designer'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
+  designer_page:
+    id: designer_page
+    display_title: 'Designer games page'
+    display_plugin: page
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: designer/%/games
     cache_metadata:
       max-age: -1
       contexts:

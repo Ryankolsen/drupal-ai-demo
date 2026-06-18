@@ -67,14 +67,6 @@ content:
     third_party_settings: {  }
     weight: 8
     region: content
-  field_publisher:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 9
-    region: content
   field_max_players:
     type: number_integer
     label: above
@@ -109,6 +101,14 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     weight: 4
+    region: content
+  field_publisher:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
     region: content
   field_rating:
     type: number_decimal

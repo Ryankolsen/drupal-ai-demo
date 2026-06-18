@@ -28,11 +28,14 @@ content:
     region: content
 hidden:
   field_bgg_id: true
+  field_categories: true
   field_complexity: true
   field_cover: true
   field_description: true
+  field_designers: true
   field_max_players: true
   field_mechanics: true
   field_min_players: true
   field_play_time: true
+  field_publisher: true
   field_rating: true
