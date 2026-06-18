@@ -95,7 +95,8 @@ ddev exec phpunit -c phpunit.xml    # kernel tests need no DB server
 or View (these are *configuration*, not content):
 
 ```bash
-ddev drush cex -y          # exports to ../config/sync
+ddev drush cim -y          # import committed/incoming config first, so the DB matches the repo
+ddev drush cex -y          # export your changes to ../config/sync
 git status config/sync     # isolate your change; git restore unrelated drift
 ddev drush cim -y          # round-trip to prove it imports cleanly
 ```
