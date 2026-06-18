@@ -50,9 +50,8 @@ View rather than inventing keys — canonical examples in
 
 ## Name every display: example + chase the references
 
-Drupal hands new displays generic identities — machine name `page_1` / `block_1`
-and **Display name** `Page` / `Block`. Rename **both** to describe the display,
-scoped to the View (display ids only need to be unique within their View):
+Rename **both** the generic machine name (`page_1`/`block_1`) and Display name
+(`Page`/`Block`), scoped to the View (display ids are unique within their View):
 
 ```yaml
 display:
@@ -69,11 +68,9 @@ display:
     display_plugin: block
 ```
 
-Convention used in this repo: `<subject>_page` / `<subject>_block` for the
-machine name (e.g. `finder_page`, `top_rated_page`, `publisher_block`), and a
-spoken-language Display name (`Finder page`, `Top rated page`). The View id
-already carries the subject, so the display name only needs to disambiguate the
-display variant.
+Repo convention: `<subject>_page` / `<subject>_block` machine name (`finder_page`,
+`publisher_block`) + spoken-language Display name (`Finder page`). The View id
+already carries the subject, so the display name only disambiguates the variant.
 
 **Renaming a display is a rename, not just a relabel — chase the references:**
 
@@ -107,11 +104,9 @@ Live example: `config/sync/block.block.guardrails_designer_games.yml`
 
 ## Exposed filters: detailed shapes
 
-An **exposed** filter renders a control on the page so a visitor narrows the
-list themselves. Set `exposed: true` and an `expose:` block (give it a clean
-`identifier` — that becomes the query-string key, e.g. `?max_time=45`). Lock the
-operator (`use_operator: false`, fixed `operator:`) when the visitor should only
-supply a value, not choose a comparison.
+Set `exposed: true` + an `expose:` block with a clean `identifier` (the
+query-string key, e.g. `?max_time=45`). Lock the operator (`use_operator: false`,
+fixed `operator:`) when the visitor supplies only a value, not a comparison.
 
 - **Single-value numeric** (`plugin_id: numeric`, `operator: '<='`) — one input,
   e.g. "max play time". Value shape is `{ min: '', max: '', value: '' }`.
@@ -150,7 +145,7 @@ and the `hook_views_data()` in `board_games.module`.
 
 ## Kernel tests
 
-Execute the View at the data layer — no browser, no DB server. The recipe:
+Execute the View at the data layer — no browser, no DB server:
 
 1. In `setUp()`, install the **committed** View from sync so the test exercises
    exactly what ships: `View::create($this->readSyncConfig('views.view.<id>'))->save();`
