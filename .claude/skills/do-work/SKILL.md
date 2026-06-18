@@ -1,15 +1,16 @@
 ---
-name: development-practices
-description: Development guardrails for this Drupal 11 + DDEV board-games demo — which skill to reach for, Git/config discipline, Twig & SDC front-end rules, caching, and a decision checklist. Use when implementing features, making code changes, or planning work in this repo.
+name: do-work
+description: "Execute a unit of work end-to-end in this Drupal 11 + DDEV board-games repo: plan, implement (red/green kernel TDD for module logic, SDC-first for UI), validate with phpcs/phpstan/phpunit and config capture, then commit. Also holds the \"which skill to reach for\" decision map and the Git/config, Twig, SDC, and caching guardrails. Use when doing work, building a feature, fixing a bug, implementing a phase from a plan, making code changes, or planning work in this repo."
 ---
 
-# Development Practices
+# Do Work
 
-These complement the repo-root `CLAUDE.md` (the authoritative guardrails).
+Execute a complete unit of work: plan it, build it, validate it, commit it. These
+complement the repo-root `CLAUDE.md` (the authoritative guardrails).
 
-## Delegate to these skills first
+## Reach for these skills first
 
-When a task matches one of these, delegate to it first.
+When a task matches one of these, delegate to it before improvising.
 
 | Task | Skill |
 |------|-------|
@@ -23,31 +24,87 @@ When a task matches one of these, delegate to it first.
 | Patching a contrib or core file | `create-patch` |
 | Reviewing a diff before a PR | `drupal-code-review` |
 | Updating Drupal core | `drupal-core-update` |
+| Committing changes | `commit` |
 
-## Environment
+## Workflow
 
-- **Drupal 11.3** under **DDEV** — run every CLI command through DDEV
-  (`ddev drush …`, `ddev composer …`, `ddev exec …`).
-- Custom code: `web/modules/custom/`. Custom theme: `guardrails` (Olivero
-  subtheme) at `web/themes/custom/guardrails`. SDCs live in its `components/`.
-- Contrib/core under `web/core`, `web/modules/contrib`, etc. are
-  Composer-managed and gitignored — **never edit in place; patch instead**
-  (`create-patch`).
+### 1. Understand the task
 
-## Git
+Read any referenced plan, PRD, or issue. Explore the codebase for the relevant
+files, patterns, and conventions. If scope is ambiguous, ask the user before
+proceeding.
 
-- Never force-push; never skip hooks (`--no-verify`).
-- Commit only when asked. `git push` is blocked by a local hook — hand pushes
-  back to the user.
-- Capture config after any model change (see below) and commit it with the code.
+### 2. Plan (optional)
 
-## Config discipline
+If the task has not already been planned, plan it — non-trivial work flows
+PRD → multi-phase plan → tracer-bullet slice (`build-feature` for the slicing).
 
-Content types, fields, vocabularies, view modes, and Views are **configuration**.
-After changing any of them, export and commit:
+### 3. Implement
+
+**Environment.** Drupal 11.3 under DDEV — run every CLI command through DDEV
+(`ddev drush …`, `ddev composer …`, `ddev exec …`). Custom code lives in
+`web/modules/custom/`; the `guardrails` theme (SDCs in `components/`) in
+`web/themes/custom/guardrails`. Contrib/core (`web/core`, `web/modules/contrib`, …)
+are Composer-managed and gitignored — **never edit in place; patch via `create-patch`**.
+
+**Design for testability.** Put logic in **small, named, injectable units** —
+service classes, plugins, value objects — with dependencies injected, not fetched
+via `\Drupal::`. Keep hooks, controllers, and `*_preprocess_*()` thin pass-throughs.
+This is what makes the red/green loop below possible: each unit is exercised by a
+fast kernel test in isolation.
+
+**Module logic (PHP) — strict red/green/refactor,** one kernel test at a time, in
+tracer-bullet style: one test → one implementation change → verified green, before
+the next test. See `test-module` for the kernel-test setup.
+
+*Tracer-bullet test order* — thinnest vertical slice to widest:
+
+1. **Slice 1 — thinnest end-to-end:** prove the core wiring. One assertion on the
+   essential outcome (e.g. "importing a fixture row creates a node of the right
+   type"). Write it → run (red) → minimum implementation → green.
+2. **Slice 2 — widen the content:** assert the details (field values, references
+   resolved, message format). Write → red → adjust → green.
+3. **Slice 3+ — widen further:** one new dimension per test — idempotency (re-run
+   creates no duplicates), negative/error cases, edge inputs. One test, red, green,
+   each time.
+
+*Discipline:* write exactly ONE test; run the suite to watch it fail (red) before
+implementing; write the minimum to pass; re-run to confirm green; only then the
+next test. Don't batch all tests upfront, don't assert five things before the
+wiring is proven, and don't skip the failing run — it's what proves the test has
+value. Refactor at the end with tests green.
+
+**Presentational UI (Twig / SDC / CSS) — implement directly** (no TDD), SDC-first:
+
+- An SDC is the **default** for presentational UI — prefer it over an ad-hoc
+  template or custom render element. A component is a trio under
+  `web/themes/custom/guardrails/components/<name>/` (`<name>.component.yml` /
+  `.twig` / `.css`); `card` / `game_card` are the canonical references.
+- Map entity fields to props in a preprocess hook, then forward:
+  `{{ include('guardrails:game_card', game_card) }}`. Keep the mapping out of Twig.
+  For Canvas, follow `add-canvas-sdc`.
+- **Twig = presentation only** — no querying/entity-loading/business logic in
+  `.twig`; render complete fields (never `#markup`/`|raw`); isolate includes with
+  `with_context = false`. Numbered rules: [REFERENCE.md](REFERENCE.md).
+- **Caching:** use cache metadata APIs, never inline tag strings
+  (`$build['#cache']['tags'][] = 'node:' . $id`). Patterns: [REFERENCE.md](REFERENCE.md).
+
+### 4. Validate
+
+Run the feedback loops; fix and repeat until all pass cleanly:
 
 ```bash
-ddev drush cex -y          # exports to /config/sync
+ddev drush cr                       # rebuild cache
+ddev exec composer phpcs            # Drupal + DrupalPractice (exact cmd: REFERENCE.md)
+ddev exec composer phpstan          # static analysis
+ddev exec phpunit -c phpunit.xml    # kernel tests need no DB server
+```
+
+**Capture config** after changing any content type, field, vocabulary, view mode,
+or View (these are *configuration*, not content):
+
+```bash
+ddev drush cex -y          # exports to ../config/sync
 git status config/sync     # isolate your change; git restore unrelated drift
 ddev drush cim -y          # round-trip to prove it imports cleanly
 ```
@@ -60,56 +117,19 @@ ddev drush ev "echo \Drupal\Core\Site\Settings::get('config_sync_directory');"
 # must print ../config/sync  (set in the committed web/sites/default/settings.php)
 ```
 
-## Twig rules
+### 5. Commit
 
-**Twig = presentation only. Logic → preprocess.** No querying, loading entities,
-or business logic in `.twig`. Render complete fields (never drill into `#markup`);
-exclude with `|without`; never `|raw` (XSS); isolate includes with
-`with_context = false`; bubble entity cache tags before reading values. Full
-numbered rules with examples: see [REFERENCE.md](REFERENCE.md).
-
-## Single Directory Components (preferred)
-
-SDCs are the **default** way to build presentational UI in this repo — prefer an
-SDC over an ad-hoc theme template or a custom render element.
-
-- A component is a trio under `web/themes/custom/guardrails/components/<name>/`:
-  `<name>.component.yml`, `<name>.twig`, `<name>.css`. The `card`/`game_card`
-  components are the canonical references.
-- Map entity fields to component props in a preprocess hook, then forward them:
-  `{{ include('guardrails:game_card', game_card) }}`. Keep the field→prop mapping
-  out of Twig.
-- For a component to work in **Canvas**, follow `add-canvas-sdc` (every prop needs
-  an `examples:` entry; enums never empty; links use `format: uri-reference`).
-
-## Caching
-
-Use cache metadata APIs — never inline tag strings like
-`$build['#cache']['tags'][] = 'node:' . $id`. Service/consumer/block patterns
-(`getCacheMetadata`, `addCacheableDependency`/`applyTo`, `getCacheTags`): see
-[REFERENCE.md](REFERENCE.md).
-
-## Code style & static analysis
-
-`drupal/core-dev` provides phpcs (`--standard=Drupal,DrupalPractice`) and phpstan
-in `vendor/bin`; exact commands in [REFERENCE.md](REFERENCE.md).
-
-## Verify your work
-
-```bash
-ddev drush cr                       # rebuild cache
-ddev exec phpunit -c phpunit.xml    # run the suite (kernel tests need no DB server)
-```
-
-## Composer
-
-Commit both `composer.json` and `composer.lock`. Add a `vcs`/`package` repository
-entry for sources not on Packagist.
+Commit with the **`commit`** skill: split into logical chunks, brief messages that
+explain **why**, no authored-by trailer. Commit only when asked. Capture config
+and commit it **with** the code; commit `composer.json` + `composer.lock` together
+(add a `vcs`/`package` repo entry for sources not on Packagist). Never force-push
+or skip hooks (`--no-verify`); `git push` is blocked by a local hook — hand pushes
+back to the user.
 
 ## Decision checklist
 
-1. Logic in a small, named, testable unit (hooks stay thin)?
+1. Logic in a small, named, testable unit (hooks/preprocess stay thin)?
 2. Presentational layer built as an SDC where it makes sense?
-3. Config captured to `/config/sync` and round-tripped?
+3. Config captured to `../config/sync` and round-tripped?
 4. Accessible (WCAG AA) — alt text, semantics, contrast, keyboard?
 5. Matches Drupal best practices and the surrounding code?

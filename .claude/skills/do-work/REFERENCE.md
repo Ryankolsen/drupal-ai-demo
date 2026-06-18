@@ -1,4 +1,4 @@
-# Development Practices — Reference
+# Do Work — Reference
 
 Detailed enumerations pulled out of SKILL.md. The headline rules live there; the
 full lists and exact commands live here.
