@@ -3,6 +3,24 @@
 Detailed enumerations pulled out of SKILL.md. The headline rules live there; the
 full lists and exact commands live here.
 
+## Tracer-bullet TDD (module logic)
+
+Order tests thinnest vertical slice → widest, one at a time:
+
+1. **Slice 1 — thinnest end-to-end:** prove the core wiring. One assertion on the
+   essential outcome (e.g. "importing a fixture row creates a node of the right
+   type"). Write it → run (red) → minimum implementation → green.
+2. **Slice 2 — widen the content:** assert the details (field values, references
+   resolved, message format). Write → red → adjust → green.
+3. **Slice 3+ — widen further:** one new dimension per test — idempotency (re-run
+   creates no duplicates), negative/error cases, edge inputs. One test, red, green.
+
+*Discipline:* write exactly ONE test; run the suite to watch it fail (red) before
+implementing; write the minimum to pass; re-run to confirm green; only then the
+next test. Don't batch all tests upfront, don't assert five things before the
+wiring is proven, and don't skip the failing run — it's what proves the test has
+value. Refactor at the end with tests green.
+
 ## Twig rules
 
 **Twig = presentation only. Logic → preprocess.** No querying, loading entities,

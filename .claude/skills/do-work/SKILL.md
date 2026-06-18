@@ -47,32 +47,23 @@ PRD → multi-phase plan → tracer-bullet slice (`build-feature` for the slicin
 `web/themes/custom/guardrails`. Contrib/core (`web/core`, `web/modules/contrib`, …)
 are Composer-managed and gitignored — **never edit in place; patch via `create-patch`**.
 
+**What needs a test.** Editing **custom code** (modules, services, plugins,
+custom Views filters/handlers) → **write or extend a kernel test** for it. Editing
+**configuration only** (content types, fields, vocabularies, view modes, Views
+YAML, block placement) → **no test needed**; config is declarative, and the
+`ddev drush cim -y` round-trip in Validate is its proof.
+
 **Design for testability.** Put logic in **small, named, injectable units** —
 service classes, plugins, value objects — with dependencies injected, not fetched
 via `\Drupal::`. Keep hooks, controllers, and `*_preprocess_*()` thin pass-throughs.
 This is what makes the red/green loop below possible: each unit is exercised by a
 fast kernel test in isolation.
 
-**Module logic (PHP) — strict red/green/refactor,** one kernel test at a time, in
-tracer-bullet style: one test → one implementation change → verified green, before
-the next test. See `test-module` for the kernel-test setup.
-
-*Tracer-bullet test order* — thinnest vertical slice to widest:
-
-1. **Slice 1 — thinnest end-to-end:** prove the core wiring. One assertion on the
-   essential outcome (e.g. "importing a fixture row creates a node of the right
-   type"). Write it → run (red) → minimum implementation → green.
-2. **Slice 2 — widen the content:** assert the details (field values, references
-   resolved, message format). Write → red → adjust → green.
-3. **Slice 3+ — widen further:** one new dimension per test — idempotency (re-run
-   creates no duplicates), negative/error cases, edge inputs. One test, red, green,
-   each time.
-
-*Discipline:* write exactly ONE test; run the suite to watch it fail (red) before
-implementing; write the minimum to pass; re-run to confirm green; only then the
-next test. Don't batch all tests upfront, don't assert five things before the
-wiring is proven, and don't skip the failing run — it's what proves the test has
-value. Refactor at the end with tests green.
+**Module logic (PHP) — strict red/green/refactor:** one kernel test at a time,
+tracer-bullet style — thinnest end-to-end slice first, widen one dimension per
+test. Write exactly ONE test, watch it fail (red), write the minimum to pass
+(green), then the next; refactor at the end with tests green. Full slice order +
+discipline: [REFERENCE.md](REFERENCE.md). `test-module` has the kernel-test setup.
 
 **Presentational UI (Twig / SDC / CSS) — implement directly** (no TDD), SDC-first:
 
@@ -119,12 +110,11 @@ ddev drush ev "echo \Drupal\Core\Site\Settings::get('config_sync_directory');"
 
 ### 5. Commit
 
-Commit with the **`commit`** skill: split into logical chunks, brief messages that
-explain **why**, no authored-by trailer. Commit only when asked. Capture config
-and commit it **with** the code; commit `composer.json` + `composer.lock` together
-(add a `vcs`/`package` repo entry for sources not on Packagist). Never force-push
-or skip hooks (`--no-verify`); `git push` is blocked by a local hook — hand pushes
-back to the user.
+Commit with the **`commit`** skill (logical chunks, brief *why*, no trailer,
+commit only when asked). Commit captured config **with** the code, and
+`composer.json` + `composer.lock` together (add a `vcs`/`package` repo entry for
+sources not on Packagist). Never force-push or `--no-verify`;
+`git push` is blocked by a local hook — hand pushes back to the user.
 
 ## Decision checklist
 
