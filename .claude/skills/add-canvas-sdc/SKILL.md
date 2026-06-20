@@ -13,7 +13,7 @@ A normal SDC renders fine in Twig but stays invisible/unusable in **Drupal Canva
 2. **Pick a prop shape Canvas understands** — string, string+HTML, textarea, boolean, integer, number, link, enum, image object, date, array. Exact YAML per shape: [REFERENCE.md](REFERENCE.md).
 3. **Links** use `format: uri-reference` (relative or absolute) or `format: uri` (absolute only) — a bare string renders as a plain text box.
 4. **Enums** add `meta:enum:` for labels and must **never contain an empty value** (`enum: ['', x]`) — Canvas rejects the whole component and auto-disables it. For an optional choice, leave the prop out of `required:` instead.
-5. **Slots** work as drop zones automatically — no `examples` needed.
+5. **Slots** work as drop zones automatically — no `examples` needed. **Caveat:** this holds for components placed on a Canvas *page*; **content templates** (taking over a node's display) do **not** expose slots in Canvas 1.0 — bind data via props instead (see *Content templates + field binding*).
 6. **Do not set `noUi: true`** (that hides the component from Canvas).
 
 ## Workflow
@@ -71,13 +71,23 @@ A normal SDC renders fine in Twig but stays invisible/unusable in **Drupal Canva
 
 6. **Tell the user** to reload the Canvas editor; the component appears in the Library (usually under "Other"). Drop it to see its props form and slots.
 
-7. **Persist the enabled status (optional).** `status: true` lives in *active* config only; a later `drush cim` reverts it (and the next rebuild regenerates it disabled). To keep it across imports/deploys, `ddev drush cex -y` (the component entity is usually the only diff). Note the sync dir is often `web/sites/default/files/sync` and git-ignored, so this persists locally but may not travel with the repo.
+7. **Persist the enabled status.** `status: true` lives in *active* config only; a later `drush cim` reverts it (and the next rebuild regenerates it disabled). To keep it across imports/deploys, `ddev drush cex -y` and commit (the component entity is usually the only diff). In **this repo** the tracked sync dir is the repo-root `../config/sync` (never the gitignored `web/sites/default/files/sync`) — confirm the diff lands there.
 
 ## Beyond placement
 
 - **Composing components** (a component that includes another SDC): always `include(...)` with `with_context = false`, and **never pass an explicit `null` for a typed prop** (throws `InvalidComponentException`) — omit the key instead. Full patterns: [REFERENCE.md](REFERENCE.md).
 - **Derive presentation in the component, not preprocess** — Canvas passes prop values straight to the component with no preprocess hook in its render path, so any prop→markup math (fill %, pip count) must live in the component Twig. See [REFERENCE.md](REFERENCE.md).
 - **Accessibility for visual components** (gauges, meters, ratings) — never convey value by color alone, expose the visual as one labelled `role="img"`/`aria-label` element with decorative glyphs `aria-hidden="true"`. See [REFERENCE.md](REFERENCE.md).
+
+## Content templates + field binding (styling a node's display)
+
+Placing a component in the Library is for *pages*. To restyle an **entity's display** (e.g. a node's full view), use a **Canvas content template** and **bind props to fields** (`DynamicPropSource`) — available whenever there's an entity context. Canvas 1.0 limits shape the design:
+
+- **Nodes only, no exposed slots, not a view-mode/display replacement.** Compose small field-bound SDCs in the template; don't rely on slots or one monolithic "god component" (each component should do one thing).
+- **Bind scalars** — image, file, integer, float, formatted text shape-match reliably. **Multi-value linked entity references do not** — render those via a thin preprocess/partial (hybrid), or evaluate the **Canvas Entity Reference** contrib module (selects entities as props; doesn't render an existing field's ref list).
+- **Verify storage:** confirm whether the content template is config (captured by `cex`) or content (needs a `docs/` build doc) before relying on `cim` to reproduce it.
+
+Full rationale and the 1.0 issue references live in the `canvas-1-0-content-template-limits` memory.
 
 ## Troubleshooting
 
