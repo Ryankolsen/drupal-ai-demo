@@ -13,14 +13,23 @@ declare(strict_types=1);
 use Drupal\media\MediaInterface;
 
 /**
- * Attaches the Game Finder exposed-filter styling to the view.
+ * Attaches per-view styling libraries, each scoped to one view.
  *
- * Scoped to the game_finder view so the grid layout in css/game-finder.css
- * only loads where the exposed filter form is rendered.
+ * - game_finder: the exposed-filter grid layout in css/game-finder.css, loaded
+ *   only where the exposed filter form is rendered.
+ * - taxonomy_term: the full-page backdrop in css/taxonomy-term.css, loaded only
+ *   on term pages (categories, mechanics, tags all route through this view) so
+ *   the decorative background never leaks onto the rest of the site.
  */
 function guardrails_preprocess_views_view(array &$variables): void {
-  if (isset($variables['view']) && $variables['view']->id() === 'game_finder') {
+  if (!isset($variables['view'])) {
+    return;
+  }
+  if ($variables['view']->id() === 'game_finder') {
     $variables['#attached']['library'][] = 'guardrails/game-finder';
+  }
+  if ($variables['view']->id() === 'taxonomy_term') {
+    $variables['#attached']['library'][] = 'guardrails/taxonomy-term';
   }
 }
 

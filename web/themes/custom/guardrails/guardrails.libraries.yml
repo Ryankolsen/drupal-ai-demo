@@ -9,3 +9,9 @@ game-finder:
   css:
     theme:
       css/game-finder.css: {}
+
+taxonomy-term:
+  version: VERSION
+  css:
+    theme:
+      css/taxonomy-term.css: {}

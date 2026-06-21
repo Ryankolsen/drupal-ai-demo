@@ -1,0 +1,47 @@
+/**
+ * @file
+ * Full-page backdrop for taxonomy term (game category) pages.
+ *
+ * Attached by guardrails_preprocess_views_view() only when the taxonomy_term
+ * view renders, so the decorative background never leaks onto other routes.
+ * The image is purely presentational (set in CSS, no <img>, no alt), so screen
+ * readers ignore it. A dark scrim is layered over the photo to guarantee the
+ * page title — which sits directly on the backdrop rather than on a card —
+ * stays WCAG AA legible; the game cards keep their own white surfaces.
+ */
+
+body {
+  /* Scrim first (drawn on top), then the photo. The scrim darkens the image
+     to a predictable tone so light foreground text holds AA contrast wherever
+     the underlying photo happens to be bright. */
+  background-image:
+    linear-gradient(rgba(15, 17, 26, 0.78), rgba(15, 17, 26, 0.78)),
+    url("../images/game_background_image.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  /* Fallback tone behind the scrim while the image loads / if it 404s. */
+  background-color: #0f111a;
+}
+
+/*
+ * The page title (the term name, the page H1) renders directly on the dark
+ * backdrop. Olivero's default near-black title would be illegible there, so
+ * force a light title. #f4f4f5 on the #0f111a scrim is ≈ 16:1 (AA/AAA).
+ */
+.region--content .page-title,
+.region--content h1.page-title {
+  color: #f4f4f5;
+}
+
+/*
+ * Views' empty-text region (a category with zero games) also sits on the
+ * backdrop with no card behind it; keep it legible and centered so an empty
+ * category still reads as intentional rather than broken.
+ */
+.view-taxonomy-term .view-empty {
+  color: #f4f4f5;
+  text-align: center;
+  padding-block: clamp(2rem, 6vw, 4rem);
+}
