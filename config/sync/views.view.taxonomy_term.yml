@@ -236,19 +236,19 @@ display:
       link_display: page_1
       link_url: ''
       header:
-        entity_taxonomy_term:
-          id: entity_taxonomy_term
+        area:
+          id: area
           table: views
-          field: entity_taxonomy_term
+          field: area
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: entity
+          plugin_id: text
           empty: true
-          target: '{{ raw_arguments.tid }}'
-          view_mode: full
+          content:
+            value: '<h1 class="gr-term-title">{{ arguments.tid }}</h1>'
+            format: full_html
           tokenize: true
-          bypass_access: false
       footer: {  }
       display_extenders: {  }
     cache_metadata:

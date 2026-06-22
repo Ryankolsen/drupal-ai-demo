@@ -10,7 +10,11 @@
  * stays WCAG AA legible; the game cards keep their own white surfaces.
  */
 
-body {
+/* Scoped to body.path-taxonomy (specificity 0,1,1) so it outranks Olivero's
+   base.css `body { background … }` rule (0,0,1) regardless of stylesheet order.
+   The library itself only loads on the taxonomy_term view, so this never leaks
+   to other routes. */
+body.path-taxonomy {
   /* Scrim first (drawn on top), then the photo. The scrim darkens the image
      to a predictable tone so light foreground text holds AA contrast wherever
      the underlying photo happens to be bright. */
@@ -25,14 +29,27 @@ body {
   background-color: #0f111a;
 }
 
+/* Olivero wraps the whole page in an opaque white #page-wrapper
+   (.page-wrapper { background: var(--color--white) }) that paints over the body
+   backdrop. Clear it so the photo shows through. Specificity (0,2,1) beats
+   Olivero's (0,1,0). The game cards keep their own white surfaces, so content
+   stays legible on the dark backdrop. */
+body.path-taxonomy .page-wrapper {
+  background: transparent;
+}
+
 /*
- * The page title (the term name, the page H1) renders directly on the dark
- * backdrop. Olivero's default near-black title would be illegible there, so
- * force a light title. #f4f4f5 on the #0f111a scrim is ≈ 16:1 (AA/AAA).
+ * The page title (the term name) is rendered as the view header H1
+ * (.gr-term-title) so it lands in the content region above the grid — the
+ * site's page-title block lives in an unrendered sidebar region, so it can't be
+ * relied on here. The heading sits directly on the dark backdrop, so force a
+ * light color. #f4f4f5 on the #0f111a scrim is ≈ 16:1 (AA/AAA).
  */
-.region--content .page-title,
-.region--content h1.page-title {
+.view-taxonomy-term .gr-term-title {
+  margin-block: 0 1.5rem;
   color: #f4f4f5;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.1;
 }
 
 /*
