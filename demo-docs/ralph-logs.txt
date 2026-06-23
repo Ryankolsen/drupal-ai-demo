@@ -1,0 +1,118 @@
+➜  drupal-ai-demo git:(main) ✗ ./ralph/afk.sh 10 -caffinate
+Sandbox claude-drupal-ai-demo started successfully
+Starting sandbox container...
+Starting claude agent in sandbox 'claude-drupal-ai-demo'...
+Workspace: /Users/ryankolsen/IdeaProjects/drupal-ai-demo
+gh has no network here. Let me explore the repo state for the taxonomy work.
+
+This is a fresh branch — no taxonomy work yet. The tracer-bullet task is **#23: render the taxonomy term page as a game_card grid with a term-name title**. I'm hand-editing an existing View's YAML, so let me load the `editing-views` skill.
+
+Now I'll make the config change. Switching the `taxonomy_term` view's default display from teaser rows to a game_card grid (donor shape from `game_finder`).
+
+Let me match the donor (`game_finder`) grid shape exactly rather than guessing extra keys — consistency with the repo's committed views is what matters, and I can't normalize via `cim/cex` in this sandbox.
+
+Now the kernel test that proves the contract — the view renders the category's games as a `card`-view-mode grid.
+
+Now run the test. Per the sandbox memory, phpunit runs directly on SQLite.
+
+`taxonomy_index` is created by `installEntitySchema('taxonomy_term')` (it's part of `TermStorageSchema`), so my explicit `installSchema` line is both wrong and unnecessary. Removing it.
+
+`installConfig(['taxonomy'])` auto-installs the core default `taxonomy_term` view, colliding with my committed one. I'll drop it and set `maintain_index_table` directly (as core's own taxonomy kernel test does).
+
+The `taxonomy_term` view is pulled in as *optional* config (its deps are satisfied) regardless. I'll delete the auto-installed core default and replace it with the committed grid version under test.
+
+3 of 4 pass. The query returns empty — let me check whether it's the taxonomy_index not populating or argument access validation. Quick debug:
+
+Let me test the access hypothesis directly by giving the test a user with `access content` (the real pages are public). Using core's `UserCreationTrait`:
+
+All 4 pass. Now run the full suite plus phpcs/phpstan to confirm nothing regressed.
+
+Clean. Let me verify the final view config edits look correct.
+
+Config diff is clean and scoped. Now let me commit just my two files (leaving the unrelated `notes-to-be-organized.txt` artifact out).
+
+Committed (pre-commit hook skipped checks since DDEV is absent — but I ran phpcs/phpstan/phpunit manually above, all green). Now close issue #23.
+
+Done. Issue #23 is complete and closed.
+
+## Summary
+
+**Task picked:** #23 — the tracer-bullet content slice of the taxonomy-term-page restyle epic (#22). It's the thin end-to-end cut (view config → card view mode → template → game_card SDC → CSS) that #24 (backdrop) and #25 (QA) build on.
+
+**What changed:**
+- `config/sync/views.view.taxonomy_term.yml` — switched the default display from a teaser list to a **grid style (3 cols) + `card` view-mode rows**, reusing the exact shape the `game_finder` view already ships so the two grids stay consistent. Swapped the view-mode dependency `teaser → card`. The feed display keeps its own RSS overrides, so only the page changes.
+- The **term-name title** needed no edit — the validated taxonomy-term argument already resolves `{{ arguments.tid }}` to the term label.
+- New `TaxonomyTermViewTest` kernel test asserting both the rendering contract (grid style + card rows + term-name argument title) and the query contract (only that category's published games).
+
+**Verification:** full suite green (41 tests, 682 assertions), phpcs and phpstan clean on the new file. Used the `editing-views` skill; the only deviation from its workflow was the `cim/cex` normalize step, which needs DDEV (unavailable in this sandbox) — so the grid options mirror the committed `game_finder` export.
+
+**Notes for next iteration (in the commit/issue):** #24 (full-page background scoped to the term view) is the next slice. The test captures the non-obvious kernel setup for taxonomy_index-backed views (table from `installEntitySchema('taxonomy_term')`, `maintain_index_table` on, delete the auto-installed optional view before replacing, grant `access content` for the term-argument validation).
+
+Starting claude agent in sandbox 'claude-drupal-ai-demo'...
+Workspace: /Users/ryankolsen/IdeaProjects/drupal-ai-demo
+#24 is the next AFK task (#25 is human-in-the-loop QA, #23 is done). Let me explore the relevant files.
+
+Now let me follow the `do-work` skill guidance for this slice. I'll write the red test first, then implement. Let me write the test.
+
+Now run the test to confirm it's red:
+
+Red confirmed. Now implement. First, relocate the image and add the preprocess branch:
+
+Now add the preprocess branch:
+
+Now the library entry:
+
+Now let me check global.css and the card component to ensure the backdrop CSS fits the existing styling conventions:
+
+Now write the backdrop CSS:
+
+Now run the test (green) and the full board_games group:
+
+All 43 pass. Now run phpcs/phpstan on the changed custom code:
+
+phpcs wants a docblock on the anon class method. Let me fix:
+
+Clean. Let me re-run the test once more to confirm green after the edits, then handle config capture.
+
+This change is theme + test only — no config-sync export needed (libraries/CSS/.theme aren't config). Let me check nothing references the old image path:
+
+Only the new CSS references it. Now commit:
+
+`.claude/settings.local.json` is unrelated local settings — unstage it:
+
+Committed. Now close the issue:
+
+Done. Issue #24 is complete and closed.
+
+## Summary
+
+I implemented the AFK task **#24 — full-page background image scoped to taxonomy term pages**, the backdrop slice of the term-page restyle epic (#22, building on the #23 card grid). I picked it because #23 was already done, #25 is a human-in-the-loop QA gate (not AFK), and #24 was unblocked.
+
+**Red-green-refactor** (as the issue required):
+1. Wrote `TaxonomyTermBackdropTest.php` first and ran it red.
+2. Implemented until green, then cleaned up phpcs.
+
+**Changes:**
+- **Moved** `game_background_image.png` from the repo root into `web/themes/custom/guardrails/images/` (via `git mv`, preserving history).
+- **Added** `guardrails/taxonomy-term` library → new `css/taxonomy-term.css`.
+- **Extended** `guardrails_preprocess_views_view()` with a `taxonomy_term` branch that attaches the library only on the term view (mirrors the existing `game_finder` branch), so the backdrop self-scopes and never leaks elsewhere.
+- **CSS:** presentational background (no `<img>`/alt) with a dark `rgba` scrim over the photo so the page H1 and empty-state text — which sit directly on the backdrop, not on a card — stay WCAG AA legible (~16:1); cards keep their white surfaces. Fallback color for load/404.
+
+**Verification:** new test covers attach-on-term-view, not-attached-elsewhere (frontpage / no-view), and a `game_finder` regression guard. All 43 `board_games` tests pass; phpcs + phpstan clean.
+
+**Notes:** No config-sync export needed (libraries/CSS/`.theme` aren't exportable config). The pre-commit hook skipped its own phpcs/phpstan because DDEV isn't in this sandbox — I ran both manually. Visual contrast/responsive/screen-reader checks are the human QA in **#25**, now unblocked (#23 + #24 both landed).
+
+I committed locally (`b129458`) and closed #24 with a summary; pushing is handled by the harness.
+
+Starting claude agent in sandbox 'claude-drupal-ai-demo'...
+Workspace: /Users/ryankolsen/IdeaProjects/drupal-ai-demo
+Both open issues are human-in-the-loop, not AFK:
+
+- **#25** — explicitly *"a human-in-the-loop manual QA pass"* (contrast, responsive layout, screen-reader checks on the running site). Its own body states the automated coverage already lives in #23/#24.
+- **#22** — the parent epic; all its automated slices have landed (#23 card grid + title, #24 backdrop). The only remaining work is the HITL QA captured in #25.
+
+There are no AFK tasks left to pick up.
+
+<promise>NO MORE TASKS</promise>
+
+Ralph complete after 3 iterations.
