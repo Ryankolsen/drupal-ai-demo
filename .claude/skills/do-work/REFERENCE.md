@@ -43,6 +43,29 @@ Use cache metadata APIs — never inline tag strings like
 - Consumers: `addCacheableDependency($entity)` then `applyTo($build)`
 - Blocks: declare tags in `getCacheTags()` via `Cache::mergeTags()`
 
+## Theme / Olivero rendering gotchas
+
+The `guardrails` theme subclasses Olivero. Two non-obvious traps when styling
+pages (both cost real debugging time on the taxonomy-term pages):
+
+1. **Full-page backgrounds on `body` are invisible.** Olivero wraps the page in
+   `<div id="page-wrapper" class="page-wrapper">` with `background: var(--color--white)`
+   and `max-width: 98.125rem`, painting over any `body` backdrop. To show one,
+   clear the wrapper: `body.<scope> .page-wrapper { background: transparent }`
+   (specificity 0,2,1 beats Olivero's 0,1,0), and scope the `body` rule itself
+   (e.g. `body.path-taxonomy`) so it outranks `base.css`'s plain `body { background … }`.
+2. **The page-title block renders no `<h1>` on Views/term pages.** It's placed in
+   `sidebar_first`, a region these routes don't render — the route `<title>` is
+   right but there's no on-page heading (node pages get theirs from the node
+   template). For a Views page, render the title yourself via a **header → Global:
+   Text area** with `<h1>{{ arguments.tid }}</h1>` (format `full_html`, tokenize on).
+
+**Verify theme/CSS work in a browser.** A new CSS file or library is invisible
+until `ddev drush cr`, and the "config-only ⇒ no test" rule does **not** cover
+visual regressions. After `cr`, load the page (browser MCP) and confirm it renders
+before committing — DevTools' "Inherited from body" panel omits non-inherited
+props like `background`, so absence there is not proof a rule failed to apply.
+
 ## Code style & static analysis
 
 `drupal/core-dev` provides the tooling (binaries in `vendor/bin`):

@@ -79,6 +79,9 @@ discipline: [REFERENCE.md](REFERENCE.md). `test-module` has the kernel-test setu
   `with_context = false`. Numbered rules: [REFERENCE.md](REFERENCE.md).
 - **Caching:** use cache metadata APIs, never inline tag strings
   (`$build['#cache']['tags'][] = 'node:' . $id`). Patterns: [REFERENCE.md](REFERENCE.md).
+- **Olivero layout traps:** `body` backgrounds are hidden by the opaque
+  `#page-wrapper`, and the page-title block sits in an unrendered sidebar, so a
+  Views/term page needs its own H1 (a header text area). Fixes: [REFERENCE.md](REFERENCE.md).
 
 ### 4. Validate
 
@@ -90,6 +93,10 @@ ddev exec composer phpcs            # Drupal + DrupalPractice (exact cmd: REFERE
 ddev exec composer phpstan          # static analysis
 ddev exec phpunit -c phpunit.xml    # kernel tests need no DB server
 ```
+
+**Theme/CSS or library changes:** these are invisible until `ddev drush cr`, and
+"config-only ⇒ no test" does **not** cover visual regressions. After `cr`, load
+the page in a browser (browser MCP) and confirm it renders before committing.
 
 **Capture config** after changing any content type, field, vocabulary, view mode,
 or View (these are *configuration*, not content):
