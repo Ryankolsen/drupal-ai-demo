@@ -28,24 +28,16 @@ When a task matches one of these, delegate to it before improvising.
 
 ## Workflow
 
-### 1. Understand the task
+### 1. Understand & plan
 
-Read any referenced plan, PRD, or issue. Explore the codebase for the relevant
-files, patterns, and conventions. If scope is ambiguous, ask the user before
-proceeding.
+Read any referenced plan/PRD/issue and explore the codebase; ask the user if scope
+is ambiguous. If not already planned, plan non-trivial work as PRD → multi-phase
+plan → tracer-bullet slice (`build-feature` for the slicing).
 
-### 2. Plan (optional)
+### 2. Implement
 
-If the task has not already been planned, plan it — non-trivial work flows
-PRD → multi-phase plan → tracer-bullet slice (`build-feature` for the slicing).
-
-### 3. Implement
-
-**Environment.** Drupal 11.3 under DDEV — run every CLI command through DDEV
-(`ddev drush …`, `ddev composer …`, `ddev exec …`). Custom code lives in
-`web/modules/custom/`; the `guardrails` theme (SDCs in `components/`) in
-`web/themes/custom/guardrails`. Contrib/core (`web/core`, `web/modules/contrib`, …)
-are Composer-managed and gitignored — **never edit in place; patch via `create-patch`**.
+**Environment & no-edit-contrib rule:** see CLAUDE.md (DDEV command prefix, custom
+code/theme paths, `create-patch` for contrib/core).
 
 **What needs a test.** Editing **custom code** (modules, services, plugins,
 custom Views filters/handlers) → **write or extend a kernel test** for it. Editing
@@ -53,11 +45,10 @@ custom Views filters/handlers) → **write or extend a kernel test** for it. Edi
 YAML, block placement) → **no test needed**; config is declarative, and the
 `ddev drush cim -y` round-trip in Validate is its proof.
 
-**Design for testability.** Put logic in **small, named, injectable units** —
-service classes, plugins, value objects — with dependencies injected, not fetched
-via `\Drupal::`. Keep hooks, controllers, and `*_preprocess_*()` thin pass-throughs.
-This is what makes the red/green loop below possible: each unit is exercised by a
-fast kernel test in isolation.
+**Design for testability.** Logic goes in small, named, injectable units (services,
+plugins, value objects) with dependencies injected, not fetched via `\Drupal::`;
+keep hooks/controllers/`*_preprocess_*()` thin pass-throughs — this is what makes
+the red/green loop below possible.
 
 **Module logic (PHP) — strict red/green/refactor:** one kernel test at a time,
 tracer-bullet style — thinnest end-to-end slice first, widen one dimension per
@@ -67,13 +58,10 @@ discipline: [REFERENCE.md](REFERENCE.md). `test-module` has the kernel-test setu
 
 **Presentational UI (Twig / SDC / CSS) — implement directly** (no TDD), SDC-first:
 
-- An SDC is the **default** for presentational UI — prefer it over an ad-hoc
-  template or custom render element. A component is a trio under
-  `web/themes/custom/guardrails/components/<name>/` (`<name>.component.yml` /
-  `.twig` / `.css`); `card` / `game_card` are the canonical references.
-- Map entity fields to props in a preprocess hook, then forward:
-  `{{ include('guardrails:game_card', game_card) }}`. Keep the mapping out of Twig.
-  For Canvas, follow `add-canvas-sdc`.
+- An SDC is the **default** for presentational UI — `add-canvas-sdc` has the file
+  trio and structure (`card` / `game_card` are canonical). Map entity fields to
+  props in a preprocess hook, then forward:
+  `{{ include('guardrails:game_card', game_card) }}`.
 - **Twig = presentation only** — no querying/entity-loading/business logic in
   `.twig`; render complete fields (never `#markup`/`|raw`); isolate includes with
   `with_context = false`. Numbered rules: [REFERENCE.md](REFERENCE.md).
@@ -83,7 +71,7 @@ discipline: [REFERENCE.md](REFERENCE.md). `test-module` has the kernel-test setu
   `#page-wrapper`, and the page-title block sits in an unrendered sidebar, so a
   Views/term page needs its own H1 (a header text area). Fixes: [REFERENCE.md](REFERENCE.md).
 
-### 4. Validate
+### 3. Validate
 
 Run the feedback loops; fix and repeat until all pass cleanly:
 
@@ -116,10 +104,9 @@ ddev drush ev "echo \Drupal\Core\Site\Settings::get('config_sync_directory');"
 # must print ../config/sync  (set in the committed web/sites/default/settings.php)
 ```
 
-### 5. Commit
+### 4. Commit
 
-Commit with the **`commit`** skill (logical chunks, brief *why*, no trailer,
-commit only when asked). Commit captured config **with** the code, and
+Use the **`commit`** skill. Commit captured config **with** the code, and
 `composer.json` + `composer.lock` together (add a `vcs`/`package` repo entry for
 sources not on Packagist). Never force-push or `--no-verify`;
 `git push` is blocked by a local hook — hand pushes back to the user.

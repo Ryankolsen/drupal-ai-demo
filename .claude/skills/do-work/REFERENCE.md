@@ -60,11 +60,9 @@ pages (both cost real debugging time on the taxonomy-term pages):
    template). For a Views page, render the title yourself via a **header → Global:
    Text area** with `<h1>{{ arguments.tid }}</h1>` (format `full_html`, tokenize on).
 
-**Verify theme/CSS work in a browser.** A new CSS file or library is invisible
-until `ddev drush cr`, and the "config-only ⇒ no test" rule does **not** cover
-visual regressions. After `cr`, load the page (browser MCP) and confirm it renders
-before committing — DevTools' "Inherited from body" panel omits non-inherited
-props like `background`, so absence there is not proof a rule failed to apply.
+**Verify theme/CSS work in a browser** (see SKILL.md Validate step) — one extra
+gotcha: DevTools' "Inherited from body" panel omits non-inherited props like
+`background`, so absence there is not proof a rule failed to apply.
 
 ## Code style & static analysis
 
